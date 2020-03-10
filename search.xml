@@ -1,9 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Writeup</title>
+    <url>/2020/03/10/djinn2/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>writeup</category>
+      </categories>
+      <tags>
+        <tag>渗透测试</tag>
+        <tag>writeup</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>curl常用示例</title>
     <url>/2019/05/08/curl%E5%B8%B8%E7%94%A8%E7%A4%BA%E4%BE%8B/</url>
     <content><![CDATA[]]></content>
+      <categories>
+        <category>network</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>network</tag>
+      </tags>
   </entry>
   <entry>
     <title>iptables常用示例</title>
@@ -256,7 +275,7 @@
       </categories>
       <tags>
         <tag>linux</tag>
-        <tag>网络</tag>
+        <tag>network</tag>
       </tags>
   </entry>
   <entry>
