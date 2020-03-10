@@ -427,6 +427,9 @@
 
 <h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a><a href="#Summary" title="Summary"></a>Summary</h2><p>总的来说，对于一些已知端口的应用如Telnet/Smtp等，我们可以使用本地转发或远程转发。而动态转发则实现了socks代理从而起到加密数据传输和突破防火墙的功能。</p>
 ]]></content>
+      <categories>
+        <category>网络代理</category>
+      </categories>
       <tags>
         <tag>端口转发</tag>
       </tags>
