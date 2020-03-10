@@ -255,7 +255,8 @@
         <category>linux</category>
       </categories>
       <tags>
-        <tag>linux、网络</tag>
+        <tag>linux</tag>
+        <tag>网络</tag>
       </tags>
   </entry>
   <entry>
@@ -279,7 +280,7 @@
 </pre></td></tr></table></figure>]]></content>
       <tags>
         <tag>编程</tag>
-        <tag>编程、计算机</tag>
+        <tag>计算机</tag>
       </tags>
   </entry>
   <entry>
@@ -302,7 +303,8 @@
         <category>渗透测试</category>
       </categories>
       <tags>
-        <tag>渗透、linux</tag>
+        <tag>渗透测试</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
