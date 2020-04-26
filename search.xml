@@ -6,7 +6,7 @@
     <content><![CDATA[<p>域渗透的一般流程：</p>
 <p>入口主机–&gt;权限维持–&gt;横向渗透–&gt;取密码(域用户)–&gt;域信息收集–&gt;横向渗透–&gt;接管域控 </p>
 <h3 id="一、域信息收集"><a href="#一、域信息收集" class="headerlink" title="一、域信息收集"></a>一、域信息收集</h3><p><strong>1、net</strong></p>
-<p><code>net user /domain</code>  获取域用户列表<br><code>net group. &quot;domain admins&quot; /doamin</code>  获取域管理员列表<br><code>net group &quot;domain controllers&quot; /domain</code>  查看域控制器(如果有多台)<br><code>net group &quot;domail computers&quot; /domain</code>  查看域机器<br><code>net group /domain</code>  查询域里面的组</p>
+<p><code>net user /domain</code>  获取域用户列表<br><code>net group. &quot;domain admins&quot; /doamin</code>  获取域管理员列表<br><code>net group &quot;domain controllers&quot; /domain</code>  查看域控制器(如果有多台)<br><code>net group &quot;domail computers&quot; /domain</code>  查看域机器<br><code>net group /domain</code>  查询域里面的组<a id="more"></a></p>
 <p><code>net view</code>  查看同一域内机器列表<br><code>net view \\ip</code>  查看某IP共享<br><code>net view \\GHQ</code>  查看GHQ计算机的共享资源列表<br><code>net view /domain</code>  查看内网存在多少个域<br><code>net view /domain:XYZ</code>  查看XYZ域中的机器列表</p>
 <p><strong>2、nltest信任域</strong></p>
 <p>查询域间的信任关系<br><code>nettles  /domain_trusts /all_trusts /v /server:192.168.52.2</code><br>返回所有信任192.168.52.2的域</p>
