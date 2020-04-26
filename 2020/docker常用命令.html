@@ -22,21 +22,19 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="Google是一个伟大的信息收集工具，在如今的互联网时代，想想看一个人可以轻易的从搜索引擎中获取你详细的个人信息是件多么叫人激动又害怕的事情。Google也可以当作我们的第二个“社工库”。">
+  <meta name="description" content="Docker 是一个开源的应用容器引擎，基于 Go 语言 并遵从 Apache2.0 协议开源，可用于开发，交付和运行应用程序的开放平台。而在安全测试中我们可以利用docker快速搭建出理想环境，进而复现测试漏洞，下面👇我整理出来一些常用命令，作为备忘。 0、重点！重点！重点！Docker三要素：镜像、容器、仓库仓库：集中存放镜像文件的地方；仓库分为公开仓库和私有仓库，目前全世界最大的仓库是Do">
 <meta property="og:type" content="article">
-<meta property="og:title" content="googlehack">
-<meta property="og:url" content="http://yoursite.com/2018/07/10/googlehack/index.html">
+<meta property="og:title" content="docker常用命令">
+<meta property="og:url" content="http://yoursite.com/2020/docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.html">
 <meta property="og:site_name" content="TBOsec的网络日志">
-<meta property="og:description" content="Google是一个伟大的信息收集工具，在如今的互联网时代，想想看一个人可以轻易的从搜索引擎中获取你详细的个人信息是件多么叫人激动又害怕的事情。Google也可以当作我们的第二个“社工库”。">
+<meta property="og:description" content="Docker 是一个开源的应用容器引擎，基于 Go 语言 并遵从 Apache2.0 协议开源，可用于开发，交付和运行应用程序的开放平台。而在安全测试中我们可以利用docker快速搭建出理想环境，进而复现测试漏洞，下面👇我整理出来一些常用命令，作为备忘。 0、重点！重点！重点！Docker三要素：镜像、容器、仓库仓库：集中存放镜像文件的地方；仓库分为公开仓库和私有仓库，目前全世界最大的仓库是Do">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2018-07-10T02:20:37.000Z">
-<meta property="article:modified_time" content="2020-03-10T00:17:19.756Z">
+<meta property="article:published_time" content="2020-04-20T07:36:38.000Z">
+<meta property="article:modified_time" content="2020-04-26T08:35:07.352Z">
 <meta property="article:author" content="TBOsec">
-<meta property="article:tag" content="渗透测试">
-<meta property="article:tag" content="linux">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/2018/07/10/googlehack/">
+<link rel="canonical" href="http://yoursite.com/2020/docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.html">
 
 
 <script id="page-configurations">
@@ -48,7 +46,7 @@
   };
 </script>
 
-  <title>googlehack | TBOsec的网络日志</title>
+  <title>docker常用命令 | TBOsec的网络日志</title>
   
 
 
@@ -175,8 +173,6 @@
     <span>0%</span>
   </div>
 
-  <a href="https://github.com/knight-TBO" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
-
 
     <main class="main">
       <div class="main-inner">
@@ -191,7 +187,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/10/googlehack/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -204,7 +200,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          googlehack
+          docker常用命令
         </h2>
 
         <div class="post-meta">
@@ -214,16 +210,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2018-07-10 10:20:37" itemprop="dateCreated datePublished" datetime="2018-07-10T10:20:37+08:00">2018-07-10</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" itemprop="url" rel="index"><span itemprop="name">渗透测试</span></a>
-                </span>
+              <time title="创建时间：2020-04-20 15:36:38" itemprop="dateCreated datePublished" datetime="2020-04-20T15:36:38+08:00">2020-04-20</time>
             </span>
 
           
@@ -237,18 +224,68 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>Google是一个伟大的信息收集工具，在如今的互联网时代，想想看一个人可以轻易的从搜索引擎中获取你详细的个人信息是件多么叫人激动又害怕的事情。Google也可以当作我们的第二个“社工库”。<a id="more"></a><br>More info:<a href="https://www.exploit-db.com/google-hacking-database" target="_blank" rel="noopener">Google Hacking</a></p>
-<h2 id="Google基本关键词"><a href="#Google基本关键词" class="headerlink" title="Google基本关键词"></a><a href="#Google基本关键词" title="Google基本关键词"></a>Google基本关键词</h2><p>Intext： 搜索出现的关键词<br>Inurl： 搜索包含关键词的url<br>Intitle： 搜索包含关键词的标题<br>Site： 搜索包含关键词的站点<br>filetype： 搜索包含关键词的文件类型<br>Link： 对于页面包含的外部链接搜索<br>Daterange： 搜索特定的日期范围</p>
-<h2 id="Google基本规则"><a href="#Google基本规则" class="headerlink" title="Google基本规则"></a><a href="#Google基本规则" title="Google基本规则"></a>Google基本规则</h2><p>Google 不分大小写<br>Google 可以使用通配符：*表示一个词/字<br>Google 会智能地保留一些内容，比如一些过时的词，一些不适合呈现的内容（比如违法信息）<br>最常用的：”关键字” ，双引号会使Google强制搜索包含关键字的内容布尔操作符：AND(+) NOT(-) OR(|)，AND 现在已不需要，多个关键字google会都匹配到</p>
-<h2 id="常用示例"><a href="#常用示例" class="headerlink" title="常用示例"></a><a href="#常用示例" title="常用示例"></a>常用示例</h2><h3 id="1、目录列表查找"><a href="#1、目录列表查找" class="headerlink" title="1、目录列表查找"></a><a href="#1、目录列表查找" title="1、目录列表查找"></a>1、目录列表查找</h3><p>目录列表能列出存在于一个web服务器上的文件和目录<br>查找目录列表<br>实例：<br>intitle:index.of 这里的休止符代表的是单个字母的通配符<br>更优化的查找<br>实例：<br>intitle:index.of “parent directory”<br>intitle:index.of name size</p>
-<h3 id="2、特定版本的）服务器"><a href="#2、特定版本的）服务器" class="headerlink" title="2、特定版本的）服务器"></a><a href="#2、特定版本的）服务器" title="2、特定版本的）服务器"></a>2、特定版本的）服务器</h3><p>能被攻击者用来决定攻击web服务器最佳方法的一小段信息，就是确切的服务器版本<br>实例：<br>intitle:index.of “server at”<br>intitle:index.of “Apache/1.3.27 Server at”</p>
-<h3 id="3、扩展遍历技术"><a href="#3、扩展遍历技术" class="headerlink" title="3、扩展遍历技术"></a><a href="#3、扩展遍历技术" title="3、扩展遍历技术"></a>3、扩展遍历技术</h3><p>经常会出现web页面的备份文件，他们有泄露源码的倾向。常常在配置错误的时候出现这种问题，把php代码备份到不是以php结尾的文件中，比如bak<br>实例：<br>intitle:index.of index.php.bak<br>inurl:index.php.bak</p>
-<h3 id="4、配置文件的查找"><a href="#4、配置文件的查找" class="headerlink" title="4、配置文件的查找"></a><a href="#4、配置文件的查找" title="4、配置文件的查找"></a>4、配置文件的查找</h3><p>配置文件的存在说明服务就在附近<br>实例：<br>filetype:conf inurl:firewall<br>如果你能知道配置文件的名字也是一个非常好的搜索方式，当然你可以从配置文件中抽取特定的字符串来查询，如果能再配上软件名字的话就效果更好了</p>
-<h3 id="5、日志文件的查找"><a href="#5、日志文件的查找" class="headerlink" title="5、日志文件的查找"></a><a href="#5、日志文件的查找" title="5、日志文件的查找"></a>5、日志文件的查找</h3><p>日志文件中也记录着日志很多的敏感信息<br>日志文件也有一个默认的名字可以被我们用作基础的搜索，最常见的扩展名就是log了<br>实例：<br>filetype:log inurl:log<br>ext log log<br>filetype:log username putty</p>
-<h3 id="6、office文档"><a href="#6、office文档" class="headerlink" title="6、office文档"></a><a href="#6、office文档" title="6、office文档"></a>6、office文档</h3><p>实例：<br>filetype:xls inurl:password.xls<br>filetype:xls username password email</p>
-<h3 id="6、登录入口"><a href="#6、登录入口" class="headerlink" title="6、登录入口"></a><a href="#6、登录入口" title="6、登录入口"></a>6、登录入口</h3><p>登录入口是第一道防线，很容易泄露软硬件的信息<br>查找入口一般使用关键字login<br>大的厂商一般会把版权的注意事项放在页面的底部<br>实例：<br>intitle:login intext:版权信息</p>
-<h3 id="7、错误消息"><a href="#7、错误消息" class="headerlink" title="7、错误消息"></a><a href="#7、错误消息" title="7、错误消息"></a>7、错误消息</h3><p>数据库的错误消息能够用来分析操作系统和web服务器的版本，还可能更多<br>SQL command not properly ended<br>这个表示没有在sql语句的最后找到正确的终止符，所以可能会被用于注入攻击</p>
-<h3 id="8、真实的数据库文件"><a href="#8、真实的数据库文件" class="headerlink" title="8、真实的数据库文件"></a><a href="#8、真实的数据库文件" title="8、真实的数据库文件"></a>8、真实的数据库文件</h3><p>攻击者还能直接搜索到数据库本身，并不适合所有的数据库系统，只适合哪些有着特定名字或者扩展名的数据库,因为是二进制文件，所以没法在里面搜索字符<br>实例：<br>filetype:mdb inurl:com</p>
+        <p><font color=green>Docker 是一个开源的应用容器引擎，基于 Go 语言 并遵从 Apache2.0 协议开源，可用于开发，交付和运行应用程序的开放平台。而在安全测试中我们可以利用docker快速搭建出理想环境，进而复现测试漏洞，下面👇我整理出来一些常用命令，作为备忘。</font></p>
+<h3 id="0、重点！重点！重点！"><a href="#0、重点！重点！重点！" class="headerlink" title="0、重点！重点！重点！"></a>0、重点！重点！重点！</h3><p>Docker三要素：<font color=red>镜像、容器、仓库</font><br>仓库：集中存放镜像文件的地方；仓库分为公开仓库和私有仓库，目前全世界最大的仓库是Docker官方的 Docker Hub<br>镜像：Docker 镜像（Image），就相当于是一个 root 文件系统。<br>容器：镜像（Image）和容器（Container）的关系，就像是面向对象程序设计中的类和实例一样，镜像是静态的定义，容器是镜像运行时的实体。容器可以被创建、启动、停止、删除、暂停等。<a id="more"></a></p>
+<h3 id="1、帮助命令："><a href="#1、帮助命令：" class="headerlink" title="1、帮助命令："></a>1、帮助命令：</h3><ul>
+<li>查看docker版本信息：docker  version</li>
+<li>查看系统相关信息：docker  info</li>
+<li>查看docker帮助文档：docker  –help</li>
+</ul>
+<h3 id="2、镜像命令："><a href="#2、镜像命令：" class="headerlink" title="2、镜像命令："></a>2、镜像命令：</h3><ul>
+<li>列出本地主机的镜像：docker  images <pre><code>可选参数：
+      -a：所有镜像； 
+      -q：只显示镜像ID； 
+      --digests：显示镜像摘要信息
+      --no-trunc：显示完整的镜像信息</code></pre></li>
+<li>搜索某个镜像：docker  search  镜像名 [options]<pre><code>可选参数：
+      --no-trunc：显示完整的镜像描述
+      -f：按key=value过滤结果
+      --limit：限制结果条数,默认25条结果</code></pre></li>
+<li>下载某个镜像：docker  pull 镜像名[:TAG]</li>
+<li>删除本地镜像：<pre><code>删除单个：docker  rmi  -f 镜像ID
+删除多个：docker  rmi -f 镜像名1:TAG 镜像名2:TAG
+删除全部：docker  rmi -f $(docker  images  -qa</code></pre></li>
+</ul>
+<h3 id="3、容器命令："><a href="#3、容器命令：" class="headerlink" title="3、容器命令："></a>3、容器命令：</h3><ul>
+<li><p>新建并启动容器：docker  run  [options] 镜像名/imageID<br>常用options选项：</p>
+<pre><code>--name=&quot;容器新名字&quot;：为容器指定一个名称
+   -d：后台运行容器，并返回容器ID
+-i：以交互模式运行容器，通常与-t同时使用
+-t：为容器重新分配一个伪输入的终端
+-P：随机端口映射
+-p：指定端口映射，有以下四种格式
+    ip:hostPort:containerPort
+    ip::containerPort
+    &lt;font color=red&gt;hostPort:containerPort&lt;/font&gt;
+    containerPort</code></pre></li>
+<li><p>列出运行的容器：docker  ps  [options]<br>常用options选项：</p>
+<pre><code>-a :列出当前所有正在运行的容器+历史上运行过的
+-l :显示最近创建的容器。
+-n：显示最近n个创建的容器。
+-q :静默模式，只显示容器编号。
+--no-trunc :不截断输出。</code></pre></li>
+<li><p>退出容器：<br>exit：容器停止并退出<br>ctrl：容器不停止退出</p>
+</li>
+<li><p>启动容器：docker start 容器ID/容器名</p>
+</li>
+<li><p>重启容器：docker restart 容器ID/容器名</p>
+</li>
+<li><p>停止容器：docker stop 容器ID/容器名</p>
+</li>
+<li><p>强制停止容器：docker kill 容器ID/容器名</p>
+</li>
+<li><p>删除停止的容器：docker rm 容器ID<br>一次性删除多个容器：docker  rm -f $(docker ps -qa)</p>
+</li>
+</ul>
+<h3 id="4、其它命令："><a href="#4、其它命令：" class="headerlink" title="4、其它命令："></a>4、其它命令：</h3><ul>
+<li>查看容器日志：docker logs -f -t –tail 容器ID<br>-t：显示时间戳<pre><code>-f：跟随最新日志打印
+--tail：数字 显示最后多少条</code></pre></li>
+<li>查看容器内运行的进程：docker top 容器ID</li>
+<li>查看容器内详情：docker inspect 容器ID</li>
+<li>进入正运行的容器并以命令行交互：<br>docker exec -it 容器ID /bin/bash</li>
+<li>重新进入正运行的容器：<br>docker attach 容器ID<br><font color=red>attach：直接进入容器启动的命令终端，不会启动新的进程；<br>exec：是在容器打开新的终端，并且可以启动新的进程</font></li>
+<li>从容器内拷贝文件到主机上：<br>docker cp 容器ID:容器内路径 目的主机路径</li>
+</ul>
 
     </div>
 
@@ -301,10 +338,6 @@
 
 
       <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" rel="tag"># 渗透测试</a>
-              <a href="/tags/linux/" rel="tag"># linux</a>
-          </div>
 
         
 
@@ -312,13 +345,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2018/06/15/%E5%AF%86%E7%A0%81%E5%AD%A6%E7%AC%94%E8%AE%B0/" rel="prev" title="密码学笔记">
-      <i class="fa fa-chevron-left"></i> 密码学笔记
+    <a href="/2020/shell%E4%B8%8B%E8%BD%BD.html" rel="prev" title="shell中文件下载方法">
+      <i class="fa fa-chevron-left"></i> shell中文件下载方法
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2018/09/22/Sublime-Text3%E6%97%A0%E6%B3%95%E5%AE%89%E8%A3%85%E5%8C%85%E8%A7%A3%E5%86%B3/" rel="next" title="Sublime Text3无法安装包解决">
-      Sublime Text3无法安装包解决 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -378,7 +408,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Google基本关键词"><span class="nav-number">1.</span> <span class="nav-text">Google基本关键词</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Google基本规则"><span class="nav-number">2.</span> <span class="nav-text">Google基本规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用示例"><span class="nav-number">3.</span> <span class="nav-text">常用示例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、目录列表查找"><span class="nav-number">3.1.</span> <span class="nav-text">1、目录列表查找</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、特定版本的）服务器"><span class="nav-number">3.2.</span> <span class="nav-text">2、特定版本的）服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、扩展遍历技术"><span class="nav-number">3.3.</span> <span class="nav-text">3、扩展遍历技术</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、配置文件的查找"><span class="nav-number">3.4.</span> <span class="nav-text">4、配置文件的查找</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、日志文件的查找"><span class="nav-number">3.5.</span> <span class="nav-text">5、日志文件的查找</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6、office文档"><span class="nav-number">3.6.</span> <span class="nav-text">6、office文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6、登录入口"><span class="nav-number">3.7.</span> <span class="nav-text">6、登录入口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7、错误消息"><span class="nav-number">3.8.</span> <span class="nav-text">7、错误消息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8、真实的数据库文件"><span class="nav-number">3.9.</span> <span class="nav-text">8、真实的数据库文件</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#0、重点！重点！重点！"><span class="nav-text">0、重点！重点！重点！</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1、帮助命令："><span class="nav-text">1、帮助命令：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、镜像命令："><span class="nav-text">2、镜像命令：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、容器命令："><span class="nav-text">3、容器命令：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、其它命令："><span class="nav-text">4、其它命令：</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
