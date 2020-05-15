@@ -29,15 +29,16 @@
 <meta property="og:site_name" content="TBOsec的网络日志">
 <meta property="og:description" content="0x01 漏洞信息通达OA前台任意用户登录漏洞，影响版本包括通达OA2017、V11.X&lt;V11.5；攻击者利用此漏洞可以接管服务器权限">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/images/upload/tongd.jpg">
 <meta property="og:image" content="http://yoursite.com/images/upload/code_uid.png">
 <meta property="og:image" content="http://yoursite.com/images/upload/sessid.png">
 <meta property="og:image" content="http://yoursite.com/images/upload/admin1.png">
 <meta property="og:image" content="http://yoursite.com/images/upload/poc1.png">
 <meta property="article:published_time" content="2020-05-15T21:36:01.000Z">
-<meta property="article:modified_time" content="2020-05-15T22:28:01.774Z">
+<meta property="article:modified_time" content="2020-05-15T22:36:47.313Z">
 <meta property="article:author" content="TBOsec">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/images/upload/code_uid.png">
+<meta name="twitter:image" content="http://yoursite.com/images/upload/tongd.jpg">
 
 <link rel="canonical" href="http://yoursite.com/2020/%E9%80%9A%E8%BE%BEOA1.html">
 
@@ -229,7 +230,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="0x01-漏洞信息"><a href="#0x01-漏洞信息" class="headerlink" title="0x01 漏洞信息"></a>0x01 漏洞信息</h3><p>通达OA前台任意用户登录漏洞，影响版本包括通达OA2017、V11.X&lt;V11.5；攻击者利用此漏洞可以接管服务器权限</p>
+        <h3 id="0x01-漏洞信息"><a href="#0x01-漏洞信息" class="headerlink" title="0x01 漏洞信息"></a>0x01 漏洞信息</h3><p>通达OA前台任意用户登录漏洞，影响版本包括通达OA2017、V11.X&lt;V11.5；攻击者利用此漏洞可以接管服务器权限<br><img src="../images/upload/tongd.jpg" alt="OA" style="zoom: 80%;" /></p>
 <a id="more"></a>
 
 <h3 id="0x02-漏洞利用"><a href="#0x02-漏洞利用" class="headerlink" title="0x02 漏洞利用"></a>0x02 漏洞利用</h3><p>1.获取code_uid<br>post   /general/login_code.ph 获取code_uid</p>
@@ -240,10 +241,10 @@
 <p><a href="../file/sessionID.txt">requests.txt</a></p>
 <p>3.实现登录<br>访问<a href="http://xxxx.com/general/index.php" target="_blank" rel="noopener">http://xxxx.com/general/index.php</a> 利用上一步得到的cookies，<br>通过小饼干🍪等工具替换cookie，刷新页面即可成功进入</p>
 <p><img src="../images/upload/admin1.png" alt="example"></p>
-<h3 id="0x03-漏洞利用POC"><a href="#0x03-漏洞利用POC" class="headerlink" title="0x03 漏洞利用POC"></a>0x03 漏洞利用POC</h3><p><a href="https://github.com/NS-Sp4ce/TongDaOA-FaKe-User" target="_blank" rel="noopener">https://github.com/NS-Sp4ce/TongDaOA-FaKe-User</a></p>
+<h3 id="0x03-漏洞POC"><a href="#0x03-漏洞POC" class="headerlink" title="0x03 漏洞POC"></a>0x03 漏洞POC</h3><p><a href="https://github.com/NS-Sp4ce/TongDaOA-FaKe-User" target="_blank" rel="noopener">https://github.com/NS-Sp4ce/TongDaOA-FaKe-User</a></p>
 <p>利用POC测试站点，若存在漏洞，返回cookie；利用cookie便可直接登录</p>
 <p><img src="../images/upload/poc1.png" alt="poc_result"></p>
-<h3 id="0x04-关键词"><a href="#0x04-关键词" class="headerlink" title="0x04 关键词"></a>0x04 关键词</h3><p><a href="https://zoomeye.org中搜索`app:&quot;Tongda">https://zoomeye.org中搜索`app:&quot;Tongda</a> office anywhere httpd”`</p>
+<h3 id="0x04-关键词"><a href="#0x04-关键词" class="headerlink" title="0x04 关键词"></a>0x04 关键词</h3><p><a href="https://zoomeye.org" target="_blank" rel="noopener">https://zoomeye.org</a> 中搜索<code>app:&quot;Tongda office anywhere httpd&quot;</code></p>
 
     </div>
 
@@ -366,7 +367,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#0x01-漏洞信息"><span class="nav-text">0x01 漏洞信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x02-漏洞利用"><span class="nav-text">0x02 漏洞利用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x03-漏洞利用POC"><span class="nav-text">0x03 漏洞利用POC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x04-关键词"><span class="nav-text">0x04 关键词</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#0x01-漏洞信息"><span class="nav-text">0x01 漏洞信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x02-漏洞利用"><span class="nav-text">0x02 漏洞利用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x03-漏洞POC"><span class="nav-text">0x03 漏洞POC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x04-关键词"><span class="nav-text">0x04 关键词</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
