@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>通达OA 任意用户登录漏洞复现</title>
+    <url>/2020/%E9%80%9A%E8%BE%BEOA1.html</url>
+    <content><![CDATA[<h3 id="0x01-漏洞信息"><a href="#0x01-漏洞信息" class="headerlink" title="0x01 漏洞信息"></a>0x01 漏洞信息</h3><p>通达OA前台任意用户登录漏洞，影响版本包括通达OA2017、V11.X&lt;V11.5；攻击者利用此漏洞可以接管服务器权限</p>
+<a id="more"></a>
+
+<h3 id="0x02-漏洞利用"><a href="#0x02-漏洞利用" class="headerlink" title="0x02 漏洞利用"></a>0x02 漏洞利用</h3><p>1.获取code_uid<br>post   /general/login_code.ph 获取code_uid</p>
+<p><img src="../images/upload/code_uid.png" alt="example"></p>
+<p><a href="../file/code_uid.txt">request.txt</a></p>
+<p>2.获取sessionID<br>post  /logincheck_code.php</p>
+<p><img src="../images/upload/sessid.png" alt="example"></p>
+<p><a href="../file/sessionID.txt">requests.txt</a></p>
+<p>3.实现登录<br>访问<a href="http://xxxx.com/general/index.php" target="_blank" rel="noopener">http://xxxx.com/general/index.php</a> 利用上一步得到的cookies，<br>通过小饼干🍪等工具替换cookie，刷新页面即可成功进入</p>
+<p><img src="../images/upload/admin1.png" alt="example"></p>
+<h3 id="0x03-漏洞利用POC"><a href="#0x03-漏洞利用POC" class="headerlink" title="0x03 漏洞利用POC"></a>0x03 漏洞利用POC</h3><p><a href="https://github.com/NS-Sp4ce/TongDaOA-FaKe-User" target="_blank" rel="noopener">https://github.com/NS-Sp4ce/TongDaOA-FaKe-User</a></p>
+<p>利用POC测试站点，若存在漏洞，返回cookie；利用cookie便可直接登录</p>
+<p><img src="../images/upload/poc1.png" alt="poc_result"></p>
+<h3 id="0x04-关键词"><a href="#0x04-关键词" class="headerlink" title="0x04 关键词"></a>0x04 关键词</h3><p><a href="https://zoomeye.org中搜索`app:&quot;Tongda">https://zoomeye.org中搜索`app:&quot;Tongda</a> office anywhere httpd”`</p>
+]]></content>
+  </entry>
+  <entry>
     <title>域渗透知识备忘</title>
     <url>/2020/%E5%9F%9F%E6%B8%97%E9%80%8F%E7%9F%A5%E8%AF%86%E5%A4%87%E5%BF%98.html</url>
     <content><![CDATA[<p>域渗透的一般流程：</p>
