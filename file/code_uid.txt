@@ -1,4 +1,4 @@
-OPTIONS /general/login_code.php HTTP/1.1
+POST /general/login_code.php HTTP/1.1
 Host: xxxxx.com
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:56.0) Gecko/20100101 Firefox/56.0 Waterfox/56.3
 Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8

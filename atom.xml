@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-05-15T22:36:47.313Z</updated>
+  <updated>2020-05-16T12:11:50.554Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,13 +17,61 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>通达OA 后台GetShell</title>
+    <link href="http://yoursite.com/2020/%E9%80%9A%E8%BE%BEOA3.html"/>
+    <id>http://yoursite.com/2020/%E9%80%9A%E8%BE%BEOA3.html</id>
+    <published>2020-05-16T11:12:20.000Z</published>
+    <updated>2020-05-16T12:11:50.554Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="0x01-如何后台"><a href="#0x01-如何后台" class="headerlink" title="0x01 如何后台"></a>0x01 如何后台</h3><p>怎么进入后台随便你，可以利用前段时间的<code>任意用户登录漏洞</code></p><p><img src="../images/upload/loginadmin.png" alt="login"></p><a id="more"></a><h3 id="0x02-更改配置"><a href="#0x02-更改配置" class="headerlink" title="0x02 更改配置"></a>0x02 更改配置</h3><p>此处利用系统管理-&gt;附件管理📎</p><p><img src="../images/upload/fujian.png" alt="fujian"></p><p>此站点并未设置存储目录，点击添加目录</p><p><img src="../images/upload/fujian2.png" alt="fujian"></p><p>目录中要设置网站根目录，根目录可以通过系统管理-&gt;系统信息处获得</p><p><img src="../images/upload/fujian3.png" alt="gujian3"></p><p><img src="../images/upload/fujian4.png" alt="fujian4"></p><p>记得勾选<code>将所有新附件存该目录</code>，然后保存</p><p><img src="../images/upload/fujian5.png" alt="fujian5"></p><h3 id="0x03-上传附件"><a href="#0x03-上传附件" class="headerlink" title="0x03 上传附件"></a>0x03 上传附件</h3><p>通过组织下的聊天框，选中自己后发送任意附件，利用BurpSuite拦截</p><p><img src="../images/upload/fujian6.png" alt="fujian6"></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;0x01-如何后台&quot;&gt;&lt;a href=&quot;#0x01-如何后台&quot; class=&quot;headerlink&quot; title=&quot;0x01 如何后台&quot;&gt;&lt;/a&gt;0x01 如何后台&lt;/h3&gt;&lt;p&gt;怎么进入后台随便你，可以利用前段时间的&lt;code&gt;任意用户登录漏洞&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;../images/upload/loginadmin.png&quot; alt=&quot;login&quot;&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>通达OA 任意文件上传/文件包含GetShell</title>
+    <link href="http://yoursite.com/2020/%E9%80%9A%E8%BE%BEOA2.html"/>
+    <id>http://yoursite.com/2020/%E9%80%9A%E8%BE%BEOA2.html</id>
+    <published>2020-05-16T06:33:06.000Z</published>
+    <updated>2020-05-16T12:11:25.365Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="0x01-漏洞信息"><a href="#0x01-漏洞信息" class="headerlink" title="0x01 漏洞信息"></a>0x01 漏洞信息</h3><p>攻击者可以绕过身份认证，上传任意文件，结合文件包含漏洞即可实现RCE。<br>影响版本包含：<br>文件上传：<br><code>V11版 &lt;= 11.3    20200103 2017版 &lt;= 10.19  20190522 2016版 &lt;= 9.13   20170710 2015版 &lt;= 8.15   20160722 2013增强版 &lt;=7.25 20141211 2013版 &lt;= 6.20   20141017</code><a id="more"></a></p><p>文件包含：</p><p><code>V11版 &lt;= 11.3</code></p><h3 id="0x02-解密工具"><a href="#0x02-解密工具" class="headerlink" title="0x02 解密工具"></a>0x02 解密工具</h3><p>代码通过Zend加密处理，需对进行解密操作后获得可读性源码</p><ul><li>离线解密：<code>链接: https://pan.baidu.com/s/1MHtt3KXVIZAALzZmzTUJeg 密码: tadp</code></li><li>在线解密：<code>http://dezend.qiling.org/free.html</code></li></ul><p><a href="https://github.com/jas502n/OA-tongda-RCE/tree/master/tongda/decode" target="_blank" rel="noopener">解密后的部分代码</a></p><h3 id="0x03-漏洞成因"><a href="#0x03-漏洞成因" class="headerlink" title="0x03 漏洞成因"></a>0x03 漏洞成因</h3><ul><li>漏洞主要两个原因，文件上传、文件包含</li></ul><p><strong>文件上传</strong></p><p>ispirit/im/upload.php<br>要上传先要绕过登录认证，但在upload.php修复前，如果变量<code>$P</code>非空则不经过auth.php验证即可执行后续代码</p><p><img src="../images/upload/comper.png" alt="代码对比"></p><p>上传后的文件不在根目录，所以无法直接利用，需结合文件包含</p><p><strong>文件包含</strong></p><p>ispirit/interface/gateway.php<br>这里问题在于可以构造json，使其执行<code>include_once</code>代码</p><p><img src="../images/upload/sour.png" alt="include"></p><h3 id="0x04-漏洞利用"><a href="#0x04-漏洞利用" class="headerlink" title="0x04 漏洞利用"></a>0x04 漏洞利用</h3><p>1.上传文件请求</p><p><img src="../images/upload/upim.jpg" alt="upload"></p><p><a href="../file/upload.txt">命令执行request.txt</a>    <a href="../file/getshell.txt">GetWebshell request.txt</a></p><p>2.包含文件执行命令</p><p><img src="../images/upload/exec.jpg" alt="exec"></p><p><a href="../file/exec.txt">执行命令 request.txt</a></p><h3 id="0x05-异常处理"><a href="#0x05-异常处理" class="headerlink" title="0x05 异常处理"></a>0x05 异常处理</h3><ul><li><strong>版本路径</strong>：</li></ul><p>有些版本gateway.php路径不同</p><p>例如2013：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;ispirit&#x2F;im&#x2F;upload.php</span><br><span class="line">&#x2F;ispirit&#x2F;interface&#x2F;gateway.php</span><br></pre></td></tr></table></figure><p><strong>例如2017：</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;ispirit&#x2F;im&#x2F;upload.php</span><br><span class="line">&#x2F;mac&#x2F;gateway.php</span><br><span class="line"></span><br><span class="line">C:\MYOA&gt;dir &#x2F;s &#x2F;b gateway.php</span><br><span class="line">C:\MYOA\webroot\mac\gateway.php</span><br></pre></td></tr></table></figure><ul><li><strong>上传后无回显：</strong></li></ul><p><img src="../images/upload/noecho.png" alt="noecho"></p><p>部分网站无上传回显，把UPLOAD_MODE参数的值改为1就可以正常拿到上传后的文件名了。</p><p><img src="../images/upload/noecho2.png" alt="noecho2"></p><ul><li><strong>为什么你没成功：</strong></li></ul><p>我试了许多版本，发现返回<code>2005_xxxxxx</code>的都不能成功，网上复现利用成功的都是<code>2003_xxxxxx</code><br>不知道怎么搞</p><hr><p><a href="https://github.com/jas502n/OA-tongda-RCE" target="_blank" rel="noopener">参考链接🔗</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;0x01-漏洞信息&quot;&gt;&lt;a href=&quot;#0x01-漏洞信息&quot; class=&quot;headerlink&quot; title=&quot;0x01 漏洞信息&quot;&gt;&lt;/a&gt;0x01 漏洞信息&lt;/h3&gt;&lt;p&gt;攻击者可以绕过身份认证，上传任意文件，结合文件包含漏洞即可实现RCE。&lt;br&gt;影响版本包含：&lt;br&gt;文件上传：&lt;br&gt;&lt;code&gt;V11版 &amp;lt;= 11.3    20200103
+ 2017版 &amp;lt;= 10.19  20190522
+ 2016版 &amp;lt;= 9.13   20170710
+ 2015版 &amp;lt;= 8.15   20160722
+ 2013增强版 &amp;lt;=7.25 20141211
+ 2013版 &amp;lt;= 6.20   20141017&lt;/code&gt;
+    
+    </summary>
+    
+    
+      <category term="通达OA" scheme="http://yoursite.com/categories/%E9%80%9A%E8%BE%BEOA/"/>
+    
+    
+      <category term="漏洞复现" scheme="http://yoursite.com/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
+    
+  </entry>
+  
+  <entry>
     <title>通达OA 任意用户登录漏洞复现</title>
     <link href="http://yoursite.com/2020/%E9%80%9A%E8%BE%BEOA1.html"/>
     <id>http://yoursite.com/2020/%E9%80%9A%E8%BE%BEOA1.html</id>
     <published>2020-05-15T21:36:01.000Z</published>
-    <updated>2020-05-15T22:36:47.313Z</updated>
+    <updated>2020-05-16T06:36:13.357Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="0x01-漏洞信息"><a href="#0x01-漏洞信息" class="headerlink" title="0x01 漏洞信息"></a>0x01 漏洞信息</h3><p>通达OA前台任意用户登录漏洞，影响版本包括通达OA2017、V11.X&lt;V11.5；攻击者利用此漏洞可以接管服务器权限<br><img src="../images/upload/tongd.jpg" alt="OA" style="zoom: 80%;" /></p><a id="more"></a><h3 id="0x02-漏洞利用"><a href="#0x02-漏洞利用" class="headerlink" title="0x02 漏洞利用"></a>0x02 漏洞利用</h3><p>1.获取code_uid<br>post   /general/login_code.ph 获取code_uid</p><p><img src="../images/upload/code_uid.png" alt="example"></p><p><a href="../file/code_uid.txt">request.txt</a></p><p>2.获取sessionID<br>post  /logincheck_code.php</p><p><img src="../images/upload/sessid.png" alt="example"></p><p><a href="../file/sessionID.txt">requests.txt</a></p><p>3.实现登录<br>访问<a href="http://xxxx.com/general/index.php" target="_blank" rel="noopener">http://xxxx.com/general/index.php</a> 利用上一步得到的cookies，<br>通过小饼干🍪等工具替换cookie，刷新页面即可成功进入</p><p><img src="../images/upload/admin1.png" alt="example"></p><h3 id="0x03-漏洞POC"><a href="#0x03-漏洞POC" class="headerlink" title="0x03 漏洞POC"></a>0x03 漏洞POC</h3><p><a href="https://github.com/NS-Sp4ce/TongDaOA-FaKe-User" target="_blank" rel="noopener">https://github.com/NS-Sp4ce/TongDaOA-FaKe-User</a></p><p>利用POC测试站点，若存在漏洞，返回cookie；利用cookie便可直接登录</p><p><img src="../images/upload/poc1.png" alt="poc_result"></p><h3 id="0x04-关键词"><a href="#0x04-关键词" class="headerlink" title="0x04 关键词"></a>0x04 关键词</h3><p><a href="https://zoomeye.org" target="_blank" rel="noopener">https://zoomeye.org</a> 中搜索<code>app:&quot;Tongda office anywhere httpd&quot;</code></p>]]></content>
+    <content type="html"><![CDATA[<h3 id="0x01-漏洞信息"><a href="#0x01-漏洞信息" class="headerlink" title="0x01 漏洞信息"></a>0x01 漏洞信息</h3><p>通达OA前台任意用户登录漏洞，影响版本包括通达OA2017、V11.X&lt;V11.5；攻击者利用此漏洞可以接管服务器权限<br><img src="../images/upload/tongd.jpg" alt="OA" style="zoom: 80%;" /></p><a id="more"></a><h3 id="0x02-漏洞利用"><a href="#0x02-漏洞利用" class="headerlink" title="0x02 漏洞利用"></a>0x02 漏洞利用</h3><p>1.获取code_uid<br>post   /general/login_code.ph 获取code_uid</p><p><img src="../images/upload/code_uid.png" alt="example"></p><p><a href="../file/code_uid.txt">request.txt</a></p><p>2.获取sessionID<br>post  /logincheck_code.php</p><p><img src="../images/upload/sessid.jpg" alt="example"></p><p><a href="../file/sessionID.txt">requests.txt</a></p><p>3.实现登录<br>访问<a href="http://xxxx.com/general/index.php" target="_blank" rel="noopener">http://xxxx.com/general/index.php</a> 利用上一步得到的cookies，<br>通过小饼干🍪等工具替换cookie，刷新页面即可成功进入</p><p><img src="../images/upload/admin1.png" alt="example"></p><h3 id="0x03-漏洞POC"><a href="#0x03-漏洞POC" class="headerlink" title="0x03 漏洞POC"></a>0x03 漏洞POC</h3><p><a href="https://github.com/NS-Sp4ce/TongDaOA-FaKe-User" target="_blank" rel="noopener">https://github.com/NS-Sp4ce/TongDaOA-FaKe-User</a></p><p>利用POC测试站点，若存在漏洞，返回cookie；利用cookie便可直接登录</p><p><img src="../images/upload/poc1.png" alt="poc_result"></p><h3 id="0x04-关键词"><a href="#0x04-关键词" class="headerlink" title="0x04 关键词"></a>0x04 关键词</h3><p><a href="https://zoomeye.org" target="_blank" rel="noopener">https://zoomeye.org</a> 中搜索<code>app:&quot;Tongda office anywhere httpd&quot;</code></p>]]></content>
     
     <summary type="html">
     
@@ -32,6 +80,10 @@
     </summary>
     
     
+      <category term="通达OA" scheme="http://yoursite.com/categories/%E9%80%9A%E8%BE%BEOA/"/>
+    
+    
+      <category term="漏洞复现" scheme="http://yoursite.com/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
     
   </entry>
   

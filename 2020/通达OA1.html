@@ -31,12 +31,13 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yoursite.com/images/upload/tongd.jpg">
 <meta property="og:image" content="http://yoursite.com/images/upload/code_uid.png">
-<meta property="og:image" content="http://yoursite.com/images/upload/sessid.png">
+<meta property="og:image" content="http://yoursite.com/images/upload/sessid.jpg">
 <meta property="og:image" content="http://yoursite.com/images/upload/admin1.png">
 <meta property="og:image" content="http://yoursite.com/images/upload/poc1.png">
 <meta property="article:published_time" content="2020-05-15T21:36:01.000Z">
-<meta property="article:modified_time" content="2020-05-15T22:36:47.313Z">
+<meta property="article:modified_time" content="2020-05-16T06:36:13.357Z">
 <meta property="article:author" content="TBOsec">
+<meta property="article:tag" content="漏洞复现">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/images/upload/tongd.jpg">
 
@@ -218,6 +219,15 @@
 
               <time title="创建时间：2020-05-16 05:36:01" itemprop="dateCreated datePublished" datetime="2020-05-16T05:36:01+08:00">2020-05-16</time>
             </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%80%9A%E8%BE%BEOA/" itemprop="url" rel="index"><span itemprop="name">通达OA</span></a>
+                </span>
+            </span>
 
           
 
@@ -237,7 +247,7 @@
 <p><img src="../images/upload/code_uid.png" alt="example"></p>
 <p><a href="../file/code_uid.txt">request.txt</a></p>
 <p>2.获取sessionID<br>post  /logincheck_code.php</p>
-<p><img src="../images/upload/sessid.png" alt="example"></p>
+<p><img src="../images/upload/sessid.jpg" alt="example"></p>
 <p><a href="../file/sessionID.txt">requests.txt</a></p>
 <p>3.实现登录<br>访问<a href="http://xxxx.com/general/index.php" target="_blank" rel="noopener">http://xxxx.com/general/index.php</a> 利用上一步得到的cookies，<br>通过小饼干🍪等工具替换cookie，刷新页面即可成功进入</p>
 <p><img src="../images/upload/admin1.png" alt="example"></p>
@@ -297,6 +307,9 @@
 
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" rel="tag"># 漏洞复现</a>
+          </div>
 
         
 
@@ -307,7 +320,10 @@
     <a href="/2020/%E5%9F%9F%E6%B8%97%E9%80%8F%E7%9F%A5%E8%AF%86%E5%A4%87%E5%BF%98.html" rel="prev" title="域渗透知识备忘">
       <i class="fa fa-chevron-left"></i> 域渗透知识备忘
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/%E9%80%9A%E8%BE%BEOA2.html" rel="next" title="通达OA 任意文件上传/文件包含GetShell">
+      通达OA 任意文件上传/文件包含GetShell <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -382,20 +398,20 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-count">12</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
