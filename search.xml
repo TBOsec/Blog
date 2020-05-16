@@ -18,7 +18,19 @@
 <p><img src="../images/upload/fujian5.png" alt="fujian5"></p>
 <h3 id="0x03-上传附件"><a href="#0x03-上传附件" class="headerlink" title="0x03 上传附件"></a>0x03 上传附件</h3><p>通过组织下的聊天框，选中自己后发送任意附件，利用BurpSuite拦截</p>
 <p><img src="../images/upload/fujian6.png" alt="fujian6"></p>
+<p><img src="../images/upload/oa31.png" alt="oa31"></p>
+<p><a href="../file/upshell.txt">上传附件 request.txt</a></p>
+<p><img src="../images/upload/oa3.png" alt="oa3"></p>
+<p><img src="../images/upload/oa32.png" alt="oa32"></p>
+<p><img src="../images/upload/oa33.png" alt="oa33"></p>
+<p><img src="../images/upload/oa34.png" alt="oa34"></p>
 ]]></content>
+      <categories>
+        <category>通达OA</category>
+      </categories>
+      <tags>
+        <tag>漏洞复现</tag>
+      </tags>
   </entry>
   <entry>
     <title>通达OA 任意文件上传/文件包含GetShell</title>

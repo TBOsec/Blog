@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-05-16T12:11:50.554Z</updated>
+  <updated>2020-05-16T12:53:44.582Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="http://yoursite.com/2020/%E9%80%9A%E8%BE%BEOA3.html"/>
     <id>http://yoursite.com/2020/%E9%80%9A%E8%BE%BEOA3.html</id>
     <published>2020-05-16T11:12:20.000Z</published>
-    <updated>2020-05-16T12:11:50.554Z</updated>
+    <updated>2020-05-16T12:53:44.582Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="0x01-如何后台"><a href="#0x01-如何后台" class="headerlink" title="0x01 如何后台"></a>0x01 如何后台</h3><p>怎么进入后台随便你，可以利用前段时间的<code>任意用户登录漏洞</code></p><p><img src="../images/upload/loginadmin.png" alt="login"></p><a id="more"></a><h3 id="0x02-更改配置"><a href="#0x02-更改配置" class="headerlink" title="0x02 更改配置"></a>0x02 更改配置</h3><p>此处利用系统管理-&gt;附件管理📎</p><p><img src="../images/upload/fujian.png" alt="fujian"></p><p>此站点并未设置存储目录，点击添加目录</p><p><img src="../images/upload/fujian2.png" alt="fujian"></p><p>目录中要设置网站根目录，根目录可以通过系统管理-&gt;系统信息处获得</p><p><img src="../images/upload/fujian3.png" alt="gujian3"></p><p><img src="../images/upload/fujian4.png" alt="fujian4"></p><p>记得勾选<code>将所有新附件存该目录</code>，然后保存</p><p><img src="../images/upload/fujian5.png" alt="fujian5"></p><h3 id="0x03-上传附件"><a href="#0x03-上传附件" class="headerlink" title="0x03 上传附件"></a>0x03 上传附件</h3><p>通过组织下的聊天框，选中自己后发送任意附件，利用BurpSuite拦截</p><p><img src="../images/upload/fujian6.png" alt="fujian6"></p>]]></content>
+    <content type="html"><![CDATA[<h3 id="0x01-如何后台"><a href="#0x01-如何后台" class="headerlink" title="0x01 如何后台"></a>0x01 如何后台</h3><p>怎么进入后台随便你，可以利用前段时间的<code>任意用户登录漏洞</code></p><p><img src="../images/upload/loginadmin.png" alt="login"></p><a id="more"></a><h3 id="0x02-更改配置"><a href="#0x02-更改配置" class="headerlink" title="0x02 更改配置"></a>0x02 更改配置</h3><p>此处利用系统管理-&gt;附件管理📎</p><p><img src="../images/upload/fujian.png" alt="fujian"></p><p>此站点并未设置存储目录，点击添加目录</p><p><img src="../images/upload/fujian2.png" alt="fujian"></p><p>目录中要设置网站根目录，根目录可以通过系统管理-&gt;系统信息处获得</p><p><img src="../images/upload/fujian3.png" alt="gujian3"></p><p><img src="../images/upload/fujian4.png" alt="fujian4"></p><p>记得勾选<code>将所有新附件存该目录</code>，然后保存</p><p><img src="../images/upload/fujian5.png" alt="fujian5"></p><h3 id="0x03-上传附件"><a href="#0x03-上传附件" class="headerlink" title="0x03 上传附件"></a>0x03 上传附件</h3><p>通过组织下的聊天框，选中自己后发送任意附件，利用BurpSuite拦截</p><p><img src="../images/upload/fujian6.png" alt="fujian6"></p><p><img src="../images/upload/oa31.png" alt="oa31"></p><p><a href="../file/upshell.txt">上传附件 request.txt</a></p><p><img src="../images/upload/oa3.png" alt="oa3"></p><p><img src="../images/upload/oa32.png" alt="oa32"></p><p><img src="../images/upload/oa33.png" alt="oa33"></p><p><img src="../images/upload/oa34.png" alt="oa34"></p>]]></content>
     
     <summary type="html">
     
@@ -33,6 +33,10 @@
     </summary>
     
     
+      <category term="通达OA" scheme="http://yoursite.com/categories/%E9%80%9A%E8%BE%BEOA/"/>
+    
+    
+      <category term="漏洞复现" scheme="http://yoursite.com/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
     
   </entry>
   
