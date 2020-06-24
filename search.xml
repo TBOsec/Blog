@@ -1,6 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>linux 查看硬件架构|系统版本|内核版本</title>
+    <url>/2020/linux%E7%89%88%E6%9C%AC.html</url>
+    <content><![CDATA[<p><font color=green>有时候,我们可能需要获取Linux系统的一些关键信息,以下列举了部分常用的命令做为备忘📝</font></p>
+<h3 id="一、查看系统架构"><a href="#一、查看系统架构" class="headerlink" title="一、查看系统架构"></a>一、查看系统架构</h3><ul>
+<li><strong>hostnamectl</strong> 工具是用来管理给定主机中使用的三种类型的主机名，可以提供有关你的机器的最基本的信息。</li>
+</ul>
+<p><code>hostnamectl status</code></p>
+<img src="../images/upload/hostnamectl.png" alt="hostnamectl" style="zoom:50%;" />
+
+<a id="more"></a>
+
+<ul>
+<li><p><strong>lscpu</strong>命令从sysfs和/proc/cpuinfo收集cpu体系结构信息，命令的输出比较易读，命令输出的信息包含cpu数量，线程，核数，套接字等。</p>
+<img src="../images/upload/lscpu.png" style="zoom:50%;" />
+</li>
+<li><p><strong>arch</strong>命令主要用于显示当前主机的硬件结构类型，arch命令输出的结果有：i386、i486、mips、alpha等。</p>
+<img src="../images/upload/arch.png" style="zoom: 67%;" />
+</li>
+<li><p><strong>uname</strong>命令的英文全称即“Unix name”，用于显示系统相关信息，比如主机名、内核版本号、硬件架构等。<br>-m 显示计算机硬件架构；-i  显示硬件平台</p>
+<img src="../images/upload/uname1.png" style="zoom: 67%;" />
+
+</li>
+</ul>
+<h3 id="二、查看系统发行版本"><a href="#二、查看系统发行版本" class="headerlink" title="二、查看系统发行版本"></a>二、查看系统发行版本</h3><ul>
+<li><p><strong>LSB</strong>是Linux Standard Base的缩写，lsb_release命令用来显示LSB和特定版本的相关信息。如果使用该命令时不带参数，则默认加上-v参数。</p>
+<p>-d 显示系统全称和版本号；-a  显示LSB所有信息</p>
+<img src="../images/upload/lsb_release.png" style="zoom:50%;" />
+</li>
+<li><p><strong>/etc/*-release</strong>文件通常被视为操作系统的标识。在 <code>/etc</code> 目录下放置了很多记录着发行版各种信息的文件，每个发行版都各自有一套这样记录着相关信息的文件。</p>
+<p>其中 <code>/etc/redhat-release</code> 和 <code>/etc/system-release</code>,<code>/etc/os-release</code> 文件是指向 <code>/etc/[发行版名称]-release</code> 文件的一个连接。</p>
+<img src="../images/upload/cat1.png" style="zoom:50%;" />
+
+</li>
+</ul>
+<h3 id="三、查看内核版本"><a href="#三、查看内核版本" class="headerlink" title="三、查看内核版本"></a>三、查看内核版本</h3><ul>
+<li><p><strong>uname</strong>用于显示系统相关信息，比如主机名、内核版本号、硬件架构等。</p>
+<p>-r 显示当前系统的内核版本; -s 显示内核名称</p>
+<img src="../images/upload/uname2.png" style="zoom: 67%;" />
+</li>
+<li><p><strong>/proc/version</strong>文件记录了 Linux 内核的版本、用于编译内核的 gcc 的版本、内核编译的时间，以及内核编译者的用户名。</p>
+<p><img src="../images/upload/proc.png" alt=""></p>
+</li>
+<li><p><strong>dmesg</strong>（展示信息display message 或驱动程序信息driver message）是大多数类 Unix 操作系统上的一个命令，用于打印内核的消息缓冲区的信息。</p>
+<p><img src="../images/upload/dmesg.png" alt=""></p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+  </entry>
+  <entry>
     <title>通达OA 后台GetShell</title>
     <url>/2020/%E9%80%9A%E8%BE%BEOA3.html</url>
     <content><![CDATA[<h3 id="0x01-如何后台"><a href="#0x01-如何后台" class="headerlink" title="0x01 如何后台"></a>0x01 如何后台</h3><p>怎么进入后台随便你，可以利用前段时间的<code>任意用户登录漏洞</code></p>
