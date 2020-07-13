@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-07-09T08:08:33.978Z</updated>
+  <updated>2020-07-13T09:27:59.899Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>实现每日推送CVE漏洞</title>
+    <link href="http://yoursite.com/2020/CVE%E4%BF%A1%E6%81%AF.html"/>
+    <id>http://yoursite.com/2020/CVE%E4%BF%A1%E6%81%AF.html</id>
+    <published>2020-07-13T09:02:07.000Z</published>
+    <updated>2020-07-13T09:27:59.899Z</updated>
+    
+    <content type="html"><![CDATA[<p><font color=green>随着安全工作的开展，关注查看每天的CVE漏洞成了安全从业人员的日常事项，你可能从公众号、朋友圈或其它漏洞平台获取漏洞信息， 但这些都不可能完全满足你想要的信息，比如你只关心tomcat、zabbix、fastjson等组件的漏洞，所以我开始想如何自动化的推送漏洞信息</font><a id="more"></a></p><h2 id="实现方法："><a href="#实现方法：" class="headerlink" title="实现方法："></a>实现方法：</h2><h3 id="1、获取CVE数据："><a href="#1、获取CVE数据：" class="headerlink" title="1、获取CVE数据："></a>1、获取CVE数据：</h3><p>可以爬取CVE官方网站每日公布的漏洞信息，但是当日漏洞没有漏洞定级和CVSS评分；而CVSS的评分需要NVD(美国国家漏洞数据库)，所以我这里直接选择使用NVD提供的api获取漏洞信息</p><p><img src="../images/upload/cve_01.png" alt=""></p><h3 id="2、漏洞信息过滤："><a href="#2、漏洞信息过滤：" class="headerlink" title="2、漏洞信息过滤："></a>2、漏洞信息过滤：</h3><p>获取的漏洞信息可能多可能少，而我们只需要获得想要的信息便可，比如只想获取2020-07-08号的高危漏洞情况</p><p><img src="../images/upload/cve_02.png" alt=""></p><h3 id="3、消息推送："><a href="#3、消息推送：" class="headerlink" title="3、消息推送："></a>3、消息推送：</h3><p>通过企业微信的api进行消息的推送<br><img src="../images/upload/cve_03.png" alt=""></p><h3 id="4、定时推送："><a href="#4、定时推送：" class="headerlink" title="4、定时推送："></a>4、定时推送：</h3><p>放在服务器上建立定时任务，比如每天上班前8:50推送消息</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">50 08 * * * /usr/bin/python3 cve.py</span><br></pre></td></tr></table></figure><h3 id="5、效果展示："><a href="#5、效果展示：" class="headerlink" title="5、效果展示："></a>5、效果展示：</h3><p><img src="../images/upload/cve_04.jpg" alt=""></p><p><img src="../images/upload/cve_05.jpg" alt=""></p><h3 id="最后："><a href="#最后：" class="headerlink" title="最后："></a>最后：</h3><p>有些事情做起来没什么难度，但你的想法、思考很重要…获取源码方式，请公众号内回复’CVE’即可</p><hr><p>参考链接：</p><p><a href="https://nvd.nist.gov/General/News/New-NVD-CVE-CPE-API-and-SOAP-Retirement" target="_blank" rel="noopener">https://nvd.nist.gov/General/News/New-NVD-CVE-CPE-API-and-SOAP-Retirement</a><br><a href="https://work.weixin.qq.com/api/doc" target="_blank" rel="noopener">https://work.weixin.qq.com/api/doc</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;font color=green&gt;随着安全工作的开展，关注查看每天的CVE漏洞成了安全从业人员的日常事项，你可能从公众号、朋友圈或其它漏洞平台获取漏洞信息， 但这些都不可能完全满足你想要的信息，比如你只关心tomcat、zabbix、fastjson等组件的漏洞，所以我开始想如何自动化的推送漏洞信息&lt;/font&gt;
+    
+    </summary>
+    
+    
+      <category term="渗透测试" scheme="http://yoursite.com/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>常见反向shell方法</title>
