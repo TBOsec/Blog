@@ -22,19 +22,26 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="Docker 是一个开源的应用容器引擎，基于 Go 语言 并遵从 Apache2.0 协议开源，可用于开发，交付和运行应用程序的开放平台。而在安全测试中我们可以利用docker快速搭建出理想环境，进而复现测试漏洞，下面👇我整理出来一些常用命令，作为备忘。 0、重点！重点！重点！Docker三要素：镜像、容器、仓库仓库：集中存放镜像文件的地方；仓库分为公开仓库和私有仓库，目前全世界最大的仓库是Do">
+  <meta name="description" content="Tor主要用来访问匿名网络也就是已.onion结尾的域名，当然也可访问某些正常的网站如google、twitter等，但并不推荐如此做；今天要说的是在渗透测试中如何利用Tor网络对目标进行渗透，防止被溯源和审查等，隐藏攻击者身份和IP地址 官方解释：Tor是一个您能运行在您的电脑上，保护您在互联网上安全的程序。 它会将您的通信在一个由多个中继站组成的分散网络内不断传递，这些中继站被来自世界各地的志">
 <meta property="og:type" content="article">
-<meta property="og:title" content="docker常用命令">
-<meta property="og:url" content="http://yoursite.com/2020/docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.html">
+<meta property="og:title" content="Tor的使用与渗透测试">
+<meta property="og:url" content="http://yoursite.com/2020/tor%E4%BD%BF%E7%94%A8.html">
 <meta property="og:site_name" content="TBOsec的网络日志">
-<meta property="og:description" content="Docker 是一个开源的应用容器引擎，基于 Go 语言 并遵从 Apache2.0 协议开源，可用于开发，交付和运行应用程序的开放平台。而在安全测试中我们可以利用docker快速搭建出理想环境，进而复现测试漏洞，下面👇我整理出来一些常用命令，作为备忘。 0、重点！重点！重点！Docker三要素：镜像、容器、仓库仓库：集中存放镜像文件的地方；仓库分为公开仓库和私有仓库，目前全世界最大的仓库是Do">
+<meta property="og:description" content="Tor主要用来访问匿名网络也就是已.onion结尾的域名，当然也可访问某些正常的网站如google、twitter等，但并不推荐如此做；今天要说的是在渗透测试中如何利用Tor网络对目标进行渗透，防止被溯源和审查等，隐藏攻击者身份和IP地址 官方解释：Tor是一个您能运行在您的电脑上，保护您在互联网上安全的程序。 它会将您的通信在一个由多个中继站组成的分散网络内不断传递，这些中继站被来自世界各地的志">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-04-20T07:36:38.000Z">
-<meta property="article:modified_time" content="2020-04-26T08:35:07.352Z">
+<meta property="og:image" content="http://yoursite.com/images/upload/tor1.png">
+<meta property="og:image" content="http://yoursite.com/images/upload/tor2.png">
+<meta property="og:image" content="http://yoursite.com/Users/tbo/github/hexo/source/images/upload/tor4.png">
+<meta property="og:image" content="http://yoursite.com/images/upload/tor3.png">
+<meta property="og:image" content="http://yoursite.com/images/upload/tor5.png">
+<meta property="og:image" content="http://yoursite.com/images/upload/tor6.png">
+<meta property="article:published_time" content="2020-08-09T04:36:53.000Z">
+<meta property="article:modified_time" content="2020-08-09T07:03:41.114Z">
 <meta property="article:author" content="TBOsec">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/images/upload/tor1.png">
 
-<link rel="canonical" href="http://yoursite.com/2020/docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.html">
+<link rel="canonical" href="http://yoursite.com/2020/tor%E4%BD%BF%E7%94%A8.html">
 
 
 <script id="page-configurations">
@@ -46,7 +53,7 @@
   };
 </script>
 
-  <title>docker常用命令 | TBOsec的网络日志</title>
+  <title>Tor的使用与渗透测试 | TBOsec的网络日志</title>
   
 
 
@@ -187,7 +194,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/tor%E4%BD%BF%E7%94%A8.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -200,7 +207,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          docker常用命令
+          Tor的使用与渗透测试
         </h2>
 
         <div class="post-meta">
@@ -210,7 +217,16 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-04-20 15:36:38" itemprop="dateCreated datePublished" datetime="2020-04-20T15:36:38+08:00">2020-04-20</time>
+              <time title="创建时间：2020-08-09 12:36:53" itemprop="dateCreated datePublished" datetime="2020-08-09T12:36:53+08:00">2020-08-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" itemprop="url" rel="index"><span itemprop="name">渗透测试</span></a>
+                </span>
             </span>
 
           
@@ -224,68 +240,78 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><font color=green>Docker 是一个开源的应用容器引擎，基于 Go 语言 并遵从 Apache2.0 协议开源，可用于开发，交付和运行应用程序的开放平台。而在安全测试中我们可以利用docker快速搭建出理想环境，进而复现测试漏洞，下面👇我整理出来一些常用命令，作为备忘。</font></p>
-<h3 id="0、重点！重点！重点！"><a href="#0、重点！重点！重点！" class="headerlink" title="0、重点！重点！重点！"></a>0、重点！重点！重点！</h3><p>Docker三要素：<font color=red>镜像、容器、仓库</font><br>仓库：集中存放镜像文件的地方；仓库分为公开仓库和私有仓库，目前全世界最大的仓库是Docker官方的 Docker Hub<br>镜像：Docker 镜像（Image），就相当于是一个 root 文件系统。<br>容器：镜像（Image）和容器（Container）的关系，就像是面向对象程序设计中的类和实例一样，镜像是静态的定义，容器是镜像运行时的实体。容器可以被创建、启动、停止、删除、暂停等。<a id="more"></a></p>
-<h3 id="1、帮助命令："><a href="#1、帮助命令：" class="headerlink" title="1、帮助命令："></a>1、帮助命令：</h3><ul>
-<li>查看docker版本信息：docker  version</li>
-<li>查看系统相关信息：docker  info</li>
-<li>查看docker帮助文档：docker  –help</li>
-</ul>
-<h3 id="2、镜像命令："><a href="#2、镜像命令：" class="headerlink" title="2、镜像命令："></a>2、镜像命令：</h3><ul>
-<li>列出本地主机的镜像：docker  images <pre><code>可选参数：
-      -a：所有镜像； 
-      -q：只显示镜像ID； 
-      --digests：显示镜像摘要信息
-      --no-trunc：显示完整的镜像信息</code></pre></li>
-<li>搜索某个镜像：docker  search  镜像名 [options]<pre><code>可选参数：
-      --no-trunc：显示完整的镜像描述
-      -f：按key=value过滤结果
-      --limit：限制结果条数,默认25条结果</code></pre></li>
-<li>下载某个镜像：docker  pull 镜像名[:TAG]</li>
-<li>删除本地镜像：<pre><code>删除单个：docker  rmi  -f 镜像ID
-删除多个：docker  rmi -f 镜像名1:TAG 镜像名2:TAG
-删除全部：docker  rmi -f $(docker  images  -qa</code></pre></li>
-</ul>
-<h3 id="3、容器命令："><a href="#3、容器命令：" class="headerlink" title="3、容器命令："></a>3、容器命令：</h3><ul>
-<li><p>新建并启动容器：docker  run  [options] 镜像名/imageID<br>常用options选项：</p>
-<pre><code>--name=&quot;容器新名字&quot;：为容器指定一个名称
-   -d：后台运行容器，并返回容器ID
--i：以交互模式运行容器，通常与-t同时使用
--t：为容器重新分配一个伪输入的终端
--P：随机端口映射
--p：指定端口映射，有以下四种格式
-    ip:hostPort:containerPort
-    ip::containerPort
-    &lt;font color=red&gt;hostPort:containerPort&lt;/font&gt;
-    containerPort</code></pre></li>
-<li><p>列出运行的容器：docker  ps  [options]<br>常用options选项：</p>
-<pre><code>-a :列出当前所有正在运行的容器+历史上运行过的
--l :显示最近创建的容器。
--n：显示最近n个创建的容器。
--q :静默模式，只显示容器编号。
---no-trunc :不截断输出。</code></pre></li>
-<li><p>退出容器：<br>exit：容器停止并退出<br>ctrl：容器不停止退出</p>
-</li>
-<li><p>启动容器：docker start 容器ID/容器名</p>
-</li>
-<li><p>重启容器：docker restart 容器ID/容器名</p>
-</li>
-<li><p>停止容器：docker stop 容器ID/容器名</p>
-</li>
-<li><p>强制停止容器：docker kill 容器ID/容器名</p>
-</li>
-<li><p>删除停止的容器：docker rm 容器ID<br>一次性删除多个容器：docker  rm -f $(docker ps -qa)</p>
-</li>
-</ul>
-<h3 id="4、其它命令："><a href="#4、其它命令：" class="headerlink" title="4、其它命令："></a>4、其它命令：</h3><ul>
-<li>查看容器日志：docker logs -f -t –tail 容器ID<br>-t：显示时间戳<pre><code>-f：跟随最新日志打印
---tail：数字 显示最后多少条</code></pre></li>
-<li>查看容器内运行的进程：docker top 容器ID</li>
-<li>查看容器内详情：docker inspect 容器ID</li>
-<li>进入正运行的容器并以命令行交互：<br>docker exec -it 容器ID /bin/bash</li>
-<li>重新进入正运行的容器：<br>docker attach 容器ID<br><font color=red>attach：直接进入容器启动的命令终端，不会启动新的进程；<br>exec：是在容器打开新的终端，并且可以启动新的进程</font></li>
-<li>从容器内拷贝文件到主机上：<br>docker cp 容器ID:容器内路径 目的主机路径</li>
-</ul>
+        <p>Tor主要用来访问匿名网络也就是已<code>.onion</code>结尾的域名，当然也可访问某些正常的网站如google、twitter等，但并不推荐如此做；今天要说的是在渗透测试中如何利用Tor网络对目标进行渗透，防止被溯源和审查等，隐藏攻击者身份和IP地址</p>
+<p>官方解释：<font color=green>Tor是一个您能运行在您的电脑上，保护您在互联网上安全的程序。 它会将您的通信在一个由多个中继站组成的分散网络内不断传递，这些中继站被来自世界各地的志愿者们运营，并以此来保护您：这阻止了某些人通过您访问了哪些网址来得知您的网络链接，也防止了您访问的网站获取您的地理位置。 这些由志愿者搭建的中继被成为 Tor 网络。</font><a id="more"></a></p>
+<h3 id="0x01-访问Tor的方式"><a href="#0x01-访问Tor的方式" class="headerlink" title="0x01 访问Tor的方式"></a>0x01 访问Tor的方式</h3><hr>
+<p>1、直接使用Tor Browser浏览器，内置Tor Project加上Firefox浏览器–<code>推荐</code></p>
+<p>2、源码安装Tor Project，然后配合其它浏览器使用–<code>Geek</code></p>
+<h3 id="0x02-安装Tor-Browser浏览器"><a href="#0x02-安装Tor-Browser浏览器" class="headerlink" title="0x02 安装Tor Browser浏览器"></a>0x02 安装Tor Browser浏览器</h3><hr>
+<p>下载地址：<br>Windows：<code>https://www.torproject.org/dist/torbrowser/9.5.3/torbrowser-install-win64-9.5.3_zh-CN.exe</code></p>
+<p>Mac  os：<code>https://www.torproject.org/dist/torbrowser/9.5.3/TorBrowser-9.5.3-osx64_zh-CN.dmg</code></p>
+<p>之后的安装过程就和其它程序一样了，这里不在赘述</p>
+<h3 id="0x03-安装Tor-Project"><a href="#0x03-安装Tor-Project" class="headerlink" title="0x03 安装Tor Project"></a>0x03 安装Tor Project</h3><hr>
+<p>Mac OS：<code>brew install tor</code></p>
+<p>Windows：<code>https://www.torproject.org/dist/torbrowser/9.5.3/tor-win32-0.4.3.6.zip</code></p>
+<h3 id="0x04-Tor-配置文件"><a href="#0x04-Tor-配置文件" class="headerlink" title="0x04 Tor 配置文件"></a>0x04 Tor 配置文件</h3><hr>
+<p>Mac OS:<br><code>/usr/local/Cellar/tor/</code> :Tor的安装路径<br><code>/usr/local/etc/tor/torrc</code>  :Tor的配置文件</p>
+<p>Windows:<br><code>解压后的存放路径</code>  : Tor的安装路径<br><code>同路径下tor/torrc</code>  :Tor的配置文件</p>
+<p>Mac：在下面路径<code>/usr/local/etc/tor</code>找到文件<code>torrc.sample</code>，拷贝一份命名为<code>torrc</code><br>Windows：双击tor.exe后会生成torrc文件，然后再编辑</p>
+<p>常用配置的参数：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Socks5Proxy</td>
+<td>前置 Socks 代理端口</td>
+<td></td>
+</tr>
+<tr>
+<td>HTTPProxy</td>
+<td>前置 HTTP 代理端口</td>
+<td></td>
+</tr>
+<tr>
+<td>HTTPSProxy</td>
+<td>前置 HTTPS 代理端口</td>
+<td></td>
+</tr>
+<tr>
+<td>SocksProt</td>
+<td>外部程序访问 Tor 的端口</td>
+<td></td>
+</tr>
+<tr>
+<td>MaxCircuitDirtiness</td>
+<td>自动切换 ip 的时间间隔</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>我的配置：</p>
+<img src="../images/upload/tor1.png" style="zoom: 67%;" />
+
+<h3 id="0x05-确认是否接入Tor网络"><a href="#0x05-确认是否接入Tor网络" class="headerlink" title="0x05 确认是否接入Tor网络"></a>0x05 确认是否接入Tor网络</h3><hr>
+<p>启动Tor：</p>
+<p>Mac：<code>tor</code> 命令<br>Windows：双击<code>tor.exe</code></p>
+<p>配置Tor生成的本地代理</p>
+<p><img src="../images/upload/tor2.png" alt=""></p>
+<p>访问 <code>https://check.torproject.org/</code></p>
+<img src="/Users/tbo/github/hexo/source/images/upload/tor4.png" style="zoom: 33%;" />
+
+<h3 id="0x06-配合Burp-Suite使用"><a href="#0x06-配合Burp-Suite使用" class="headerlink" title="0x06 配合Burp Suite使用"></a>0x06 配合Burp Suite使用</h3><hr>
+<p>在Burp Suite中配置tor本地代理地址，浏览器中配置bp的代理</p>
+<p>User options-&gt;Connetctions</p>
+<img src="../images/upload/tor3.png" style="zoom:50%;" />
+
+<p>OK,可以开始使用了<br><img src="../images/upload/tor5.png" style="zoom:50%;" /></p>
+<img src="../images/upload/tor6.png" style="zoom:50%;" />
+
+<h3 id="0x07-最后"><a href="#0x07-最后" class="headerlink" title="0x07 最后"></a>0x07 最后</h3><p>使用Tor的注意事项⚠️：</p>
+<p>1、<strong>请勿将您的手机在 Tor 上用于两步验证</strong><br>2、<strong>不要在 TOR 之外操作用户帐户</strong><br>3、<strong>不要发布有关您的任何个人信息</strong><br>4、<strong>不要通过 TOR 发送未加密的数据</strong><br>5、<strong>不要忘记删除 cookies 和本地网站数据</strong><br>6、<strong>请勿将 TOR 用于 Google 搜索</strong><br>7、<strong>不要在 TOR 上打开 HTTP 网站</strong><br>8、<strong>不要同时使用 Tor 和不使用 Tor 访问同一台服务器</strong></p>
 
     </div>
 
@@ -345,13 +371,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/shell%E4%B8%8B%E8%BD%BD.html" rel="prev" title="shell中文件下载方法">
-      <i class="fa fa-chevron-left"></i> shell中文件下载方法
+    <a href="/2020/CVE%E4%BF%A1%E6%81%AF.html" rel="prev" title="实现每日推送CVE漏洞">
+      <i class="fa fa-chevron-left"></i> 实现每日推送CVE漏洞
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/%E5%9F%9F%E6%B8%97%E9%80%8F%E7%9F%A5%E8%AF%86%E5%A4%87%E5%BF%98.html" rel="next" title="域渗透知识备忘">
-      域渗透知识备忘 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -411,7 +434,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#0、重点！重点！重点！"><span class="nav-text">0、重点！重点！重点！</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1、帮助命令："><span class="nav-text">1、帮助命令：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、镜像命令："><span class="nav-text">2、镜像命令：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、容器命令："><span class="nav-text">3、容器命令：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、其它命令："><span class="nav-text">4、其它命令：</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#0x01-访问Tor的方式"><span class="nav-text">0x01 访问Tor的方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x02-安装Tor-Browser浏览器"><span class="nav-text">0x02 安装Tor Browser浏览器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x03-安装Tor-Project"><span class="nav-text">0x03 安装Tor Project</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x04-Tor-配置文件"><span class="nav-text">0x04 Tor 配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x05-确认是否接入Tor网络"><span class="nav-text">0x05 确认是否接入Tor网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x06-配合Burp-Suite使用"><span class="nav-text">0x06 配合Burp Suite使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x07-最后"><span class="nav-text">0x07 最后</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

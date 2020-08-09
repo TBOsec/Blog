@@ -1,6 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Tor的使用与渗透测试</title>
+    <url>/2020/tor%E4%BD%BF%E7%94%A8.html</url>
+    <content><![CDATA[<p>Tor主要用来访问匿名网络也就是已<code>.onion</code>结尾的域名，当然也可访问某些正常的网站如google、twitter等，但并不推荐如此做；今天要说的是在渗透测试中如何利用Tor网络对目标进行渗透，防止被溯源和审查等，隐藏攻击者身份和IP地址</p>
+<p>官方解释：<font color=green>Tor是一个您能运行在您的电脑上，保护您在互联网上安全的程序。 它会将您的通信在一个由多个中继站组成的分散网络内不断传递，这些中继站被来自世界各地的志愿者们运营，并以此来保护您：这阻止了某些人通过您访问了哪些网址来得知您的网络链接，也防止了您访问的网站获取您的地理位置。 这些由志愿者搭建的中继被成为 Tor 网络。</font><a id="more"></a></p>
+<h3 id="0x01-访问Tor的方式"><a href="#0x01-访问Tor的方式" class="headerlink" title="0x01 访问Tor的方式"></a>0x01 访问Tor的方式</h3><hr>
+<p>1、直接使用Tor Browser浏览器，内置Tor Project加上Firefox浏览器–<code>推荐</code></p>
+<p>2、源码安装Tor Project，然后配合其它浏览器使用–<code>Geek</code></p>
+<h3 id="0x02-安装Tor-Browser浏览器"><a href="#0x02-安装Tor-Browser浏览器" class="headerlink" title="0x02 安装Tor Browser浏览器"></a>0x02 安装Tor Browser浏览器</h3><hr>
+<p>下载地址：<br>Windows：<code>https://www.torproject.org/dist/torbrowser/9.5.3/torbrowser-install-win64-9.5.3_zh-CN.exe</code></p>
+<p>Mac  os：<code>https://www.torproject.org/dist/torbrowser/9.5.3/TorBrowser-9.5.3-osx64_zh-CN.dmg</code></p>
+<p>之后的安装过程就和其它程序一样了，这里不在赘述</p>
+<h3 id="0x03-安装Tor-Project"><a href="#0x03-安装Tor-Project" class="headerlink" title="0x03 安装Tor Project"></a>0x03 安装Tor Project</h3><hr>
+<p>Mac OS：<code>brew install tor</code></p>
+<p>Windows：<code>https://www.torproject.org/dist/torbrowser/9.5.3/tor-win32-0.4.3.6.zip</code></p>
+<h3 id="0x04-Tor-配置文件"><a href="#0x04-Tor-配置文件" class="headerlink" title="0x04 Tor 配置文件"></a>0x04 Tor 配置文件</h3><hr>
+<p>Mac OS:<br><code>/usr/local/Cellar/tor/</code> :Tor的安装路径<br><code>/usr/local/etc/tor/torrc</code>  :Tor的配置文件</p>
+<p>Windows:<br><code>解压后的存放路径</code>  : Tor的安装路径<br><code>同路径下tor/torrc</code>  :Tor的配置文件</p>
+<p>Mac：在下面路径<code>/usr/local/etc/tor</code>找到文件<code>torrc.sample</code>，拷贝一份命名为<code>torrc</code><br>Windows：双击tor.exe后会生成torrc文件，然后再编辑</p>
+<p>常用配置的参数：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Socks5Proxy</td>
+<td>前置 Socks 代理端口</td>
+<td></td>
+</tr>
+<tr>
+<td>HTTPProxy</td>
+<td>前置 HTTP 代理端口</td>
+<td></td>
+</tr>
+<tr>
+<td>HTTPSProxy</td>
+<td>前置 HTTPS 代理端口</td>
+<td></td>
+</tr>
+<tr>
+<td>SocksProt</td>
+<td>外部程序访问 Tor 的端口</td>
+<td></td>
+</tr>
+<tr>
+<td>MaxCircuitDirtiness</td>
+<td>自动切换 ip 的时间间隔</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>我的配置：</p>
+<img src="../images/upload/tor1.png" style="zoom: 67%;" />
+
+<h3 id="0x05-确认是否接入Tor网络"><a href="#0x05-确认是否接入Tor网络" class="headerlink" title="0x05 确认是否接入Tor网络"></a>0x05 确认是否接入Tor网络</h3><hr>
+<p>启动Tor：</p>
+<p>Mac：<code>tor</code> 命令<br>Windows：双击<code>tor.exe</code></p>
+<p>配置Tor生成的本地代理</p>
+<p><img src="../images/upload/tor2.png" alt=""></p>
+<p>访问 <code>https://check.torproject.org/</code></p>
+<img src="/Users/tbo/github/hexo/source/images/upload/tor4.png" style="zoom: 33%;" />
+
+<h3 id="0x06-配合Burp-Suite使用"><a href="#0x06-配合Burp-Suite使用" class="headerlink" title="0x06 配合Burp Suite使用"></a>0x06 配合Burp Suite使用</h3><hr>
+<p>在Burp Suite中配置tor本地代理地址，浏览器中配置bp的代理</p>
+<p>User options-&gt;Connetctions</p>
+<img src="../images/upload/tor3.png" style="zoom:50%;" />
+
+<p>OK,可以开始使用了<br><img src="../images/upload/tor5.png" style="zoom:50%;" /></p>
+<img src="../images/upload/tor6.png" style="zoom:50%;" />
+
+<h3 id="0x07-最后"><a href="#0x07-最后" class="headerlink" title="0x07 最后"></a>0x07 最后</h3><p>使用Tor的注意事项⚠️：</p>
+<p>1、<strong>请勿将您的手机在 Tor 上用于两步验证</strong><br>2、<strong>不要在 TOR 之外操作用户帐户</strong><br>3、<strong>不要发布有关您的任何个人信息</strong><br>4、<strong>不要通过 TOR 发送未加密的数据</strong><br>5、<strong>不要忘记删除 cookies 和本地网站数据</strong><br>6、<strong>请勿将 TOR 用于 Google 搜索</strong><br>7、<strong>不要在 TOR 上打开 HTTP 网站</strong><br>8、<strong>不要同时使用 Tor 和不使用 Tor 访问同一台服务器</strong></p>
+]]></content>
+      <categories>
+        <category>渗透测试</category>
+      </categories>
+  </entry>
+  <entry>
     <title>实现每日推送CVE漏洞</title>
     <url>/2020/CVE%E4%BF%A1%E6%81%AF.html</url>
     <content><![CDATA[<p><font color=green>随着安全工作的开展，关注查看每天的CVE漏洞成了安全从业人员的日常事项，你可能从公众号、朋友圈或其它漏洞平台获取漏洞信息， 但这些都不可能完全满足你想要的信息，比如你只关心tomcat、zabbix、fastjson等组件的漏洞，所以我开始想如何自动化的推送漏洞信息</font><a id="more"></a></p>
