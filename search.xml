@@ -14,6 +14,9 @@
 <p>参数说明： <code>a</code> :备份所有文件； <code>-ag</code> :当创建压缩文件时，以格式“YYYYMMDDHHMMSS”附加当前日期字符串,文件名bakYYYYMMDDHHMMSS.rar； <code>-k</code> :锁定压缩文件； <code>-r</code>:备份目录和子目录； <code>-s</code> :创建固实压缩文件； <code>-ibck</code>:后台运行；</p>
 <p><code>filename1</code>：要压缩的文件名，可以多个，也可用通配符`file*</p>
 ]]></content>
+      <categories>
+        <category>渗透测试</category>
+      </categories>
   </entry>
   <entry>
     <title>Tor的使用与渗透测试</title>

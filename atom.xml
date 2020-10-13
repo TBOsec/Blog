@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-10-13T09:18:33.926Z</updated>
+  <updated>2020-10-13T09:21:39.905Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://yoursite.com/2020/%E6%BA%90%E7%A0%81%E6%88%96%E6%96%87%E4%BB%B6%E6%89%93%E5%8C%85.html"/>
     <id>http://yoursite.com/2020/%E6%BA%90%E7%A0%81%E6%88%96%E6%96%87%E4%BB%B6%E6%89%93%E5%8C%85.html</id>
     <published>2020-10-13T08:54:00.000Z</published>
-    <updated>2020-10-13T09:18:33.926Z</updated>
+    <updated>2020-10-13T09:21:39.905Z</updated>
     
     <content type="html"><![CDATA[<p>​        在我们拿下webshell的时候，想要获取数据或者源码往往会用菜刀或者蚁剑去打包，但是这个时候往往就会出现很多问题，列如打包失败，或者是打包得不完整等等。</p><p>这个时候如果对方是windows服务器的话，我们可以将winrar安装包中的winrar.exe或者本地装的<code>winrar.exe</code>上传过去</p><img src="../images/upload/winrar.jpg" style="zoom:50%;" /><a id="more"></a><p>压缩盘下的data文件夹，并且命名为bak.rar  <code>winrar.exe a -ag -k -r -s -ibck c:/bak.rar c:/data/</code></p><p>压缩多个文件 <code>winrar a -ag -ibck bak.rar filename1 filename2 filename....</code></p><p>参数说明： <code>a</code> :备份所有文件； <code>-ag</code> :当创建压缩文件时，以格式“YYYYMMDDHHMMSS”附加当前日期字符串,文件名bakYYYYMMDDHHMMSS.rar； <code>-k</code> :锁定压缩文件； <code>-r</code>:备份目录和子目录； <code>-s</code> :创建固实压缩文件； <code>-ibck</code>:后台运行；</p><p><code>filename1</code>：要压缩的文件名，可以多个，也可用通配符`file*</p>]]></content>
     
@@ -33,6 +33,8 @@
     
     </summary>
     
+    
+      <category term="渗透测试" scheme="http://yoursite.com/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
     
     
   </entry>
