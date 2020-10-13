@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="在早期的Linux系统中，默认使用的是iptables防火墙管理服务来配置防火墙。尽管新型的firewalld防火墙管理服务已经被投入使用多年，但是大量的企业在生产环境中依然出于各种原因而继续使用iptables。所以本文提供了一些常用示例。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iptables常用示例">
+<meta property="og:url" content="http://yoursite.com/2019/iptables%E5%B8%B8%E7%94%A8%E7%A4%BA%E4%BE%8B.html">
+<meta property="og:site_name" content="TBOsec的网络日志">
+<meta property="og:description" content="在早期的Linux系统中，默认使用的是iptables防火墙管理服务来配置防火墙。尽管新型的firewalld防火墙管理服务已经被投入使用多年，但是大量的企业在生产环境中依然出于各种原因而继续使用iptables。所以本文提供了一些常用示例。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-02-27T09:29:10.000Z">
+<meta property="article:modified_time" content="2020-03-10T00:32:36.129Z">
+<meta property="article:author" content="TBOsec">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="network">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2019/iptables%E5%B8%B8%E7%94%A8%E7%A4%BA%E4%BE%8B.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>iptables常用示例 | TBOsec的网络日志</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="TBOsec的网络日志" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">TBOsec的网络日志</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="search-pop-overlay">
+  <div class="popup search-popup">
+      <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+  </div>
+</div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/iptables%E5%B8%B8%E7%94%A8%E7%A4%BA%E4%BE%8B.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="TBOsec">
+      <meta itemprop="description" content="网络安全、渗透测试、编程语言、Writeup，随便写写，记录一些东西">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="TBOsec的网络日志">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          iptables常用示例
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-02-27 17:29:10" itemprop="dateCreated datePublished" datetime="2019-02-27T17:29:10+08:00">2019-02-27</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>在早期的Linux系统中，默认使用的是iptables防火墙管理服务来配置防火墙。尽管新型的firewalld防火墙管理服务已经被投入使用多年，但是大量的企业在生产环境中依然出于各种原因而继续使用iptables。所以本文提供了一些常用示例。<a id="more"></a><br>命令格式：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span>
+</pre></td><td class="code"><pre><span class="line">$ iptables [-t 表名] 选项 [链名] [条件] [-j 控制类型]</span>
+</pre></td></tr></table></figure>
+
+<p>参数：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span>
+<span class="line">2</span>
+<span class="line">3</span>
+<span class="line">4</span>
+<span class="line">5</span>
+<span class="line">6</span>
+<span class="line">7</span>
+<span class="line">8</span>
+<span class="line">9</span>
+<span class="line">10</span>
+<span class="line">11</span>
+<span class="line">12</span>
+<span class="line">13</span>
+</pre></td><td class="code"><pre><span class="line">-P 设置默认策略:iptables -P INPUT (DROP|ACCEPT)</span>
+<span class="line">-F 清空规则链</span>
+<span class="line">-L 查看规则链</span>
+<span class="line">-A 在规则链的末尾加入新规则</span>
+<span class="line">-I num 在规则链的头部加入新规则</span>
+<span class="line">-D num 删除某一条规则</span>
+<span class="line">-s 匹配来源地址IP/MASK，加叹号<span class="string">"!"</span>表示除这个IP外。</span>
+<span class="line">-d 匹配目标地址</span>
+<span class="line">-i 网卡名称 匹配从这块网卡流入的数据</span>
+<span class="line">-o 网卡名称 匹配从这块网卡流出的数据</span>
+<span class="line">-p 匹配协议,如tcp,udp,icmp</span>
+<span class="line">--dport num 匹配目标端口号</span>
+<span class="line">--sport num 匹配来源端口号</span>
+</pre></td></tr></table></figure>
+
+<h2 id="示例："><a href="#示例：" class="headerlink" title="示例："></a><a href="#示例：" title="示例："></a>示例：</h2><h3 id="删除已有规则："><a href="#删除已有规则：" class="headerlink" title="删除已有规则："></a><a href="#删除已有规则：" title="删除已有规则："></a>删除已有规则：</h3><p>在建立新的规则前，可能需要删除旧的规则，命令如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span>
+</pre></td><td class="code"><pre><span class="line">$ iptables -F  (or) iptables -flush</span>
+</pre></td></tr></table></figure>
+
+<h3 id="设置链的默认规则："><a href="#设置链的默认规则：" class="headerlink" title="设置链的默认规则："></a><a href="#设置链的默认规则：" title="设置链的默认规则："></a>设置链的默认规则：</h3><p>所有链的默认规则为”ACCEPT”，若需将其它链(INPUT、FORWARD、OUTPUT)设置成”DROP”（拒绝），命令如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span>
+<span class="line">2</span>
+<span class="line">3</span>
+</pre></td><td class="code"><pre><span class="line">$ iptables -P INPUT DROP</span>
+<span class="line">$ iptables -P FORWARD DROP</span>
+<span class="line">$ iptables -P OUTPUT DROP</span>
+</pre></td></tr></table></figure>
+
+<h3 id="拒绝指定ip地址："><a href="#拒绝指定ip地址：" class="headerlink" title="拒绝指定ip地址："></a><a href="#拒绝指定ip地址：" title="拒绝指定ip地址："></a>拒绝指定ip地址：</h3><p>当发现某个ip的异常连接，可以使用该命令阻止该地址的连接：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span>
+</pre></td><td class="code"><pre><span class="line">$ iptables -A INPUT -s x.x.x.x -j drop</span>
+</pre></td></tr></table></figure>
+
+<p>对特定网卡的使用：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span>
+<span class="line">2</span>
+</pre></td><td class="code"><pre><span class="line">$ iptables -A INPUT -i eth0 -s x.x.x.x -j DROP</span>
+<span class="line">$ iptables -A INPUT -i eth0 -p tcp -s x.x.x.x -j DROP</span>
+</pre></td></tr></table></figure>
+
+<h3 id="允许所有SSH的连接："><a href="#允许所有SSH的连接：" class="headerlink" title="允许所有SSH的连接："></a><a href="#允许所有SSH的连接：" title="允许所有SSH的连接："></a>允许所有SSH的连接：</h3><p>允许所有外部的ssh连接，且只允许eth0接口目标端口为22的数据包</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span>
+<span class="line">2</span>
+</pre></td><td class="code"><pre><span class="line">$ iptables -A INPUT  -i eth0 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT</span>
+<span class="line">$ iptables -A OUTPUT -o eth0 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT</span>
+</pre></td></tr></table></figure>
+
+<h3 id="仅允许指定网络的SSH连接请求："><a href="#仅允许指定网络的SSH连接请求：" class="headerlink" title="仅允许指定网络的SSH连接请求："></a><a href="#仅允许指定网络的SSH连接请求：" title="仅允许指定网络的SSH连接请求："></a>仅允许指定网络的SSH连接请求：</h3><p>例如允许来自于192.168.1.0/24域的用户的ssh连接请求</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span>
+<span class="line">2</span>
+</pre></td><td class="code"><pre><span class="line">$ iptables -A INPUT  -i eth0 -p tcp -s 192.168.1.0/24 --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT</span>
+<span class="line">$ iptables -A OUTPUT -o eth0 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT</span>
+</pre></td></tr></table></figure>
+
+<h3 id="允许http或https的连接请求："><a href="#允许http或https的连接请求：" class="headerlink" title="允许http或https的连接请求："></a><a href="#允许http或https的连接请求：" title="允许http或https的连接请求："></a>允许http或https的连接请求：</h3><p>允许所有的http请求</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span>
+<span class="line">2</span>
+</pre></td><td class="code"><pre><span class="line">$ iptables -A INPUT  -i eth0 -p tcp --dport 80 -m state --state NEW,ESTABLISHED -j ACCEPT</span>
+<span class="line">$ iptables -A OUTPUT -o eth0 -p tcp --sport 80 -m state --state ESTABLISHED -j ACCEPT</span>
+</pre></td></tr></table></figure>
+
+<p>允许所有的https请求</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span>
+<span class="line">2</span>
+</pre></td><td class="code"><pre><span class="line">$ iptables -A INPUT  -i eth0 -p tcp --dport 443 -m state --state NEW,ESTABLISHED -j ACCEPT</span>
+<span class="line">$ iptables -A OUTPUT -o eth0 -p tcp --sport 443 -m state --state ESTABLISHED -j ACCEPT</span>
+</pre></td></tr></table></figure>
+
+<h3 id="允许本地发起的ssh请求："><a href="#允许本地发起的ssh请求：" class="headerlink" title="允许本地发起的ssh请求："></a><a href="#允许本地发起的ssh请求：" title="允许本地发起的ssh请求："></a>允许本地发起的ssh请求：</h3><p>注意这与允许ssh连入的区别</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span>
+<span class="line">2</span>
+</pre></td><td class="code"><pre><span class="line">$ iptables -A OUTPUT -o eth0 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT</span>
+<span class="line">$ iptables -A INPUT  -i eth0 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT</span>
+</pre></td></tr></table></figure>
+
+<h3 id="仅允许从本地发起到一个指定的网络的SSH请求："><a href="#仅允许从本地发起到一个指定的网络的SSH请求：" class="headerlink" title="仅允许从本地发起到一个指定的网络的SSH请求："></a><a href="#仅允许从本地发起到一个指定的网络的SSH请求：" title="仅允许从本地发起到一个指定的网络的SSH请求："></a>仅允许从本地发起到一个指定的网络的SSH请求：</h3><p>例如仅允许从内部连接到网域192.168.1.0/24</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span>
+<span class="line">2</span>
+</pre></td><td class="code"><pre><span class="line">$ iptables -A OUTPUT -o eth0 -p tcp -d 192.168.1.0/24 --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT</span>
+<span class="line">$ iptables -A INPUT  -i eth0 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT</span>
+</pre></td></tr></table></figure>
+
+<h3 id="允许从本地发起的HTTPS连接请求："><a href="#允许从本地发起的HTTPS连接请求：" class="headerlink" title="允许从本地发起的HTTPS连接请求："></a><a href="#允许从本地发起的HTTPS连接请求：" title="允许从本地发起的HTTPS连接请求："></a>允许从本地发起的HTTPS连接请求：</h3><p>如果你想允许用户访问互联网，该规则能是用户发出安全的web流量请求，且能使用wget下载外部文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span>
+<span class="line">2</span>
+</pre></td><td class="code"><pre><span class="line">$ iptables -A OUTPUT -o eth0 -p tcp --dport 443 -m state --state NEW,ESTABLISHED -j ACCEPT</span>
+<span class="line">$ iptables -A INPUT  -i eth0 -p tcp --sport 443 -m state --state ESTABLISHED -j ACCEPT</span>
+</pre></td></tr></table></figure>
+
+<p>如果需要允许http请求，只需将443改为80即可</p>
+<h3 id="使用multiport-将多个规则结合起来："><a href="#使用multiport-将多个规则结合起来：" class="headerlink" title="使用multiport 将多个规则结合起来："></a><a href="#使用multiport-将多个规则结合起来：" title="使用multiport 将多个规则结合起来："></a>使用multiport 将多个规则结合起来：</h3><p>为了减少为每个端口都写一条独立规则的麻烦，可以使用multiport组合成一条规则。<br>例如允许所有ssh,http,https的流量访问</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span>
+<span class="line">2</span>
+</pre></td><td class="code"><pre><span class="line">$ iptables -A INPUT  -i eth0 -p tcp -m multiport --dports 22,80,443 -m state --state NEW,ESTABLISHED -j ACCEPT</span>
+<span class="line">$ iptables -A OUTPUT -o eth0 -p tcp -m multiport --sports 22,80,443 -m state --state ESTABLISHED -j ACCEPT</span>
+</pre></td></tr></table></figure>
+
+<h3 id="允许外部ping内部主机："><a href="#允许外部ping内部主机：" class="headerlink" title="允许外部ping内部主机："></a><a href="#允许外部ping内部主机：" title="允许外部ping内部主机："></a>允许外部ping内部主机：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span>
+<span class="line">2</span>
+</pre></td><td class="code"><pre><span class="line">$ iptables -A INPUT  -p icmp --icmp-type <span class="built_in">echo</span>-request -j ACCEPT</span>
+<span class="line">$ iptables -A OUTPUT -p icmp --icmp-type <span class="built_in">echo</span>-reply   -j ACCEPT</span>
+</pre></td></tr></table></figure>
+
+<h3 id="允许内部ping外部主机："><a href="#允许内部ping外部主机：" class="headerlink" title="允许内部ping外部主机："></a><a href="#允许内部ping外部主机：" title="允许内部ping外部主机："></a>允许内部ping外部主机：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span>
+<span class="line">2</span>
+</pre></td><td class="code"><pre><span class="line">$ iptables -A OUTPUT -p icmp --icmp-type <span class="built_in">echo</span>-request -j ACCEPT</span>
+<span class="line">$ iptables -A INPUT  -p icmp --icmp-type <span class="built_in">echo</span>-reply -j ACCEPT</span>
+</pre></td></tr></table></figure>
+
+<h3 id="允许回环访问："><a href="#允许回环访问：" class="headerlink" title="允许回环访问："></a><a href="#允许回环访问：" title="允许回环访问："></a>允许回环访问：</h3><p>在本地可以访问127.0.0.1</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span>
+<span class="line">2</span>
+</pre></td><td class="code"><pre><span class="line">$ iptables -A INPUT -i lo -j ACCEPT</span>
+<span class="line">$ iptables -A OUTPUT -o lo -j ACCEPT</span>
+</pre></td></tr></table></figure>
+
+<h3 id="负载平衡传入的网络流量："><a href="#负载平衡传入的网络流量：" class="headerlink" title="负载平衡传入的网络流量："></a><a href="#负载平衡传入的网络流量：" title="负载平衡传入的网络流量："></a>负载平衡传入的网络流量：</h3><p>使用iptables可以实现传入web流量的负载均衡<br>例如使用iptables nth将HTTPS流量负载平衡至三个不同的ip地址。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span>
+<span class="line">2</span>
+<span class="line">3</span>
+</pre></td><td class="code"><pre><span class="line">$ iptables -A PREROUTING -i eth0 -p tcp --dport 443 -m state --state NEW -m nth --counter 0 --every 3 --packet 0 -j DNAT --to-destination 192.168.1.11:443</span>
+<span class="line">$ iptables -A PREROUTING -i eth0 -p tcp --dport 443 -m state --state NEW -m nth --counter 0 --every 3 --packet 1 -j DNAT --to-destination 192.168.1.12:443</span>
+<span class="line">$ iptables -A PREROUTING -i eth0 -p tcp --dport 443 -m state --state NEW -m nth --counter 0 --every 3 --packet 2 -j DNAT --to-destination 192.168.1.13:443</span>
+</pre></td></tr></table></figure>
+
+<h3 id="允许出站的DNS查询请求："><a href="#允许出站的DNS查询请求：" class="headerlink" title="允许出站的DNS查询请求："></a><a href="#允许出站的DNS查询请求：" title="允许出站的DNS查询请求："></a>允许出站的DNS查询请求：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span>
+<span class="line">2</span>
+</pre></td><td class="code"><pre><span class="line">$ iptables -A OUTPUT -p udp -o eth0 --dport 53 -j ACCEPT</span>
+<span class="line">$ iptables -A INPUT  -p udp -i eth0 --sport 53 -j ACCEPT</span>
+</pre></td></tr></table></figure>
+
+<h3 id="允许内部网络域和外部网络通信："><a href="#允许内部网络域和外部网络通信：" class="headerlink" title="允许内部网络域和外部网络通信："></a><a href="#允许内部网络域和外部网络通信：" title="允许内部网络域和外部网络通信："></a>允许内部网络域和外部网络通信：</h3><p>如果防火墙上有两个网卡：eth1连接到外部网络(互联网)，eth0连接到内部网络(例如:192.168.1.x)。<br>使用以下规则允许内部网络与外部网络的通信</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span>
+</pre></td><td class="code"><pre><span class="line">$ iptables -A FORWARD -i eth0 -o eth1 -j ACCEPT</span>
+</pre></td></tr></table></figure>
+
+<h3 id="允许来自指定网络的rsync请求："><a href="#允许来自指定网络的rsync请求：" class="headerlink" title="允许来自指定网络的rsync请求："></a><a href="#允许来自指定网络的rsync请求：" title="允许来自指定网络的rsync请求："></a>允许来自指定网络的rsync请求：</h3><p>多数情况MySQL和web服务在同一台服务器上，现在我们仅希望某些人员从内部网络(192.168.1.0/24)登陆数据库</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span>
+<span class="line">2</span>
+</pre></td><td class="code"><pre><span class="line">$ iptables -A INPUT -i eth0 -p tcp -s 192.168.1.0/24 --dport 3306 -m state --state NEW,ESTABLISHED -j ACCEPT</span>
+<span class="line">$ iptables -A OUTPUT -o eth0 -p tcp --sport 3306 -m state --state ESTABLISHED -j ACCEPT</span>
+</pre></td></tr></table></figure>
+
+<h3 id="允许Sendmail-Postfix邮件服务："><a href="#允许Sendmail-Postfix邮件服务：" class="headerlink" title="允许Sendmail, Postfix邮件服务："></a><a href="#允许Sendmail-Postfix邮件服务：" title="允许Sendmail, Postfix邮件服务："></a>允许Sendmail, Postfix邮件服务：</h3><p>Sendmail和postfix都使用了25端口，因此只需允许来自25端口的连接请求即可</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span>
+<span class="line">2</span>
+</pre></td><td class="code"><pre><span class="line">$ iptables -A INPUT  -i eth0 -p tcp --dport 25 -m state --state NEW,ESTABLISHED -j ACCEPT</span>
+<span class="line">$ iptables -A OUTPUT -o eth0 -p tcp --sport 25 -m state --state ESTABLISHED -j ACCEPT</span>
+</pre></td></tr></table></figure>
+
+<h3 id="允许IMAP和IMAPS："><a href="#允许IMAP和IMAPS：" class="headerlink" title="允许IMAP和IMAPS："></a><a href="#允许IMAP和IMAPS：" title="允许IMAP和IMAPS："></a>允许IMAP和IMAPS：</h3><p>例如允许IMAP/IMAP2流量，端口为143</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span>
+<span class="line">2</span>
+</pre></td><td class="code"><pre><span class="line">$ iptables -A INPUT  -i eth0 -p tcp --dport 143 -m state --state NEW,ESTABLISHED -j ACCEPT</span>
+<span class="line">$ iptables -A OUTPUT -o eth0 -p tcp --sport 143 -m state --state ESTABLISHED -j ACCEPT</span>
+</pre></td></tr></table></figure>
+
+<p>例如允许IMAPS流量，端口为993</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span>
+<span class="line">2</span>
+</pre></td><td class="code"><pre><span class="line">$ iptables -A INPUT  -i eth0 -p tcp --dport 993 -m state --state NEW,ESTABLISHED -j ACCEPT</span>
+<span class="line">$ iptables -A OUTPUT -o eth0 -p tcp --sport 993 -m state --state ESTABLISHED -j ACCEPT</span>
+</pre></td></tr></table></figure>
+
+<h3 id="允许POP3和POP3S访问："><a href="#允许POP3和POP3S访问：" class="headerlink" title="允许POP3和POP3S访问："></a><a href="#允许POP3和POP3S访问：" title="允许POP3和POP3S访问："></a>允许POP3和POP3S访问：</h3><p>例如允许POP3</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span>
+<span class="line">2</span>
+</pre></td><td class="code"><pre><span class="line">$ iptables -A INPUT  -i eth0 -p tcp --dport 110 -m state --state NEW,ESTABLISHED -j ACCEPT</span>
+<span class="line">$ iptables -A OUTPUT -o eth0 -p tcp --sport 110 -m state --state ESTABLISHED -j ACCEPT</span>
+</pre></td></tr></table></figure>
+
+<p>例如允许POP3S访问</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span>
+<span class="line">2</span>
+</pre></td><td class="code"><pre><span class="line">$ iptables -A INPUT  -i eth0 -p tcp --dport 995 -m state --state NEW,ESTABLISHED -j ACCEPT</span>
+<span class="line">$ iptables -A OUTPUT -o eth0 -p tcp --sport 995 -m state --state ESTABLISHED -j ACCEPT</span>
+</pre></td></tr></table></figure>
+
+<h3 id="防止Dos攻击："><a href="#防止Dos攻击：" class="headerlink" title="防止Dos攻击："></a><a href="#防止Dos攻击：" title="防止Dos攻击："></a>防止Dos攻击：</h3><p>命令如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span>
+</pre></td><td class="code"><pre><span class="line">$ iptables -A INPUT -p tcp --dport 80 -m <span class="built_in">limit</span> --<span class="built_in">limit</span> 25/minute --<span class="built_in">limit</span>-burst 100 -j ACCEPT</span>
+</pre></td></tr></table></figure>
+
+<p>参数解释：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span>
+<span class="line">2</span>
+<span class="line">3</span>
+</pre></td><td class="code"><pre><span class="line">-m limit: 启用limit扩展</span>
+<span class="line">–limit 25/minute: 允许最多每分钟25个连接（根据需求更改）。</span>
+<span class="line">–limit-burst 100: 只有当连接达到limit-burst水平(此例为100)时才启用上述limit/minute限制。</span>
+</pre></td></tr></table></figure>
+
+<h3 id="端口转发："><a href="#端口转发：" class="headerlink" title="端口转发："></a><a href="#端口转发：" title="端口转发："></a>端口转发：</h3><p>将来自422端口的流量全部转到22端口。<br>这样我们既能通过422端口也能通过22端口进行ssh连接，启用DNAT转发。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span>
+</pre></td><td class="code"><pre><span class="line">$ iptables -t nat -A PREROUTING -p tcp -d 192.168.1.37 --dport 422 -j DNAT --to 192.168.1.37:22</span>
+</pre></td></tr></table></figure>
+
+<p>还需要允许连接到442端口的请求</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span>
+<span class="line">2</span>
+</pre></td><td class="code"><pre><span class="line">$ iptables -A INPUT  -i eth0 -p tcp --dport 422 -m state --state NEW,ESTABLISHED -j ACCEPT</span>
+<span class="line">$ iptables -A OUTPUT -o eth0 -p tcp --sport 422 -m state --state ESTABLISHED -j ACCEPT</span>
+</pre></td></tr></table></figure>
+
+<h3 id="记录丢弃的数据包"><a href="#记录丢弃的数据包" class="headerlink" title="记录丢弃的数据包"></a><a href="#记录丢弃的数据包" title="记录丢弃的数据包"></a>记录丢弃的数据包</h3><p>1、新建一个链名为loging</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span>
+</pre></td><td class="code"><pre><span class="line">$ iptables -N loging</span>
+</pre></td></tr></table></figure>
+
+<p>2、将所有来自INPUT链的数据包跳转到loging链中</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span>
+</pre></td><td class="code"><pre><span class="line">$ iptables -A INPUT -j loging</span>
+</pre></td></tr></table></figure>
+
+<p>3、为这些包自定义前缀，命为‘iptables packet dropped’</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span>
+</pre></td><td class="code"><pre><span class="line">$ iptables -A loging -m <span class="built_in">limit</span> --<span class="built_in">limit</span> 2/min -j LOG --<span class="built_in">log</span>-prefix <span class="string">"iptables packet dropped: "</span> --<span class="built_in">log</span>-level 7</span>
+</pre></td></tr></table></figure>
+
+<p>4、丢弃这些数据包</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span>
+</pre></td><td class="code"><pre><span class="line">$ iptables -A loging -j DROP</span>
+</pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>谢谢你请我吃糖果！</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="TBOsec 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+            <div class="social-item">
+              <a target="_blank" class="social-link" href="/images/wechatqcode.png">
+                <span class="icon">
+                  <i class="fa fa-wechat"></i>
+                </span>
+
+                <span class="label">WeChat</span>
+              </a>
+            </div>
+
+            <div class="social-item">
+              <a target="_blank" class="social-link" href="/atom.xml">
+                <span class="icon">
+                  <i class="fa fa-rss"></i>
+                </span>
+
+                <span class="label">RSS</span>
+              </a>
+            </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/linux/" rel="tag"># linux</a>
+              <a href="/tags/network/" rel="tag"># network</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/Sublime-Text3%E6%97%A0%E6%B3%95%E5%AE%89%E8%A3%85%E5%8C%85%E8%A7%A3%E5%86%B3.html" rel="prev" title="Sublime Text3无法安装包解决">
+      <i class="fa fa-chevron-left"></i> Sublime Text3无法安装包解决
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/%E4%B8%80%E5%8A%A05%E5%AE%89%E8%A3%85kali%20nethunter.html" rel="next" title="一加5手机上部署kali nethunter">
+      一加5手机上部署kali nethunter <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#示例："><span class="nav-text">示例：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#删除已有规则："><span class="nav-text">删除已有规则：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置链的默认规则："><span class="nav-text">设置链的默认规则：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#拒绝指定ip地址："><span class="nav-text">拒绝指定ip地址：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#允许所有SSH的连接："><span class="nav-text">允许所有SSH的连接：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#仅允许指定网络的SSH连接请求："><span class="nav-text">仅允许指定网络的SSH连接请求：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#允许http或https的连接请求："><span class="nav-text">允许http或https的连接请求：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#允许本地发起的ssh请求："><span class="nav-text">允许本地发起的ssh请求：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#仅允许从本地发起到一个指定的网络的SSH请求："><span class="nav-text">仅允许从本地发起到一个指定的网络的SSH请求：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#允许从本地发起的HTTPS连接请求："><span class="nav-text">允许从本地发起的HTTPS连接请求：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用multiport-将多个规则结合起来："><span class="nav-text">使用multiport 将多个规则结合起来：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#允许外部ping内部主机："><span class="nav-text">允许外部ping内部主机：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#允许内部ping外部主机："><span class="nav-text">允许内部ping外部主机：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#允许回环访问："><span class="nav-text">允许回环访问：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#负载平衡传入的网络流量："><span class="nav-text">负载平衡传入的网络流量：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#允许出站的DNS查询请求："><span class="nav-text">允许出站的DNS查询请求：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#允许内部网络域和外部网络通信："><span class="nav-text">允许内部网络域和外部网络通信：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#允许来自指定网络的rsync请求："><span class="nav-text">允许来自指定网络的rsync请求：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#允许Sendmail-Postfix邮件服务："><span class="nav-text">允许Sendmail, Postfix邮件服务：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#允许IMAP和IMAPS："><span class="nav-text">允许IMAP和IMAPS：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#允许POP3和POP3S访问："><span class="nav-text">允许POP3和POP3S访问：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#防止Dos攻击："><span class="nav-text">防止Dos攻击：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#端口转发："><span class="nav-text">端口转发：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#记录丢弃的数据包"><span class="nav-text">记录丢弃的数据包</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="TBOsec"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">TBOsec</p>
+  <div class="site-description" itemprop="description">网络安全、渗透测试、编程语言、Writeup，随便写写，记录一些东西</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="mailto:root#h0sec.com" title="E-Mail → mailto:root#h0sec.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/about/" title="About → &#x2F;about&#x2F;"><i class="fa fa-fw fa-address-card"></i>About</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/images/qcode.jpg" title="Wechat → &#x2F;images&#x2F;qcode.jpg"><i class="fa fa-fw fa-weixin"></i>Wechat</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">TBOsec</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
