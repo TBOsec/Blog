@@ -7,6 +7,8 @@
 <p>这个时候如果对方是windows服务器的话，我们可以将winrar安装包中的winrar.exe或者本地装的<code>winrar.exe</code>上传过去</p>
 <img src="../images/upload/winrar.jpg" style="zoom:50%;" />
 
+<a id="more"></a>
+
 <p>压缩盘下的data文件夹，并且命名为bak.rar  <code>winrar.exe a -ag -k -r -s -ibck c:/bak.rar c:/data/</code></p>
 <p>压缩多个文件 <code>winrar a -ag -ibck bak.rar filename1 filename2 filename....</code></p>
 <p>参数说明： <code>a</code> :备份所有文件； <code>-ag</code> :当创建压缩文件时，以格式“YYYYMMDDHHMMSS”附加当前日期字符串,文件名bakYYYYMMDDHHMMSS.rar； <code>-k</code> :锁定压缩文件； <code>-r</code>:备份目录和子目录； <code>-s</code> :创建固实压缩文件； <code>-ibck</code>:后台运行；</p>
