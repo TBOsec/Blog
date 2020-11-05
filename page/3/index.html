@@ -185,6 +185,74 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/%E5%9F%9F%E6%B8%97%E9%80%8F%E7%9F%A5%E8%AF%86%E5%A4%87%E5%BF%98.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="TBOsec">
+      <meta itemprop="description" content="网络安全、渗透测试、编程语言、Writeup，随便写写，记录一些东西">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="TBOsec的网络日志">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/%E5%9F%9F%E6%B8%97%E9%80%8F%E7%9F%A5%E8%AF%86%E5%A4%87%E5%BF%98.html" class="post-title-link" itemprop="url">域渗透知识备忘</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-26 16:51:05" itemprop="dateCreated datePublished" datetime="2020-04-26T16:51:05+08:00">2020-04-26</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>域渗透的一般流程：</p>
+<p>入口主机–&gt;权限维持–&gt;横向渗透–&gt;取密码(域用户)–&gt;域信息收集–&gt;横向渗透–&gt;接管域控 </p>
+<h3 id="一、域信息收集"><a href="#一、域信息收集" class="headerlink" title="一、域信息收集"></a>一、域信息收集</h3><p><strong>1、net</strong></p>
+<p><code>net user /domain</code>  获取域用户列表<br><code>net group. &quot;domain admins&quot; /doamin</code>  获取域管理员列表<br><code>net group &quot;domain controllers&quot; /domain</code>  查看域控制器(如果有多台)<br><code>net group &quot;domail computers&quot; /domain</code>  查看域机器<br><code>net group /domain</code>  查询域里面的组
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/%E5%9F%9F%E6%B8%97%E9%80%8F%E7%9F%A5%E8%AF%86%E5%A4%87%E5%BF%98.html#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -474,71 +542,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/Sublime-Text3%E6%97%A0%E6%B3%95%E5%AE%89%E8%A3%85%E5%8C%85%E8%A7%A3%E5%86%B3.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="TBOsec">
-      <meta itemprop="description" content="网络安全、渗透测试、编程语言、Writeup，随便写写，记录一些东西">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="TBOsec的网络日志">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/Sublime-Text3%E6%97%A0%E6%B3%95%E5%AE%89%E8%A3%85%E5%8C%85%E8%A7%A3%E5%86%B3.html" class="post-title-link" itemprop="url">Sublime Text3无法安装包解决</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-09-22 09:35:16" itemprop="dateCreated datePublished" datetime="2018-09-22T09:35:16+08:00">2018-09-22</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>最近学习GO语言用package control安装插件时，一直报错如下图：<br><img src="/images/upload/2019-02-282.png" alt="报错图片1"><br><img src="/images/upload/2019-02-281.png" alt="报错图片2"><br>看样子是channel_v3.json这个文件不能访问，然后将解决办法汇总如下。
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/Sublime-Text3%E6%97%A0%E6%B3%95%E5%AE%89%E8%A3%85%E5%8C%85%E8%A7%A3%E5%86%B3.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -610,7 +613,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-count">19</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

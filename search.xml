@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>MAT 查找 spring heapdump中的密码明文</title>
+    <url>/2020/spring.html</url>
+    <content><![CDATA[<h3 id="一、简介："><a href="#一、简介：" class="headerlink" title="一、简介："></a>一、简介：</h3><p>访问 /env 接口时，spring actuator 会将一些带有敏感关键词 (如 password、secret) 的属性名对应的属性值用 号替换，以达到脱敏的效果。在目标既不出网，/jolokia 接口又没有合适的 MBean 或者不支持 POST 请求的情况下，很多获取被星号脱敏的密码的明文的方法就失效了。这时候就可以利用 Eclipse Memory Analyzer 工具来分析 /heapdump 或 /actuator/heapdump 接口下载的 jvm heap 信息，查找密码明文。</p>
+<h3 id="二、查找方法："><a href="#二、查找方法：" class="headerlink" title="二、查找方法："></a>二、查找方法：</h3><p>使用 Eclipse Memory Analyzer 直接打开下载的 heapdump 文件，点击 OQL 标签，在查询框中输入</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> org.springframework.web.context.support.StandardServletEnvironment</span><br></pre></td></tr></table></figure>
+
+<p>然后点击红色感叹号执行查询。如下图， spring boot 1.x 版本 heapdump 查询结果，最终结果存储在 java.util.Hashtable$Entry 实例的键值对中：</p>
+<img src="../images/upload/2020110501.png" style="zoom: 33%;" />
+
+<p>所以也可以用</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> java.util.Hashtable$Entry x <span class="keyword">WHERE</span> (toString(x.key).contains(<span class="string">"password"</span>))</span><br></pre></td></tr></table></figure>
+
+<p>来查询。下图为 spring boot 2.x 版本 heapdump 查询结果，最终结果存储在 java.util.LinkedHashMap$Entry 实例的键值对中：</p>
+<img src="../images/upload/2020110502.png" style="zoom: 33%;" />
+
+<p>所以也可以用</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> java.util.LinkedHashMap$Entry x <span class="keyword">WHERE</span> (toString(x.key).contains(<span class="string">"password"</span>))</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>渗透测试</category>
+      </categories>
+  </entry>
+  <entry>
     <title>源码或文件打包</title>
     <url>/2020/%E6%BA%90%E7%A0%81%E6%88%96%E6%96%87%E4%BB%B6%E6%89%93%E5%8C%85.html</url>
     <content><![CDATA[<p>​        在我们拿下webshell的时候，想要获取数据或者源码往往会用菜刀或者蚁剑去打包，但是这个时候往往就会出现很多问题，列如打包失败，或者是打包得不完整等等。</p>
