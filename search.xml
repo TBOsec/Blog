@@ -10,12 +10,10 @@
 <li>清华大学 <a href="https://pypi.tuna.tsinghua.edu.cn/simple/" target="_blank" rel="noopener">https://pypi.tuna.tsinghua.edu.cn/simple/</a></li>
 <li>中国科学技术大学 <a href="http://pypi.mirrors.ustc.edu.cn/simple/" target="_blank" rel="noopener">http://pypi.mirrors.ustc.edu.cn/simple/</a></li>
 </ul>
-<!--提示：若担心安全问题可使用HTTPS加密源-->
-
-<h3 id="修改源的方法"><a href="#修改源的方法" class="headerlink" title="修改源的方法"></a>修改源的方法</h3><p><strong>临时使用：</strong><br>Linux Mac Windows通用命令</p>
+<p><u>提示：若担心安全问题可使用HTTPS加密源</u></p>
+<h3 id="修改源的方法"><a href="#修改源的方法" class="headerlink" title="修改源的方法"></a>修改源的方法</h3><p><strong>临时使用：</strong><br>Linux Mac Windows通用命令<a id="more"></a></p>
 <p>可以在使用pip时在后面加上-i参数，指定pip源<br><code>pip install Openpyxl -i https://mirrors.aliyun.com/pypi/simple/</code></p>
-<!--注意：如果使用非HTTPS源，需加上--trusted-host参数-->
-<p>如：<code>pip install django -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com</code></p>
+<p><u>注意：如果使用非HTTPS源，需加上–trusted-host参数</u><br>如：<code>pip install django -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com</code></p>
 <p><strong>永久修改：</strong></p>
 <p>Linux：</p>
 <p>修改pip.cof文件(没有就创建一个)<br><code>$HOME/.config/pip/pip.conf</code></p>
@@ -27,8 +25,7 @@ index-url = https://mirrors.aliyun.com/pypi/simple/</code></p>
 <p>Windows:</p>
 <p>修改 pip.conf 文件 (没有就创建一个)<br><code>%APPDATA%\pip\pip.ini</code><br>修改内容如下:<br><code>[global]
 index-url = https://mirrors.aliyun.com/pypi/simple/</code></p>
-<!--若使用非HTTPS源需在文件中加入-->
-<p><code>[install]</code><br><code>trusted-host=mirrors.aliyun.com</code></p>
+<p><u>若使用非HTTPS源需在文件中加入</u><br><code>[install]</code><br><code>trusted-host=mirrors.aliyun.com</code></p>
 ]]></content>
       <categories>
         <category>编程</category>
