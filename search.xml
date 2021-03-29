@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>macOS下PyQt6图标icon无法显示</title>
+    <url>/2021/PyQt6%E5%9B%BE%E6%A0%87.html</url>
+    <content><![CDATA[<p>刚使用PyQt6时遇到图标无法显示问题，几番查询总算解决，直接看代码<a id="more"></a></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> PyQt6.QtCore <span class="keyword">import</span> QFile</span><br><span class="line"><span class="keyword">from</span> PyQt6.QtGui <span class="keyword">import</span> QIcon, QPixmap</span><br><span class="line"><span class="keyword">from</span> PyQt6.QtWidgets <span class="keyword">import</span> QApplication, QPushButton, QWidget</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyIcon</span><span class="params">(QWidget)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        super().__init__()</span><br><span class="line">        self.setupGUI()  <span class="comment">#创建窗口</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">setupGUI</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.setWindowTitle(<span class="string">'Icon'</span>)</span><br><span class="line">        self.resize(<span class="number">400</span>, <span class="number">200</span>)  <span class="comment">#设置窗口大小</span></span><br><span class="line">        <span class="comment"># self.setWindowIcon(QIcon('./alarm.svg')))</span></span><br><span class="line">        </span><br><span class="line">        button = QPushButton(QIcon(<span class="string">'./alarm.svg'</span>), <span class="string">'Click me'</span>, self)</span><br><span class="line">        button.setToolTip(<span class="string">"This is Click"</span>)</span><br><span class="line">        button.setGeometry(<span class="number">150</span>, <span class="number">100</span>, <span class="number">100</span>, <span class="number">50</span>)  <span class="comment">#设置按钮坐标和大小</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    app = QApplication(sys.argv)</span><br><span class="line">    path = <span class="string">'./alarm.svg'</span></span><br><span class="line">    app.setWindowIcon(QIcon(QPixmap(path)))  <span class="comment"># MAC下程序图标是显示在程序坞中，切记!</span></span><br><span class="line"></span><br><span class="line">    form = MyIcon()</span><br><span class="line">    form.show()</span><br><span class="line"></span><br><span class="line">    sys.exit(app.exec())  <span class="comment">#退出主循环</span></span><br></pre></td></tr></table></figure>
+
+<p>setWindowIcon是QApplication的方法，而不是QWidget的，所以使用app.setWindowIcon设置是对的<br>注意：<font color=red>在macOS下，图标是显示在程序坞中！！！</font>&gt;</p>
+]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>pip更换国内源</title>
     <url>/2021/python%E6%9B%B4%E6%8D%A2%E6%BA%90.html</url>
     <content><![CDATA[<h3 id="pip国内的一些镜像"><a href="#pip国内的一些镜像" class="headerlink" title="pip国内的一些镜像"></a>pip国内的一些镜像</h3><ul>
