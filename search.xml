@@ -1,6 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>如何拥有多个GitHub Pages</title>
+    <url>/2021/gitpage.html</url>
+    <content><![CDATA[<blockquote>
+<h2 id="只能为每个-GitHub-帐户创建一个用户或组织站点；而项目站点没有限制"><a href="#只能为每个-GitHub-帐户创建一个用户或组织站点；而项目站点没有限制" class="headerlink" title="只能为每个 GitHub 帐户创建一个用户或组织站点；而项目站点没有限制"></a>只能为每个 GitHub 帐户创建一个用户或组织站点；而项目站点没有限制</h2></blockquote>
+<p>也就是名为 <code>&lt;user&gt;.github.io</code>的仓库。<strong>想要创建更多的GitHub Pages页面，可以通过创建项目站点实现。</strong>项目站点的数量没有限制</p>
+<p>有三种类型的 GitHub Pages 站点：项目、用户和组织。 项目站点连接到 GitHub 上托管的特定项目。 用户和组织站点连接到特定的 GitHub 帐户。</p>
+<p>要发布用户站点，必须创建名为 <code>&lt;user&gt;.github.io</code> 的用户帐户所拥有的仓库。 要发布组织站点，必须创建名为 <code>&lt;organization&gt;.github.io</code> 的组织所拥有的仓库。 除非您使用自定义域，否则用户和组织站点位于 <code>http(s)://&lt;username&gt;.github.io</code> 或 <code>http(s)://&lt;organization&gt;.github.io</code>。<a id="more"></a></p>
+<h3 id="一、创建项目"><a href="#一、创建项目" class="headerlink" title="一、创建项目"></a>一、创建项目</h3><ol>
+<li>新建一个仓库，名称随意。</li>
+<li>进入仓库主页，点击右面的<code>Settings</code>，找到<strong>GitHub Pages</strong>部分，选择Source&gt;main即可。</li>
+<li>建议勾选 <code>Enforce HTTPS</code>，否则访问时会出现安全警告。</li>
+<li>没有出错的话，一个项目主页就建立完成了，可以通过<code>&lt;username&gt;.github.io/&lt;projectname&gt;</code>访问到了</li>
+</ol>
+<p>这里我新建的项目为TBOsec.github.io/DownGit<code>。可以看到这个地址有点丑，而且地址对大小写敏感。我希望通过</code>downgit.h0sec.com` 这样更加美观的地址访问，那么就需要设置和绑定子域名。</p>
+<h3 id="二、绑定子域名"><a href="#二、绑定子域名" class="headerlink" title="二、绑定子域名"></a>二、绑定子域名</h3><p><u>通常，当我们购买一个域名后，就可以使用它的子域名。子域名的数量、子域名长度的限制各个域名商会有所不同</u></p>
+<p>以我为例，我的域名为<code>h0sec.com</code>，我希望使用<code>downgit.h0sec.com</code> 这个子域名</p>
+<ol>
+<li>在项目仓库里新建一个<code>CNAME</code>文件，并将不带协议名的裸域名写进去（<code>downgit.h0sec.com</code>而不是<code>https://downgit.h0sec.com/</code>）</li>
+<li>去DNS服务商的网站，给对应的二级域名添加<strong><code>CNAME</code></strong>解析到<code>&lt;username&gt;.github.io</code>（和个人主页的相同）</li>
+<li>等待DNS生效，具体时间和服务商有关 <!--大约几分钟--></li>
+<li>成功后，可以通过更好看的 downgit.h0sec.com` 地址访问到了项目站点了</li>
+</ol>
+<img src="../images/upload/202104081.png" style="zoom:67%;" />
+
+<h3 id="三、启用HTTPs"><a href="#三、启用HTTPs" class="headerlink" title="三、启用HTTPs"></a>三、启用HTTPs</h3><p>虽然现在可以通过<code>downgit.h0sec.com</code>访问，但是无法使用https，这是GitHub Pages本身的限制</p>
+<img src="../images/upload/202104082.png" style="zoom:50%;" />
+
+<p>首先，为什么要使用 https 协议？因为 https 协议提高网站访问安全性、目前越来越多的浏览器会判断当前站点支不支持https协议。</p>
+<p>默认情况下使用GitHub Pages的给定域名则支持http和https两种协议，但是如果使用自定义域名的话，则只能通过<code>http://</code>访问，也就是说我们在<code>Github上搭建 Hexo 或Jekyll 主题博客</code>后，通过<code>CNAME</code>绑定个人域名后，我们只能通过<code>http://</code>域名来访问。</p>
+<p>如果访问<code>https://XXX.github.io/</code>(即原来的GitHub Pages域名)将会被重定向到<code>我们的自定义域名</code>。但若直接访问<code>https://我们的自定义域名</code>，浏览器会报<code>SSL_DOMAIN_NOT_MATCHED</code>警告。</p>
+<p><u><strong>那么怎么给自己的域名加上<code>https</code>呢？</strong></u></p>
+<p><strong><a href="https://www.cloudflare.com/zh-cn/" target="_blank" rel="noopener">CloudFlare</a></strong> 是一家CDN提供商，它提供了<code>免费的https服务</code>(但不是应用SSL证书)。实现模式就是，用户到CDN服务器的连接为<code>https</code>，而CDN服务器到GithubPage服务器的连接为<code>http</code>，就是在CDN服务器那里加上反向代理。</p>
+<ol>
+<li>注册并登录CloudFlare，并将自己域名下的<code>name server</code>修改为CloudFlare的<code>name server</code>。</li>
+<li>在CloudFlare的DNS设置域名匹配到自己的GithubPage(启用动态DNS加速)。</li>
+<li>在CloudFlare的<strong><code>SSL/TLS</code></strong>设置SSL/TLS为<code>完全</code>   (等待一定时间实现建立连接后，就可以通过<code>https</code>来访问自己的 GithubPage )。</li>
+<li>在CloudFlare的<code>边缘证书</code>中设置路由规则。一般情况下，设置<code>始终使用HTTPS</code>， 这样就可以把 <code>http</code> 链接强制转换为 <code>https</code>。</li>
+</ol>
+<img src="../images/upload/202104083.png" style="zoom:50%;" />
+
+<img src="../images/upload/202104084.png" style="zoom:50%;" />
+
+<p>这样不管通过http访问将跳转到https，正常访问</p>
+<img src="../images/upload/202104085.png" style="zoom:50%;" />]]></content>
+      <categories>
+        <category>-编程</category>
+      </categories>
+      <tags>
+        <tag>-network -git</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>macOS下PyQt6图标icon无法显示</title>
     <url>/2021/PyQt6%E5%9B%BE%E6%A0%87.html</url>
     <content><![CDATA[<p>刚使用PyQt6时遇到图标无法显示问题，几番查询总算解决，直接看代码<a id="more"></a></p>
