@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2021-04-08T06:48:02.625Z</updated>
+  <updated>2021-04-11T07:14:29.499Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,11 +17,36 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>linux开机和关机记录查看</title>
+    <link href="http://yoursite.com/2021/linux%E8%AE%B0%E5%BD%95%E6%9F%A5%E7%9C%8B.html"/>
+    <id>http://yoursite.com/2021/linux%E8%AE%B0%E5%BD%95%E6%9F%A5%E7%9C%8B.html</id>
+    <published>2021-04-11T07:05:39.000Z</published>
+    <updated>2021-04-11T07:14:29.499Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="查看最近一次开机时间"><a href="#查看最近一次开机时间" class="headerlink" title="查看最近一次开机时间"></a>查看最近一次开机时间</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; who -b</span><br><span class="line">或者</span><br><span class="line">&gt; last -1 reboot</span><br></pre></td></tr></table></figure><a id="more"></a><h3 id="查看关机记录"><a href="#查看关机记录" class="headerlink" title="查看关机记录"></a>查看关机记录</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; last -x | grep shutdown <span class="comment">#以关机时间段显示</span></span><br></pre></td></tr></table></figure><h3 id="查看失败登录记录-来源以IP显示"><a href="#查看失败登录记录-来源以IP显示" class="headerlink" title="查看失败登录记录, 来源以IP显示"></a>查看失败登录记录, 来源以IP显示</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; sudo lastb -i</span><br></pre></td></tr></table></figure><h3 id="查看系统从上次开机到现在已经运行多久了"><a href="#查看系统从上次开机到现在已经运行多久了" class="headerlink" title="查看系统从上次开机到现在已经运行多久了"></a>查看系统从上次开机到现在已经运行多久了</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; uptime</span><br><span class="line">或者</span><br><span class="line">&gt; w</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;查看最近一次开机时间&quot;&gt;&lt;a href=&quot;#查看最近一次开机时间&quot; class=&quot;headerlink&quot; title=&quot;查看最近一次开机时间&quot;&gt;&lt;/a&gt;查看最近一次开机时间&lt;/h3&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&amp;gt; who -b&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;或者&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;gt; last -1 reboot&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+    
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
+    
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+      <category term="network" scheme="http://yoursite.com/tags/network/"/>
+    
+  </entry>
+  
+  <entry>
     <title>如何拥有多个GitHub Pages</title>
     <link href="http://yoursite.com/2021/gitpage.html"/>
     <id>http://yoursite.com/2021/gitpage.html</id>
     <published>2021-04-08T05:54:46.000Z</published>
-    <updated>2021-04-08T06:48:02.625Z</updated>
+    <updated>2021-04-11T07:07:47.572Z</updated>
     
     <content type="html"><![CDATA[<blockquote><h2 id="只能为每个-GitHub-帐户创建一个用户或组织站点；而项目站点没有限制"><a href="#只能为每个-GitHub-帐户创建一个用户或组织站点；而项目站点没有限制" class="headerlink" title="只能为每个 GitHub 帐户创建一个用户或组织站点；而项目站点没有限制"></a>只能为每个 GitHub 帐户创建一个用户或组织站点；而项目站点没有限制</h2></blockquote><p>​    也就是名为 <code>&lt;user&gt;.github.io</code>的仓库。<strong>想要创建更多的GitHub Pages页面，可以通过创建项目站点实现。</strong>项目站点的数量没有限制</p><p>​    有三种类型的 GitHub Pages 站点：项目、用户和组织。 项目站点连接到 GitHub 上托管的特定项目。 用户和组织站点连接到特定的 GitHub 帐户。</p><p>​    要发布用户站点，必须创建名为 <code>&lt;user&gt;.github.io</code> 的用户帐户所拥有的仓库。 要发布组织站点，必须创建名为 <code>&lt;organization&gt;.github.io</code> 的组织所拥有的仓库。 除非您使用自定义域，否则用户和组织站点位于 <code>http(s)://&lt;username&gt;.github.io</code> 或 <code>http(s)://&lt;organization&gt;.github.io</code>。<a id="more"></a></p><h3 id="一、创建项目"><a href="#一、创建项目" class="headerlink" title="一、创建项目"></a>一、创建项目</h3><ol><li>新建一个仓库，名称随意。</li><li>进入仓库主页，点击右面的<code>Settings</code>，找到<strong>GitHub Pages</strong>部分，选择Source&gt;main即可。</li><li>建议勾选 <code>Enforce HTTPS</code>，否则访问时会出现安全警告。</li><li>没有出错的话，一个项目主页就建立完成了，可以通过<code>&lt;username&gt;.github.io/&lt;projectname&gt;</code>访问到了</li></ol><p>这里我新建的项目为<code>TBOsec.github.io/DownGit</code> 。可以看到这个地址有点丑，而且地址对大小写敏感。我希望通过 <code>downgit.h0sec.com</code> 这样更加美观的地址访问，那么就需要设置和绑定子域名。</p><h3 id="二、绑定子域名"><a href="#二、绑定子域名" class="headerlink" title="二、绑定子域名"></a>二、绑定子域名</h3><p><u>通常，当我们购买一个域名后，就可以使用它的子域名。子域名的数量、子域名长度的限制各个域名商会有所不同</u></p><p>以我为例，我的域名为<code>h0sec.com</code>，我希望使用<code>downgit.h0sec.com</code> 这个子域名</p><ol><li>在项目仓库里新建一个<code>CNAME</code>文件，并将不带协议名的裸域名写进去（<code>downgit.h0sec.com</code>而不是<code>https://downgit.h0sec.com/</code>）</li><li>去DNS服务商的网站，给对应的二级域名添加<strong><code>CNAME</code></strong>解析到<code>&lt;username&gt;.github.io</code>（和个人主页的相同）</li><li>等待DNS生效，具体时间和服务商有关 <!--大约几分钟--></li><li>成功后，可以通过更好看的 downgit.h0sec.com` 地址访问到了项目站点了</li></ol><img src="../images/upload/202104081.png" style="zoom:67%;" /><h3 id="三、启用HTTPS"><a href="#三、启用HTTPS" class="headerlink" title="三、启用HTTPS"></a>三、启用HTTPS</h3><p>虽然现在可以通过<code>downgit.h0sec.com</code>访问，但是无法使用https，这是GitHub Pages本身的限制</p><img src="../images/upload/202104082.png" style="zoom:50%;" /><p>首先，为什么要使用 https 协议？因为 https 协议提高网站访问安全性、目前越来越多的浏览器会判断当前站点支不支持https协议。</p><p>​    默认情况下使用GitHub Pages的给定域名则支持http和https两种协议，但是如果使用自定义域名的话，则只能通过<code>http://</code>访问，也就是说我们在<code>Github上搭建 Hexo 或Jekyll 主题博客</code>后，通过<code>CNAME</code>绑定个人域名后，我们只能通过<code>http://</code>域名来访问。</p><p>​    如果访问<code>https://XXX.github.io/</code>(即原来的GitHub Pages域名)将会被重定向到<code>我们的自定义域名</code>。但若直接访问<code>https://我们的自定义域名</code>，浏览器会报<code>SSL_DOMAIN_NOT_MATCHED</code>警告。</p><p><u><strong>那么怎么给自己的域名加上<code>https</code>呢？</strong></u></p><p>​    <strong><a href="https://www.cloudflare.com/zh-cn/" target="_blank" rel="noopener">CloudFlare</a></strong> 是一家CDN提供商，它提供了<code>免费的https服务</code>(但不是应用SSL证书)。实现模式就是，用户到CDN服务器的连接为<code>https</code>，而CDN服务器到GithubPage服务器的连接为<code>http</code>，就是在CDN服务器那里加上反向代理。</p><ol><li>注册并登录CloudFlare，并将自己域名下的<code>name server</code>修改为CloudFlare的<code>name server</code>。</li><li>在CloudFlare的DNS设置域名匹配到自己的GithubPage(启用动态DNS加速)。</li><li>在CloudFlare的<strong><code>SSL/TLS</code></strong>设置SSL/TLS为<code>完全</code>   (等待一定时间实现建立连接后，就可以通过<code>https</code>来访问自己的 GithubPage )。</li><li>在CloudFlare的<code>边缘证书</code>中设置路由规则。一般情况下，设置<code>始终使用HTTPS</code>， 这样就可以把 <code>http</code> 链接强制转换为 <code>https</code>。</li></ol><img src="../images/upload/202104083.png" style="zoom:50%;" /><img src="../images/upload/202104084.png" style="zoom:50%;" /><p>这样不管通过http访问将跳转到https，正常访问</p><img src="../images/upload/202104085.png" style="zoom:50%;" />]]></content>
     
@@ -36,10 +61,12 @@
     </summary>
     
     
-      <category term="-编程" scheme="http://yoursite.com/categories/%E7%BC%96%E7%A8%8B/"/>
+      <category term="编程" scheme="http://yoursite.com/categories/%E7%BC%96%E7%A8%8B/"/>
     
     
-      <category term="-network -git" scheme="http://yoursite.com/tags/network-git/"/>
+      <category term="network" scheme="http://yoursite.com/tags/network/"/>
+    
+      <category term="git" scheme="http://yoursite.com/tags/git/"/>
     
   </entry>
   
@@ -480,31 +507,6 @@
       <category term="编程" scheme="http://yoursite.com/tags/%E7%BC%96%E7%A8%8B/"/>
     
       <category term="计算机" scheme="http://yoursite.com/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>googlehack</title>
-    <link href="http://yoursite.com/2018/googlehack.html"/>
-    <id>http://yoursite.com/2018/googlehack.html</id>
-    <published>2018-07-10T02:20:37.000Z</published>
-    <updated>2020-03-10T00:17:19.756Z</updated>
-    
-    <content type="html"><![CDATA[<p>Google是一个伟大的信息收集工具，在如今的互联网时代，想想看一个人可以轻易的从搜索引擎中获取你详细的个人信息是件多么叫人激动又害怕的事情。Google也可以当作我们的第二个“社工库”。<a id="more"></a><br>More info:<a href="https://www.exploit-db.com/google-hacking-database" target="_blank" rel="noopener">Google Hacking</a></p><h2 id="Google基本关键词"><a href="#Google基本关键词" class="headerlink" title="Google基本关键词"></a><a href="#Google基本关键词" title="Google基本关键词"></a>Google基本关键词</h2><p>Intext： 搜索出现的关键词<br>Inurl： 搜索包含关键词的url<br>Intitle： 搜索包含关键词的标题<br>Site： 搜索包含关键词的站点<br>filetype： 搜索包含关键词的文件类型<br>Link： 对于页面包含的外部链接搜索<br>Daterange： 搜索特定的日期范围</p><h2 id="Google基本规则"><a href="#Google基本规则" class="headerlink" title="Google基本规则"></a><a href="#Google基本规则" title="Google基本规则"></a>Google基本规则</h2><p>Google 不分大小写<br>Google 可以使用通配符：*表示一个词/字<br>Google 会智能地保留一些内容，比如一些过时的词，一些不适合呈现的内容（比如违法信息）<br>最常用的：”关键字” ，双引号会使Google强制搜索包含关键字的内容布尔操作符：AND(+) NOT(-) OR(|)，AND 现在已不需要，多个关键字google会都匹配到</p><h2 id="常用示例"><a href="#常用示例" class="headerlink" title="常用示例"></a><a href="#常用示例" title="常用示例"></a>常用示例</h2><h3 id="1、目录列表查找"><a href="#1、目录列表查找" class="headerlink" title="1、目录列表查找"></a><a href="#1、目录列表查找" title="1、目录列表查找"></a>1、目录列表查找</h3><p>目录列表能列出存在于一个web服务器上的文件和目录<br>查找目录列表<br>实例：<br>intitle:index.of 这里的休止符代表的是单个字母的通配符<br>更优化的查找<br>实例：<br>intitle:index.of “parent directory”<br>intitle:index.of name size</p><h3 id="2、特定版本的）服务器"><a href="#2、特定版本的）服务器" class="headerlink" title="2、特定版本的）服务器"></a><a href="#2、特定版本的）服务器" title="2、特定版本的）服务器"></a>2、特定版本的）服务器</h3><p>能被攻击者用来决定攻击web服务器最佳方法的一小段信息，就是确切的服务器版本<br>实例：<br>intitle:index.of “server at”<br>intitle:index.of “Apache/1.3.27 Server at”</p><h3 id="3、扩展遍历技术"><a href="#3、扩展遍历技术" class="headerlink" title="3、扩展遍历技术"></a><a href="#3、扩展遍历技术" title="3、扩展遍历技术"></a>3、扩展遍历技术</h3><p>经常会出现web页面的备份文件，他们有泄露源码的倾向。常常在配置错误的时候出现这种问题，把php代码备份到不是以php结尾的文件中，比如bak<br>实例：<br>intitle:index.of index.php.bak<br>inurl:index.php.bak</p><h3 id="4、配置文件的查找"><a href="#4、配置文件的查找" class="headerlink" title="4、配置文件的查找"></a><a href="#4、配置文件的查找" title="4、配置文件的查找"></a>4、配置文件的查找</h3><p>配置文件的存在说明服务就在附近<br>实例：<br>filetype:conf inurl:firewall<br>如果你能知道配置文件的名字也是一个非常好的搜索方式，当然你可以从配置文件中抽取特定的字符串来查询，如果能再配上软件名字的话就效果更好了</p><h3 id="5、日志文件的查找"><a href="#5、日志文件的查找" class="headerlink" title="5、日志文件的查找"></a><a href="#5、日志文件的查找" title="5、日志文件的查找"></a>5、日志文件的查找</h3><p>日志文件中也记录着日志很多的敏感信息<br>日志文件也有一个默认的名字可以被我们用作基础的搜索，最常见的扩展名就是log了<br>实例：<br>filetype:log inurl:log<br>ext log log<br>filetype:log username putty</p><h3 id="6、office文档"><a href="#6、office文档" class="headerlink" title="6、office文档"></a><a href="#6、office文档" title="6、office文档"></a>6、office文档</h3><p>实例：<br>filetype:xls inurl:password.xls<br>filetype:xls username password email</p><h3 id="6、登录入口"><a href="#6、登录入口" class="headerlink" title="6、登录入口"></a><a href="#6、登录入口" title="6、登录入口"></a>6、登录入口</h3><p>登录入口是第一道防线，很容易泄露软硬件的信息<br>查找入口一般使用关键字login<br>大的厂商一般会把版权的注意事项放在页面的底部<br>实例：<br>intitle:login intext:版权信息</p><h3 id="7、错误消息"><a href="#7、错误消息" class="headerlink" title="7、错误消息"></a><a href="#7、错误消息" title="7、错误消息"></a>7、错误消息</h3><p>数据库的错误消息能够用来分析操作系统和web服务器的版本，还可能更多<br>SQL command not properly ended<br>这个表示没有在sql语句的最后找到正确的终止符，所以可能会被用于注入攻击</p><h3 id="8、真实的数据库文件"><a href="#8、真实的数据库文件" class="headerlink" title="8、真实的数据库文件"></a><a href="#8、真实的数据库文件" title="8、真实的数据库文件"></a>8、真实的数据库文件</h3><p>攻击者还能直接搜索到数据库本身，并不适合所有的数据库系统，只适合哪些有着特定名字或者扩展名的数据库,因为是二进制文件，所以没法在里面搜索字符<br>实例：<br>filetype:mdb inurl:com</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Google是一个伟大的信息收集工具，在如今的互联网时代，想想看一个人可以轻易的从搜索引擎中获取你详细的个人信息是件多么叫人激动又害怕的事情。Google也可以当作我们的第二个“社工库”。
-    
-    </summary>
-    
-    
-      <category term="渗透测试" scheme="http://yoursite.com/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
-    
-    
-      <category term="渗透测试" scheme="http://yoursite.com/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
-    
-      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
     
   </entry>
   
