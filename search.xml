@@ -5,9 +5,7 @@
     <url>/2021/linux%E8%AE%B0%E5%BD%95%E6%9F%A5%E7%9C%8B.html</url>
     <content><![CDATA[<h3 id="查看最近一次开机时间"><a href="#查看最近一次开机时间" class="headerlink" title="查看最近一次开机时间"></a>查看最近一次开机时间</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&gt; who -b</span><br><span class="line">或者</span><br><span class="line">&gt; last -1 reboot</span><br></pre></td></tr></table></figure>
 
-<a id="more"></a>
-
-<h3 id="查看关机记录"><a href="#查看关机记录" class="headerlink" title="查看关机记录"></a>查看关机记录</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&gt; last -x | grep shutdown <span class="comment">#以关机时间段显示</span></span><br></pre></td></tr></table></figure>
+<h3 id="查看关机记录"><a href="#查看关机记录" class="headerlink" title="查看关机记录"></a>查看关机记录<a id="more"></a></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&gt; last -x | grep shutdown <span class="comment">#以关机时间段显示</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="查看失败登录记录-来源以IP显示"><a href="#查看失败登录记录-来源以IP显示" class="headerlink" title="查看失败登录记录, 来源以IP显示"></a>查看失败登录记录, 来源以IP显示</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&gt; sudo lastb -i</span><br></pre></td></tr></table></figure>
 
