@@ -31,7 +31,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yoursite.com/images/upload/2018-08-251.jpg">
 <meta property="article:published_time" content="2018-05-20T12:16:28.000Z">
-<meta property="article:modified_time" content="2020-03-10T00:37:26.200Z">
+<meta property="article:modified_time" content="2021-04-14T07:07:39.258Z">
 <meta property="article:author" content="TBOsec">
 <meta property="article:tag" content="端口转发">
 <meta name="twitter:card" content="summary">
@@ -221,7 +221,11 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%BD%91%E7%BB%9C%E4%BB%A3%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">网络代理</span></a>
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Network-proxy/" itemprop="url" rel="index"><span itemprop="name">Network proxy</span></a>
                 </span>
             </span>
 
@@ -298,7 +302,7 @@
 </pre></td></tr></table></figure>
 
 <p>这样就创建了一个socks代理服务，如果你有一台国外的vps，这就可以实现翻墙了而且不用担心GFW检测而封了ip。</p>
-<h3 id="X协议转发："><a href="#X协议转发：" class="headerlink" title="X协议转发："></a><a href="#X协议转发：" title="X协议转发："></a>X协议转发：</h3><p>X窗口和VNC相似都可以给linux提供桌面窗口服务，现在我们要把Xclient端的X窗口显示在Xserver端。<br>先需要Xclient(也就是远程linux主机)上指定Xserver的位置，命令如下：</p>
+<h3 id="X协议转发："><a href="#X协议转发：" class="headerlink" title="X协议转发："></a><a href="#X协议转发：" title="X协议转发："></a>X协议转发：</h3><p>X窗口和VNC相似都可以给Linux提供桌面窗口服务，现在我们要把Xclient端的X窗口显示在Xserver端。<br>先需要Xclient(也就是远程Linux主机)上指定Xserver的位置，命令如下：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span>
 </pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> DISPLAY=&lt;X Server IP&gt;:&lt;display <span class="comment">#&gt;.&lt;virtual #&gt;</span></span>
 </pre></td></tr></table></figure>
@@ -377,8 +381,8 @@
     <div class="post-nav">
       <div class="post-nav-item"></div>
       <div class="post-nav-item">
-    <a href="/2018/%E5%AF%86%E7%A0%81%E5%AD%A6%E7%AC%94%E8%AE%B0.html" rel="next" title="密码学笔记">
-      密码学笔记 <i class="fa fa-chevron-right"></i>
+    <a href="/2018/%E5%AF%86%E7%A0%81%E5%AD%A6%E7%AC%94%E8%AE%B0.html" rel="next" title="Cryptography笔记">
+      Cryptography笔记 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -454,7 +458,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-count">24</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

