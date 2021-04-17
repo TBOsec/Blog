@@ -1,6 +1,169 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>web入侵日志分析命令</title>
+    <url>/2021/access%E6%97%A5%E5%BF%97.html</url>
+    <content><![CDATA[<blockquote>
+<p>在应急响应或者入侵排查中常常会涉及服务器日志分析，在web日志中可以获取很多关键信息，如访问量最多的IP、访问次数最多的页面等等，于是收集，整理一些服务器日志分析命令</p>
+</blockquote>
+<p><strong>1、查看有多少个IP访问：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ awk &#39;&#123;print $1&#125;&#39; log_file|sort|uniq|wc -l</span><br></pre></td></tr></table></figure>
+
+<p><strong>2、查看某一个页面被访问的次数：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ grep &quot;&#x2F;index.php&quot; log_file | wc -l</span><br></pre></td></tr></table></figure>
+
+<p><strong>3、查看每一个IP访问了多少个页面：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ awk &#39;&#123;++S[$1]&#125; END &#123;for (a in S) print a,S[a]&#125;&#39; log_file &gt; log.txt</span><br><span class="line">$ sort -n -t &#39; &#39; -k 2 log.txt 配合sort进一步排序</span><br></pre></td></tr></table></figure>
+
+<p><strong>4、将每个IP访问的页面数进行从小到大排序：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ awk &#39;&#123;++S[$1]&#125; END &#123;for (a in S) print S[a],a&#125;&#39; log_file | sort -n</span><br></pre></td></tr></table></figure>
+
+<p><strong>5、查看某一个IP访问了哪些页面：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ grep ^111.111.111.111 log_file| awk &#39;&#123;print $1,$7&#125;&#39;</span><br></pre></td></tr></table></figure>
+
+<p><strong>6、去掉搜索引擎统计的页面：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ awk &#39;&#123;print $12,$1&#125;&#39; log_file | grep ^&quot;Mozilla | awk &#39;&#123;print $2&#125;&#39; |sort | uniq | wc -l</span><br></pre></td></tr></table></figure>
+
+<p><strong>7、查看2020年4月17日02时这一个小时内有多少IP访问:</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ awk &#39;&#123;print $4,$1&#125;&#39; log_file | grep 17&#x2F;Jan&#x2F;2020:02 | awk &#39;&#123;print $2&#125;&#39;| sort | uniq | wc -l</span><br></pre></td></tr></table></figure>
+
+<p><strong>8、查看访问前十个ip地址</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ awk &#39;&#123;print $1&#125;&#39; |sort|uniq -c|sort -nr |head -10 access_log</span><br></pre></td></tr></table></figure>
+
+<p><strong>uniq -c 相当于分组统计并把统计数放在最前面</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ cat access.log|awk &#39;&#123;print $1&#125;&#39;|sort|uniq -c|sort -nr|head -10</span><br><span class="line">$ cat access.log|awk &#39;&#123;counts[$(11)]+&#x3D;1&#125;; END &#123;for(url in counts) print counts[url], url&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>9、访问次数最多的10个文件或页面</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ cat log_file|awk &#39;&#123;print $11&#125;&#39;|sort|uniq -c|sort -nr | head -10</span><br><span class="line">$ cat log_file|awk &#39;&#123;print $11&#125;&#39;|sort|uniq -c|sort -nr|head -20</span><br><span class="line">$ awk &#39;&#123;print $1&#125;&#39; log_file |sort -n -r |uniq -c | sort -n -r | head -20</span><br></pre></td></tr></table></figure>
+
+<p>访问量最大的前20个ip</p>
+<p><strong>10、通过子域名访问次数，依据referer来计算，稍有不准</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ cat access.log | awk &#39;&#123;print $11&#125;&#39; | sed -e &#39; s&#x2F;http:&#x2F;&#x2F;&#x2F;&#x2F;&#39; -e &#39; s&#x2F;&#x2F;.*&#x2F;&#x2F;&#39; | sort | uniq -c | sort -rn | head -20</span><br></pre></td></tr></table></figure>
+
+<p><strong>11、列出传输大小最大的几个文件</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ cat access.log |awk &#39;($7~&#x2F;.php&#x2F;)&#123;print $10 &quot; &quot; $1 &quot; &quot; $4 &quot; &quot; $7&#125;&#39;|sort -nr|head -100</span><br></pre></td></tr></table></figure>
+
+<p><strong>12、列出输出大于200000byte(约200kb)的页面以及对应页面发生次数</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ cat access.log |awk &#39;($10 &gt; 200000 &amp;&amp; $7~&#x2F;.php&#x2F;)&#123;print $7&#125;&#39;|sort -n|uniq -c|sort -nr|head -100</span><br></pre></td></tr></table></figure>
+
+<p><strong>13、如果日志最后一列记录的是页面文件传输时间，则有列出到客户端最耗时的页面</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ cat access.log |awk &#39;($7~&#x2F;.php&#x2F;)&#123;print $NF &quot; &quot; $1 &quot; &quot; $4 &quot; &quot; $7&#125;&#39;|sort -nr|head -100</span><br></pre></td></tr></table></figure>
+
+<p><strong>14、列出最最耗时的页面(超过60秒的)的以及对应页面发生次数</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ cat access.log |awk &#39;($NF &gt; 60 &amp;&amp; $7~&#x2F;.php&#x2F;)&#123;print $7&#125;&#39;|sort -n|uniq -c|sort -nr|head -100</span><br></pre></td></tr></table></figure>
+
+<p><strong>15、列出传输时间超过 30 秒的文件</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ cat access.log |awk &#39;($NF &gt; 30)&#123;print $7&#125;&#39;|sort -n|uniq -c|sort -nr|head -20</span><br></pre></td></tr></table></figure>
+
+<p><strong>16、列出当前服务器每一进程运行的数量，倒序排列</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ ps -ef | awk -F &#39; &#39; &#39;&#123;print $8 &quot; &quot; $9&#125;&#39; |sort | uniq -c |sort -nr |head -20</span><br></pre></td></tr></table></figure>
+
+<p><strong>17、查看apache当前并发访问数</strong></p>
+<p>对比httpd.conf中MaxClients的数字差距多少</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ netstat -an | grep ESTABLISHED | wc -l</span><br></pre></td></tr></table></figure>
+
+<p><strong>18、可以使用如下参数查看数据</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ ps -ef|grep httpd|wc -l</span><br><span class="line">1388</span><br></pre></td></tr></table></figure>
+
+<p>统计httpd进程数，连个请求会启动一个进程，使用于Apache服务器。<br>表示Apache能够处理1388个并发请求，这个值Apache可根据负载情况自动调整</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ netstat -nat|grep -i &quot;80&quot;|wc -l</span><br><span class="line">4341</span><br></pre></td></tr></table></figure>
+
+<p>netstat -an会打印系统当前网络链接状态，而grep -i “80”是用来提取与80端口有关的连接的，wc -l进行连接数统计。<br>最终返回的数字就是当前所有80端口的请求总数</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ netstat -na|grep ESTABLISHED|wc -l</span><br><span class="line">376</span><br></pre></td></tr></table></figure>
+
+<p>netstat -an会打印系统当前网络链接状态，而grep ESTABLISHED 提取出已建立连接的信息。然后wc -l统计最终返回的数字就是当前所有80端口的已建立连接的总数。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ netstat -nat||grep ESTABLISHED|wc</span><br></pre></td></tr></table></figure>
+
+<p>可查看所有建立连接的详细记录</p>
+<p><strong>19、输出每个ip的连接数，以及总的各个状态的连接数</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ netstat -n | awk &#39;&#x2F;^tcp&#x2F; &#123;n&#x3D;split($(NF-1),array,&quot;:&quot;);if(n&lt;&#x3D;2)++S[array[(1)]];else++S[array[(4)]];++s[$NF];++N&#125; END &#123;for(a in S)&#123;printf(&quot;%-20s %s&quot;, a, S[a]);++I&#125;printf(&quot;%-20s %s&quot;,&quot;TOTAL_IP&quot;,I);for(a in s) printf(&quot;%-20s %s&quot;,a, s[a]);printf(&quot;%-20s %s&quot;,&quot;TOTAL_LINK&quot;,N);&#125;&#39;</span><br></pre></td></tr></table></figure>
+
+<p><strong>20、其他的收集</strong></p>
+<p>分析日志文件下 2012-05-04 访问页面最高 的前20个 URL 并排序</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ cat access.log |grep &#39;17&#x2F;Apr&#x2F;2021&#39;| awk &#39;&#123;print $11&#125;&#39;|sort|uniq -c|sort -nr|head -20</span><br></pre></td></tr></table></figure>
+
+<p>查询受访问页面的URL地址中 含有 <a href="http://www.abc.com" target="_blank" rel="noopener">www.abc.com</a> 网址的 IP 地址</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ cat access_log | awk &#39;($11~&#x2F;www.abc.com&#x2F;)&#123;print $1&#125;&#39;|sort|uniq -c|sort -nr</span><br></pre></td></tr></table></figure>
+
+<p>获取访问最高的10个IP地址 同时也可以按时间来查询</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ cat linewow-access.log|awk &#39;&#123;print $1&#125;&#39;|sort|uniq -c|sort -nr|head -10</span><br></pre></td></tr></table></figure>
+
+<p>时间段查询日志时间段的情况</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ cat log_file | egrep &#39;15&#x2F;Apr&#x2F;2021|17&#x2F;Apr&#x2F;2021&#39; |awk &#39;&#123;print $1&#125;&#39;|sort|uniq -c|sort -nr|head -10</span><br></pre></td></tr></table></figure>
+
+<p>分析2021/4/15 到 2021/4/17 访问”/index.php?g=Member&amp;m=Public&amp;a=sendValidCode”的IP倒序排列</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ cat log_file | egrep &#39;15&#x2F;Apr&#x2F;2021|17&#x2F;Apr&#x2F;2021&#39; | awk &#39;&#123;if($7 &#x3D;&#x3D; &quot;&#x2F;index.php?g&#x3D;Member&amp;m&#x3D;Public&amp;a&#x3D;sendValidCode&quot;) print $1,$7&#125;&#39;|sort|uniq -c|sort -nr</span><br></pre></td></tr></table></figure>
+
+<p>($7~/.php/) $7里面包含.php的就输出,本句的意思是最耗时的一百个PHP页面</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ cat log_file |awk &#39;($7~&#x2F;.php&#x2F;)&#123;print $NF &quot; &quot; $1 &quot; &quot; $4 &quot; &quot; $7&#125;&#39;|sort -nr|head -100</span><br></pre></td></tr></table></figure>
+
+<p>列出最最耗时的页面(超过60秒的)的以及对应页面发生次数</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ cat access.log |awk &#39;($NF &gt; 60 &amp;&amp; $7~&#x2F;.php&#x2F;)&#123;print $7&#125;&#39;|sort -n|uniq -c|sort -nr|head -100</span><br></pre></td></tr></table></figure>
+
+<p>统计网站流量（G)</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ cat access.log |awk &#39;&#123;sum+&#x3D;$10&#125; END &#123;print sum&#x2F;1024&#x2F;1024&#x2F;1024&#125;&#39;</span><br></pre></td></tr></table></figure>
+
+<p>统计404的连接</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ awk &#39;($9 ~&#x2F;404&#x2F;)&#39; access.log | awk &#39;&#123;print $9,$7&#125;&#39; | sort</span><br></pre></td></tr></table></figure>
+
+<p>统计http status</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ cat access.log |awk &#39;&#123;counts[$(9)]+&#x3D;1&#125;; END &#123;for(code in counts) print code, counts[code]&#125;&#39; </span><br><span class="line">$ cat access.log |awk &#39;&#123;print $9&#125;&#39;|sort|uniq -c|sort -rn</span><br></pre></td></tr></table></figure>
+
+<p>每秒并发</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ watch &quot;awk &#39;&#123;if($9~&#x2F;200|30|404&#x2F;)COUNT[$4]++&#125;END&#123;for( a in COUNT) print a,COUNT[a]&#125;&#39; log_file|sort -k 2 -nr|head -n10&quot;</span><br></pre></td></tr></table></figure>
+
+<p>带宽统计</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ cat apache.log |awk &#39;&#123;if($7~&#x2F;GET&#x2F;) count++&#125;END&#123;print &quot;client_request&#x3D;&quot;count&#125;&#39; </span><br><span class="line">$ cat apache.log |awk &#39;&#123;BYTE+&#x3D;$11&#125;END&#123;print &quot;client_kbyte_out&#x3D;&quot;BYTE&#x2F;1024&quot;KB&quot;&#125;&#39;</span><br></pre></td></tr></table></figure>
+
+<p>找出某天访问次数最多的10个IP</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ cat access.log | grep &quot;15&#x2F;Apr&#x2F;2021&quot; |awk &#39;&#123;print $3&#125;&#39;|sort |uniq -c|sort -nr|head</span><br></pre></td></tr></table></figure>
+
+<p>当天ip连接数最高的ip都在干些什么</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ cat access.log | grep &quot;10.0.21.17&quot; | awk &#39;&#123;print $8&#125;&#39; | sort | uniq -c | sort -nr | head -n 10</span><br></pre></td></tr></table></figure>
+
+<p>小时单位里ip连接数最多的10个时段</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ awk -vFS&#x3D;&quot;[:]&quot; &#39;&#123;gsub(&quot;-.*&quot;,&quot;&quot;,$1);num[$2&quot; &quot;$1]++&#125;END&#123;for(i in num)print i,num[i]&#125;&#39; log_file | sort -n -k 3 -r | head -10</span><br></pre></td></tr></table></figure>
+
+<p>找出访问次数最多的几个分钟</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ awk &#39;&#123;print $1&#125;&#39; access.log | grep &quot;20&#x2F;Mar&#x2F;2011&quot; |cut -c 14-18|sort|uniq -c|sort -nr|head</span><br></pre></td></tr></table></figure>
+
+<p>取5分钟日志</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ if [ $DATE_MINUTE !&#x3D; $DATE_END_MINUTE ] ;then #则判断开始时间戳与结束时间戳是否相等</span><br><span class="line">START_LINE&#x3D;sed -n &quot;&#x2F;$DATE_MINUTE&#x2F;&#x3D;&quot; $APACHE_LOG|head -n1 #如果不相等，则取出开始时间戳的行号，与结束时间戳的行号</span><br></pre></td></tr></table></figure>
+
+<p>查看tcp的链接状态</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ netstat -nat |awk &#39;&#123;print $6&#125;&#39;|sort|uniq -c|sort -rn </span><br><span class="line">$ netstat -n | awk &#39;&#x2F;^tcp&#x2F; &#123;++S[$NF]&#125;;END &#123;for(a in S) print a, S[a]&#125;&#39; </span><br><span class="line">$ netstat -n | awk &#39;&#x2F;^tcp&#x2F; &#123;++state[$NF]&#125;; END &#123;for(key in state) print key,&quot;&quot;,state[key]&#125;&#39; </span><br><span class="line">$ netstat -n | awk &#39;&#x2F;^tcp&#x2F; &#123;++arr[$NF]&#125;;END &#123;for(k in arr) print k,&quot;&quot;,arr[k]&#125;&#39; </span><br><span class="line">$ netstat -n |awk &#39;&#x2F;^tcp&#x2F; &#123;print $NF&#125;&#39;|sort|uniq -c|sort -rn </span><br><span class="line">$ netstat -ant | awk &#39;&#123;print $NF&#125;&#39; | grep -v &#39;[a-z]&#39; | sort | uniq -c</span><br><span class="line">$ netstat -ant|awk &#39;&#x2F;ip:80&#x2F;&#123;split($5,ip,&quot;:&quot;);++S[ip[1]]&#125;END&#123;for (a in S) print S[a],a&#125;&#39; |sort -n </span><br><span class="line">$ netstat -ant|awk &#39;&#x2F;:80&#x2F;&#123;split($5,ip,&quot;:&quot;);++S[ip[1]]&#125;END&#123;for (a in S) print S[a],a&#125;&#39; |sort -rn|head -n 10 </span><br><span class="line">$ awk &#39;BEGIN&#123;printf (&quot;http_codecount_num&quot;)&#125;&#123;COUNT[$10]++&#125;END&#123;for (a in COUNT) printf a&quot;&quot;COUNT[a]&quot;&quot;&#125;&#39;</span><br></pre></td></tr></table></figure>
+
+<p>查找请求数前20个IP（常用于查找攻来源）：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ netstat -anlp|grep 80|grep tcp|awk &#39;&#123;print $5&#125;&#39;|awk -F: &#39;&#123;print $1&#125;&#39;|sort|uniq -c|sort -nr|head -n20 </span><br><span class="line">$ netstat -ant |awk &#39;&#x2F;:80&#x2F;&#123;split($5,ip,&quot;:&quot;);++A[ip[1]]&#125;END&#123;for(i in A) print A[i],i&#125;&#39; |sort -rn|head -n20</span><br></pre></td></tr></table></figure>
+
+<p>用tcpdump嗅探80端口的访问看看谁最高</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ tcpdump -i eth0 -tnn dst port 80 -c 1000 | awk -F&quot;.&quot; &#39;&#123;print $1&quot;.&quot;$2&quot;.&quot;$3&quot;.&quot;$4&#125;&#39; | sort | uniq -c | sort -nr |head -20</span><br></pre></td></tr></table></figure>
+
+<p>查找较多time_wait连接</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ netstat -n|grep TIME_WAIT|awk &#39;&#123;print $5&#125;&#39;|sort|uniq -c|sort -rn|head -n20</span><br></pre></td></tr></table></figure>
+
+<p>找查较多的SYN连接</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ netstat -an | grep SYN | awk &#39;&#123;print $5&#125;&#39; | awk -F: &#39;&#123;print $1&#125;&#39; | sort | uniq -c | sort -nr | more</span><br></pre></td></tr></table></figure>
+
+<p>根据端口列进程</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ netstat -ntlp | grep 80 | awk &#39;&#123;print $7&#125;&#39; | cut -d&#x2F; -f1</span><br></pre></td></tr></table></figure>
+
+<p>查看了连接数和当前的连接数</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ netstat -ant | grep $ip:80 | wc -l </span><br><span class="line">$ netstat -ant | grep $ip:80 | grep EST | wc -l</span><br></pre></td></tr></table></figure>
+
+<p>查看IP访问次数</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ netstat -nat|grep &quot;:80&quot;|awk &#39;&#123;print $5&#125;&#39; |awk -F: &#39;&#123;print $1&#125;&#39; | sort| uniq -c|sort -n</span><br></pre></td></tr></table></figure>
+
+<p>Linux命令分析当前的链接状况</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$netstat -n | awk &#39;&#x2F;^tcp&#x2F; &#123;++S[$NF]&#125; END &#123;for(a in S) print a, S[a]&#125;&#39;</span><br><span class="line">$watch &quot;netstat -n | awk &#39;&#x2F;^tcp&#x2F; &#123;++S[$NF]&#125; END &#123;for(a in S) print a, S[a]&#125;&#39;&quot; # 通过watch可以一直监控</span><br><span class="line">$LAST_ACK 5 #关闭一个TCP连接需要从两个方向上分别进行关闭，双方都是通过发送FIN来表示单方向数据的关闭，当通信双方发送了最后一个FIN的时候，发送方此时处于LAST_ACK状态，当发送方收到对方的确认（Fin的Ack确认）后才真正关闭整个TCP连接；</span><br><span class="line"></span><br><span class="line">$SYN_RECV 30  # 表示正在等待处理的请求数；</span><br><span class="line"></span><br><span class="line">$ESTABLISHED 1597 # 表示正常数据传输状态； </span><br><span class="line"></span><br><span class="line">$FIN_WAIT1 51 # 表示server端主动要求关闭tcp连接； </span><br><span class="line"></span><br><span class="line">$FIN_WAIT2 504 # 表示客户端中断连接； </span><br><span class="line"></span><br><span class="line">$TIME_WAIT 1057  # 表示处理完毕，等待超时结束的请求数；</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Penetration</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux主机安全配置规范</title>
     <url>/2021/Linux%E5%9F%BA%E7%BA%BF.html</url>
     <content><![CDATA[<h2 id="一、账号口令"><a href="#一、账号口令" class="headerlink" title="一、账号口令"></a>一、账号口令</h2><p><strong>1 配置口令最小长度</strong></p>
