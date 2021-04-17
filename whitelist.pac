@@ -252,6 +252,7 @@ var white_domains = {
         "ychdzx": 1
     }, "com": {
         "bibgame": 1,
+        "idss-cn": 1,
         "jsjinfu": 1,
         "xiatou": 1,
         "hacpai": 1,
