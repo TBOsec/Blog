@@ -1,4 +1,4 @@
-var wall_proxy = "PROXY 127.0.0.1:7890;SOCKS5 127.0.0.1:7890";
+var wall_proxy = "HTTP 127.0.0.1:7890;SOCKS5 127.0.0.1:7890";
 var nowall_proxy = "DIRECT;";
 var direct = "DIRECT;";
 var ip_proxy = "DIRECT;";
