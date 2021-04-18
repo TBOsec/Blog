@@ -255,6 +255,8 @@ var white_domains = {
         "bibgame": 1,
         "infocomm-journal": 1,
         "telnet404": 1,
+        "tencent-cloud": 1,
+        "tencentmusic": 1,
         "tianyancha": 1,
         "idss-cn": 1,
         "freebuf": 1,
