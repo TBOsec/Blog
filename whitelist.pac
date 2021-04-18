@@ -253,6 +253,7 @@ var white_domains = {
         "ychdzx": 1
     }, "com": {
         "bibgame": 1,
+        "infocomm-journal": 1,
         "telnet404": 1,
         "tianyancha": 1,
         "idss-cn": 1,
