@@ -33,6 +33,7 @@ var white_domains = {
         "sinaimg": 1,
     }, "io": {
         "sns": 1,
+        "ceye": 1,
         "c0m": 1,
         "quanben": 1,
         "loli": 1,
@@ -10146,6 +10147,7 @@ var white_domains = {
         "sge": 1
     }, "so": {
         "haorenyuan": 1,
+        "fofa": 1,
         "lietou": 1,
         "luyi": 1,
         "shengqian": 1,
