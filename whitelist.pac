@@ -252,6 +252,7 @@ var white_domains = {
         "ychdzx": 1
     }, "com": {
         "bibgame": 1,
+        "telnet404": 1,
         "tianyancha": 1,
         "idss-cn": 1,
         "freebuf": 1,
@@ -9842,6 +9843,7 @@ var white_domains = {
         "zzrc": 1
     }, "org": {
         "b3log": 1,
+        "zoomeye": 1,
         "moegirl": 1,
         "pigai": 1,
         "ziyuanmao": 1,
