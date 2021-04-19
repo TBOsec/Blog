@@ -252,7 +252,10 @@ var white_domains = {
         "xiapu": 1,
         "ychdzx": 1
     }, "com": {
+        "ctc": 1,
+        // 电信
         "bibgame": 1,
+        "xunjiepdf": 1,
         "infocomm-journal": 1,
         "telnet404": 1,
         "tencent-cloud": 1,
