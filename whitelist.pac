@@ -254,6 +254,7 @@ var white_domains = {
     }, "com": {
         "ctc": 1,
         // 电信
+        "cmd5": 1,
         "bibgame": 1,
         "xunjiepdf": 1,
         "infocomm-journal": 1,
