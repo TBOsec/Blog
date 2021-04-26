@@ -255,6 +255,7 @@ var white_domains = {
         "ctc": 1,
         // 电信
         "cmd5": 1,
+        "anquanke": 1,
         "runoob": 1,
         "bibgame": 1,
         "xunjiepdf": 1,
@@ -8876,6 +8877,7 @@ var white_domains = {
         "i1515": 1
     }, "net": {
         "ipip": 1,
+        "butian": 1,
         "xiaomi": 1,
         "ck180": 1,
         "k1080": 1,
