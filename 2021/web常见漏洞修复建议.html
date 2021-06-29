@@ -22,29 +22,31 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="网络安全、渗透测试、编程语言、Writeup，随便写写，记录一些东西">
-<meta property="og:type" content="website">
-<meta property="og:title" content="T的网络日志">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="1.SQL注入　　漏洞描述 　　Web程序中对于用户提交的参数未做过滤直接拼接到SQL语句中执行，导致参数中的特殊字符破坏了SQL语句原有逻辑，攻击者可以利用该漏洞执行任意SQL语句，如查询数据、下载数据、写入webshell、执行系统命令以及绕过登录限制等。 　　修复建议 代码层最佳防御sql漏洞方案：使用预编译sql语句查询和绑定变量。 　　（1）使用预编译语句，使用PDO需要注意不要将变量直">
+<meta property="og:type" content="article">
+<meta property="og:title" content="web常见漏洞修复建议">
+<meta property="og:url" content="http://yoursite.com/2021/web%E5%B8%B8%E8%A7%81%E6%BC%8F%E6%B4%9E%E4%BF%AE%E5%A4%8D%E5%BB%BA%E8%AE%AE.html">
 <meta property="og:site_name" content="T的网络日志">
-<meta property="og:description" content="网络安全、渗透测试、编程语言、Writeup，随便写写，记录一些东西">
+<meta property="og:description" content="1.SQL注入　　漏洞描述 　　Web程序中对于用户提交的参数未做过滤直接拼接到SQL语句中执行，导致参数中的特殊字符破坏了SQL语句原有逻辑，攻击者可以利用该漏洞执行任意SQL语句，如查询数据、下载数据、写入webshell、执行系统命令以及绕过登录限制等。 　　修复建议 代码层最佳防御sql漏洞方案：使用预编译sql语句查询和绑定变量。 　　（1）使用预编译语句，使用PDO需要注意不要将变量直">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-06-29T05:04:34.000Z">
+<meta property="article:modified_time" content="2021-06-29T05:06:40.738Z">
 <meta property="article:author" content="T">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/">
+<link rel="canonical" href="http://yoursite.com/2021/web%E5%B8%B8%E8%A7%81%E6%BC%8F%E6%B4%9E%E4%BF%AE%E5%A4%8D%E5%BB%BA%E8%AE%AE.html">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false
+    isHome : false,
+    isPost : true
   };
 </script>
 
-  <title>T的网络日志</title>
+  <title>web常见漏洞修复建议 | T的网络日志</title>
   
 
 
@@ -181,10 +183,10 @@
             
 
   <div class="posts-expand">
-        
+      
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/web%E5%B8%B8%E8%A7%81%E6%BC%8F%E6%B4%9E%E4%BF%AE%E5%A4%8D%E5%BB%BA%E8%AE%AE.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -198,8 +200,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/web%E5%B8%B8%E8%A7%81%E6%BC%8F%E6%B4%9E%E4%BF%AE%E5%A4%8D%E5%BB%BA%E8%AE%AE.html" class="post-title-link" itemprop="url">web常见漏洞修复建议</a>
+          web常见漏洞修复建议
         </h2>
 
         <div class="post-meta">
@@ -232,7 +233,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="1-SQL注入"><a href="#1-SQL注入" class="headerlink" title="1.SQL注入"></a>1.SQL注入</h2><p>　　<strong>漏洞描述</strong></p>
+        <h2 id="1-SQL注入"><a href="#1-SQL注入" class="headerlink" title="1.SQL注入"></a>1.SQL注入</h2><p>　　<strong>漏洞描述</strong></p>
 <p>　　Web程序中对于用户提交的参数未做过滤直接拼接到SQL语句中执行，导致参数中的特殊字符破坏了SQL语句原有逻辑，攻击者可以利用该漏洞执行任意SQL语句，如查询数据、下载数据、写入webshell、执行系统命令以及绕过登录限制等。</p>
 <p>　　<strong>修复建议</strong></p>
 <p>代码层最佳防御sql漏洞方案：使用预编译sql语句查询和绑定变量。</p>
@@ -478,345 +479,62 @@
 <p>4.禁止外网访问 Redis</p>
 <p>5.保证 authorized_keys 文件的安全</p>
 
-      
     </div>
 
     
     
     
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
         
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/access%E6%97%A5%E5%BF%97.html">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="T">
-      <meta itemprop="description" content="网络安全、渗透测试、编程语言、Writeup，随便写写，记录一些东西">
-    </span>
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="T的网络日志">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/access%E6%97%A5%E5%BF%97.html" class="post-title-link" itemprop="url">web入侵日志分析命令</a>
-        </h2>
+    <div class="social-list">
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-04-17 14:52:05" itemprop="dateCreated datePublished" datetime="2021-04-17T14:52:05+08:00">2021-04-17</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration/" itemprop="url" rel="index"><span itemprop="name">Penetration</span></a>
+            <div class="social-item">
+              <a target="_blank" class="social-link" href="/images/wechatqcode.png">
+                <span class="icon">
+                  <i class="fa fa-wechat"></i>
                 </span>
-            </span>
 
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>在应急响应或者入侵排查中常常会涉及服务器日志分析，在web日志中可以获取很多关键信息，如访问量最多的IP、访问次数最多的页面等等，于是收集，整理一些服务器日志分析命令</p>
-</blockquote>
-<p><strong>1、查看有多少个IP访问：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ awk &#39;&#123;print $1&#125;&#39; log_file|sort|uniq|wc -l</span><br></pre></td></tr></table></figure>
-
-<p><strong>2、查看某一个页面被访问的次数：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ grep &quot;&#x2F;index.php&quot; log_file | wc -l</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/access%E6%97%A5%E5%BF%97.html#more" rel="contents">
-                阅读全文 &raquo;
+                <span class="label">WeChat</span>
               </a>
             </div>
-          <!--/noindex-->
-        
-      
-    </div>
 
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/Linux%E5%9F%BA%E7%BA%BF.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="T">
-      <meta itemprop="description" content="网络安全、渗透测试、编程语言、Writeup，随便写写，记录一些东西">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="T的网络日志">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/Linux%E5%9F%BA%E7%BA%BF.html" class="post-title-link" itemprop="url">Linux主机安全配置规范</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-04-14 13:51:33" itemprop="dateCreated datePublished" datetime="2021-04-14T13:51:33+08:00">2021-04-14</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+            <div class="social-item">
+              <a target="_blank" class="social-link" href="/atom.xml">
+                <span class="icon">
+                  <i class="fa fa-rss"></i>
                 </span>
-            </span>
 
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="一、账号口令"><a href="#一、账号口令" class="headerlink" title="一、账号口令"></a>一、账号口令</h2><p><strong>1 配置口令最小长度</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在文件/etc/login.defs中设置 PASS_MIN_LEN，参考值：8</span><br></pre></td></tr></table></figure>
-
-<p><strong>2 配置口令生存周期</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在文件/etc/login.defs中设置 PASS_MAX_DAYS，参考值：90</span><br></pre></td></tr></table></figure>
-
-<p><strong>3 配置密码复杂度策略</strong></p>
-<p>  CentOS系统：修改/etc/pam.d/system-auth文件, 在ucredit=-1 lcredit=-1 dcredit=-1 ocredit=-1 选3种，追加到password requisite pam_cracklib.so后面，添加到配置文件中。
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/Linux%E5%9F%BA%E7%BA%BF.html#more" rel="contents">
-                阅读全文 &raquo;
+                <span class="label">RSS</span>
               </a>
             </div>
-          <!--/noindex-->
-        
-      
     </div>
+  </div>
 
-    
-    
-    
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
 
         
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/linux%E8%AE%B0%E5%BD%95%E6%9F%A5%E7%9C%8B.html">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="T">
-      <meta itemprop="description" content="网络安全、渗透测试、编程语言、Writeup，随便写写，记录一些东西">
-    </span>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="T的网络日志">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/linux%E8%AE%B0%E5%BD%95%E6%9F%A5%E7%9C%8B.html" class="post-title-link" itemprop="url">Linux开机和关机记录查看</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-04-11 15:05:39" itemprop="dateCreated datePublished" datetime="2021-04-11T15:05:39+08:00">2021-04-11</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="查看最近一次开机时间"><a href="#查看最近一次开机时间" class="headerlink" title="查看最近一次开机时间"></a>查看最近一次开机时间</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; who -b</span><br><span class="line">或者</span><br><span class="line">&gt; last -1 reboot</span><br></pre></td></tr></table></figure>
-
-<h3 id="查看关机记录"><a href="#查看关机记录" class="headerlink" title="查看关机记录"></a>查看关机记录</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; last -x | grep shutdown <span class="comment">#以关机时间段显示</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="查看失败登录记录-来源以IP显示"><a href="#查看失败登录记录-来源以IP显示" class="headerlink" title="查看失败登录记录, 来源以IP显示"></a>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/linux%E8%AE%B0%E5%BD%95%E6%9F%A5%E7%9C%8B.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/access%E6%97%A5%E5%BF%97.html" rel="prev" title="web入侵日志分析命令">
+      <i class="fa fa-chevron-left"></i> web入侵日志分析命令
+    </a></div>
+      <div class="post-nav-item"></div>
     </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
       </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/gitpage.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="T">
-      <meta itemprop="description" content="网络安全、渗透测试、编程语言、Writeup，随便写写，记录一些东西">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="T的网络日志">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/gitpage.html" class="post-title-link" itemprop="url">如何拥有多个GitHub Pages</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-04-08 13:54:46" itemprop="dateCreated datePublished" datetime="2021-04-08T13:54:46+08:00">2021-04-08</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Programming/" itemprop="url" rel="index"><span itemprop="name">Programming</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
     
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<h2 id="只能为每个-GitHub-帐户创建一个用户或组织站点；而项目站点没有限制"><a href="#只能为每个-GitHub-帐户创建一个用户或组织站点；而项目站点没有限制" class="headerlink" title="只能为每个 GitHub 帐户创建一个用户或组织站点；而项目站点没有限制"></a>只能为每个 GitHub 帐户创建一个用户或组织站点；而项目站点没有限制</h2></blockquote>
-<p>​    也就是名为 <code>&lt;user&gt;.github.io</code>的仓库。<strong>想要创建更多的GitHub Pages页面，可以通过创建项目站点实现。</strong>项目站点的数量没有限制</p>
-<p>​    有三种类型的 GitHub Pages 站点：项目、用户和组织。 项目站点连接到 GitHub 上托管的特定项目。 用户和组织站点连接到特定的 GitHub 帐户。</p>
-<p>​    要发布用户站点，必须创建名为 <code>&lt;user&gt;.github.io</code> 的用户帐户所拥有的仓库。 要发布组织站点，必须创建名为 <code>&lt;organization&gt;.github.io</code> 的组织所拥有的仓库。 除非您使用自定义域，否则用户和组织站点位于 <code>http(s)://&lt;username&gt;.github.io</code> 或 <code>http(s)://&lt;organization&gt;.github.io</code>。
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/gitpage.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
   </article>
   
   
   
 
   </div>
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
-  </nav>
-
 
 
           </div>
@@ -867,6 +585,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-SQL注入"><span class="nav-text">1.SQL注入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-XSS"><span class="nav-text">2.XSS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-XXE"><span class="nav-text">3.XXE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-CSRF"><span class="nav-text">4.CSRF</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-SSRF"><span class="nav-text">5.SSRF</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-任意命令-代码执行"><span class="nav-text">6.任意命令&#x2F;代码执行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-任意文件上传"><span class="nav-text">7.任意文件上传</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-目录穿越-目录遍历"><span class="nav-text">8.目录穿越&#x2F;目录遍历</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-文件包含"><span class="nav-text">9.文件包含</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-弱口令"><span class="nav-text">10.弱口令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-暴力破解"><span class="nav-text">11.暴力破解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12-越权访问"><span class="nav-text">12.越权访问</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#13-未授权访问"><span class="nav-text">13.未授权访问</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#14-列目录"><span class="nav-text">14.列目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#15-PHP反序列化"><span class="nav-text">15.PHP反序列化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#16-http-slow拒绝服务攻击"><span class="nav-text">16.http slow拒绝服务攻击</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#17-CRLF注入"><span class="nav-text">17.CRLF注入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#18-LDAP注入"><span class="nav-text">18.LDAP注入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#19-URL-跳转"><span class="nav-text">19.URL 跳转</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#20-明文传输"><span class="nav-text">20.明文传输</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#21-网页木马"><span class="nav-text">21.网页木马</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#22-备份文件泄露"><span class="nav-text">22.备份文件泄露</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#23-敏感信息泄露"><span class="nav-text">23.敏感信息泄露</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#24-短信-邮件轰炸"><span class="nav-text">24.短信&#x2F;邮件轰炸</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#25-phpinfo信息泄漏"><span class="nav-text">25.phpinfo信息泄漏</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#26-IIS短文件名泄露漏洞"><span class="nav-text">26.IIS短文件名泄露漏洞</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#27-应用程序错误信息泄露"><span class="nav-text">27.应用程序错误信息泄露</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#28-Apache-Tomcat默认文件"><span class="nav-text">28.Apache Tomcat默认文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#29-Crossdomain-xml-配置不当"><span class="nav-text">29.Crossdomain.xml 配置不当</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#30-目标服务器启用了不安全-HTTP-方法"><span class="nav-text">30.目标服务器启用了不安全 HTTP 方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#31-weblogic-SSRF服务器请求伪造"><span class="nav-text">31.weblogic SSRF服务器请求伪造</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#32-Apache-Struts2-远程代码执行漏洞（S2-019）"><span class="nav-text">32.Apache Struts2 远程代码执行漏洞（S2-019）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#33-Apache-Struts2-远程代码执行漏洞（S2-037）"><span class="nav-text">33.Apache Struts2 远程代码执行漏洞（S2-037）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#34-Apache-Struts2-DevMode-远程代码执行漏洞"><span class="nav-text">34.Apache Struts2 DevMode 远程代码执行漏洞</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#35-Apache-Struts2-远程代码执行漏洞（S2-045）"><span class="nav-text">35.Apache Struts2 远程代码执行漏洞（S2-045）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#36-Apache-Struts2-远程代码执行漏洞（S2-033）"><span class="nav-text">36.Apache Struts2 远程代码执行漏洞（S2-033）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#37-redis相关漏洞修复"><span class="nav-text">37.redis相关漏洞修复</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
