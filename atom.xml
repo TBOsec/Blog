@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2021-06-29T05:09:24.841Z</updated>
+  <updated>2021-07-10T08:13:49.235Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>文件名会影响文件的MD5哈希值吗?</title>
+    <link href="http://yoursite.com/2021/%E6%96%87%E4%BB%B6%E5%90%8D%E4%BC%9A%E5%BD%B1%E5%93%8D%E6%96%87%E4%BB%B6%E7%9A%84MD5%E5%93%88%E5%B8%8C%E5%80%BC%E5%90%97.html"/>
+    <id>http://yoursite.com/2021/%E6%96%87%E4%BB%B6%E5%90%8D%E4%BC%9A%E5%BD%B1%E5%93%8D%E6%96%87%E4%BB%B6%E7%9A%84MD5%E5%93%88%E5%B8%8C%E5%80%BC%E5%90%97.html</id>
+    <published>2021-07-10T08:00:52.000Z</published>
+    <updated>2021-07-10T08:13:49.235Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>在使用EXT文件系统的Linux中，由于文件名未存储在文件中，因此不会存储在文件所在的目录项(dentry)中，然后文件的inode映射到名称。在Linux中更改文件名不会对其md5sum产生影响。</p><p>1.md5是基于FILE的二进制内容计算的。<br>2.文件名，最后修改的东西等都是元数据。md5并不真正依赖元数据。</p></blockquote><h4 id="一、答案："><a href="#一、答案：" class="headerlink" title="一、答案："></a>一、答案：</h4><p>不会！！，哈希仅是文件内容的哈希。您可以在<font color=red>md5sum</font>及其MD5实现的源代码中看到此内容。如果您可以访问md5sum，也可以进行测试：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> <span class="string">"just so so"</span> &gt; file1.txt</span><br><span class="line">$ cp file1.txt file2.txt</span><br><span class="line">$ md5 file1.txt </span><br><span class="line">MD5 (file1.txt) = 658c6c1a9584852aba5913aef712787e</span><br><span class="line">$ md5 file2.txt</span><br><span class="line">MD5 (file2.txt) = 658c6c1a9584852aba5913aef712787e</span><br></pre></td></tr></table></figure><a id="more"></a><img src="https://cdn.jsdelivr.net/gh/mask75/imgs@master/20210710160630.png" alt="image-20210710160628801"  /><h4 id="二、其它情况："><a href="#二、其它情况：" class="headerlink" title="二、其它情况："></a>二、其它情况：</h4><p>仅当文件名称包含在哈希计算中时。例如，使用伪代码：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hash1 = md5(contents of file);</span><br><span class="line">$ hash2 = md5(name of file + contents of file);</span><br></pre></td></tr></table></figure><p>将产生两个单独的哈希。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;在使用EXT文件系统的Linux中，由于文件名未存储在文件中，因此不会存储在文件所在的目录项(dentry)中，然后文件的inode映射到名称。在Linux中更改文件名不会对其md5sum产生影响。&lt;/p&gt;
+&lt;p&gt;1.md5是基于FILE的二进制内容计算的。&lt;br&gt;2.文件名，最后修改的东西等都是元数据。md5并不真正依赖元数据。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h4 id=&quot;一、答案：&quot;&gt;&lt;a href=&quot;#一、答案：&quot; class=&quot;headerlink&quot; title=&quot;一、答案：&quot;&gt;&lt;/a&gt;一、答案：&lt;/h4&gt;&lt;p&gt;不会！！，哈希仅是文件内容的哈希。您可以在&lt;font color=red&gt;md5sum&lt;/font&gt;及其MD5实现的源代码中看到此内容。如果您可以访问md5sum，也可以进行测试：&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ &lt;span class=&quot;built_in&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&quot;just so so&quot;&lt;/span&gt; &amp;gt; file1.txt&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ cp file1.txt file2.txt&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ md5 file1.txt &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;MD5 (file1.txt) = 658c6c1a9584852aba5913aef712787e&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ md5 file2.txt&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;MD5 (file2.txt) = 658c6c1a9584852aba5913aef712787e&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+    
+    
+  </entry>
   
   <entry>
     <title>web常见漏洞修复建议</title>
@@ -503,26 +527,6 @@
     
     
       <category term="Penetration" scheme="http://yoursite.com/tags/Penetration/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>docker常用命令</title>
-    <link href="http://yoursite.com/2020/docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.html"/>
-    <id>http://yoursite.com/2020/docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.html</id>
-    <published>2020-04-20T07:36:38.000Z</published>
-    <updated>2020-04-26T08:35:07.352Z</updated>
-    
-    <content type="html"><![CDATA[<p><font color=green>Docker 是一个开源的应用容器引擎，基于 Go 语言 并遵从 Apache2.0 协议开源，可用于开发，交付和运行应用程序的开放平台。而在安全测试中我们可以利用docker快速搭建出理想环境，进而复现测试漏洞，下面👇我整理出来一些常用命令，作为备忘。</font></p><h3 id="0、重点！重点！重点！"><a href="#0、重点！重点！重点！" class="headerlink" title="0、重点！重点！重点！"></a>0、重点！重点！重点！</h3><p>Docker三要素：<font color=red>镜像、容器、仓库</font><br>仓库：集中存放镜像文件的地方；仓库分为公开仓库和私有仓库，目前全世界最大的仓库是Docker官方的 Docker Hub<br>镜像：Docker 镜像（Image），就相当于是一个 root 文件系统。<br>容器：镜像（Image）和容器（Container）的关系，就像是面向对象程序设计中的类和实例一样，镜像是静态的定义，容器是镜像运行时的实体。容器可以被创建、启动、停止、删除、暂停等。<a id="more"></a></p><h3 id="1、帮助命令："><a href="#1、帮助命令：" class="headerlink" title="1、帮助命令："></a>1、帮助命令：</h3><ul><li>查看docker版本信息：docker  version</li><li>查看系统相关信息：docker  info</li><li>查看docker帮助文档：docker  –help</li></ul><h3 id="2、镜像命令："><a href="#2、镜像命令：" class="headerlink" title="2、镜像命令："></a>2、镜像命令：</h3><ul><li>列出本地主机的镜像：docker  images <pre><code>可选参数：      -a：所有镜像；       -q：只显示镜像ID；       --digests：显示镜像摘要信息      --no-trunc：显示完整的镜像信息</code></pre></li><li>搜索某个镜像：docker  search  镜像名 [options]<pre><code>可选参数：      --no-trunc：显示完整的镜像描述      -f：按key=value过滤结果      --limit：限制结果条数,默认25条结果</code></pre></li><li>下载某个镜像：docker  pull 镜像名[:TAG]</li><li>删除本地镜像：<pre><code>删除单个：docker  rmi  -f 镜像ID删除多个：docker  rmi -f 镜像名1:TAG 镜像名2:TAG删除全部：docker  rmi -f $(docker  images  -qa</code></pre></li></ul><h3 id="3、容器命令："><a href="#3、容器命令：" class="headerlink" title="3、容器命令："></a>3、容器命令：</h3><ul><li><p>新建并启动容器：docker  run  [options] 镜像名/imageID<br>常用options选项：</p><pre><code>--name=&quot;容器新名字&quot;：为容器指定一个名称   -d：后台运行容器，并返回容器ID-i：以交互模式运行容器，通常与-t同时使用-t：为容器重新分配一个伪输入的终端-P：随机端口映射-p：指定端口映射，有以下四种格式    ip:hostPort:containerPort    ip::containerPort    &lt;font color=red&gt;hostPort:containerPort&lt;/font&gt;    containerPort</code></pre></li><li><p>列出运行的容器：docker  ps  [options]<br>常用options选项：</p><pre><code>-a :列出当前所有正在运行的容器+历史上运行过的-l :显示最近创建的容器。-n：显示最近n个创建的容器。-q :静默模式，只显示容器编号。--no-trunc :不截断输出。</code></pre></li><li><p>退出容器：<br>exit：容器停止并退出<br>ctrl：容器不停止退出</p></li><li><p>启动容器：docker start 容器ID/容器名</p></li><li><p>重启容器：docker restart 容器ID/容器名</p></li><li><p>停止容器：docker stop 容器ID/容器名</p></li><li><p>强制停止容器：docker kill 容器ID/容器名</p></li><li><p>删除停止的容器：docker rm 容器ID<br>一次性删除多个容器：docker  rm -f $(docker ps -qa)</p></li></ul><h3 id="4、其它命令："><a href="#4、其它命令：" class="headerlink" title="4、其它命令："></a>4、其它命令：</h3><ul><li>查看容器日志：docker logs -f -t –tail 容器ID<br>-t：显示时间戳<pre><code>-f：跟随最新日志打印--tail：数字 显示最后多少条</code></pre></li><li>查看容器内运行的进程：docker top 容器ID</li><li>查看容器内详情：docker inspect 容器ID</li><li>进入正运行的容器并以命令行交互：<br>docker exec -it 容器ID /bin/bash</li><li>重新进入正运行的容器：<br>docker attach 容器ID<br><font color=red>attach：直接进入容器启动的命令终端，不会启动新的进程；<br>exec：是在容器打开新的终端，并且可以启动新的进程</font></li><li>从容器内拷贝文件到主机上：<br>docker cp 容器ID:容器内路径 目的主机路径</li></ul>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;font color=green&gt;Docker 是一个开源的应用容器引擎，基于 Go 语言 并遵从 Apache2.0 协议开源，可用于开发，交付和运行应用程序的开放平台。而在安全测试中我们可以利用docker快速搭建出理想环境，进而复现测试漏洞，下面👇我整理出来一些常用命令，作为备忘。&lt;/font&gt;&lt;/p&gt;
-&lt;h3 id=&quot;0、重点！重点！重点！&quot;&gt;&lt;a href=&quot;#0、重点！重点！重点！&quot; class=&quot;headerlink&quot; title=&quot;0、重点！重点！重点！&quot;&gt;&lt;/a&gt;0、重点！重点！重点！&lt;/h3&gt;&lt;p&gt;Docker三要素：&lt;font color=red&gt;镜像、容器、仓库&lt;/font&gt;&lt;br&gt;仓库：集中存放镜像文件的地方；仓库分为公开仓库和私有仓库，目前全世界最大的仓库是Docker官方的 Docker Hub&lt;br&gt;镜像：Docker 镜像（Image），就相当于是一个 root 文件系统。&lt;br&gt;容器：镜像（Image）和容器（Container）的关系，就像是面向对象程序设计中的类和实例一样，镜像是静态的定义，容器是镜像运行时的实体。容器可以被创建、启动、停止、删除、暂停等。
-    
-    </summary>
-    
-    
     
   </entry>
   

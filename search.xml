@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>文件名会影响文件的MD5哈希值吗?</title>
+    <url>/2021/%E6%96%87%E4%BB%B6%E5%90%8D%E4%BC%9A%E5%BD%B1%E5%93%8D%E6%96%87%E4%BB%B6%E7%9A%84MD5%E5%93%88%E5%B8%8C%E5%80%BC%E5%90%97.html</url>
+    <content><![CDATA[<blockquote>
+<p>在使用EXT文件系统的Linux中，由于文件名未存储在文件中，因此不会存储在文件所在的目录项(dentry)中，然后文件的inode映射到名称。在Linux中更改文件名不会对其md5sum产生影响。</p>
+<p>1.md5是基于FILE的二进制内容计算的。<br>2.文件名，最后修改的东西等都是元数据。md5并不真正依赖元数据。</p>
+</blockquote>
+<h4 id="一、答案："><a href="#一、答案：" class="headerlink" title="一、答案："></a>一、答案：</h4><p>不会！！，哈希仅是文件内容的哈希。您可以在<font color=red>md5sum</font>及其MD5实现的源代码中看到此内容。如果您可以访问md5sum，也可以进行测试：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> <span class="string">"just so so"</span> &gt; file1.txt</span><br><span class="line">$ cp file1.txt file2.txt</span><br><span class="line">$ md5 file1.txt </span><br><span class="line">MD5 (file1.txt) = 658c6c1a9584852aba5913aef712787e</span><br><span class="line">$ md5 file2.txt</span><br><span class="line">MD5 (file2.txt) = 658c6c1a9584852aba5913aef712787e</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a><img src="https://cdn.jsdelivr.net/gh/mask75/imgs@master/20210710160630.png" alt="image-20210710160628801"  />
+
+<h4 id="二、其它情况："><a href="#二、其它情况：" class="headerlink" title="二、其它情况："></a>二、其它情况：</h4><p>仅当文件名称包含在哈希计算中时。例如，使用伪代码：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hash1 = md5(contents of file);</span><br><span class="line">$ hash2 = md5(name of file + contents of file);</span><br></pre></td></tr></table></figure>
+
+<p>将产生两个单独的哈希。</p>
+]]></content>
+  </entry>
+  <entry>
     <title>web常见漏洞修复建议</title>
     <url>/2021/web%E5%B8%B8%E8%A7%81%E6%BC%8F%E6%B4%9E%E4%BF%AE%E5%A4%8D%E5%BB%BA%E8%AE%AE.html</url>
     <content><![CDATA[<h2 id="1-SQL注入"><a href="#1-SQL注入" class="headerlink" title="1.SQL注入"></a>1.SQL注入</h2><p>　　<strong>漏洞描述</strong></p>
