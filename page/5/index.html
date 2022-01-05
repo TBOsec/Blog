@@ -520,35 +520,15 @@
 
       
           <p>​        我们常用 SSH 来远程管理 Linux 服务器。但是，一般的密码方式登录，容易有密码被<font color=red>暴力破解</font>的问题。<br>所以，一般我们会将 SSH 的端口设置为默认的 22 以外的端口，或者禁用 root 账户登录。其实，有一个更好的办法来保证安全，而且让你可以放心地用 root 账户从远程登录——<font color=green>那就是通过密钥方式登录</font>。</p>
-<p>​        密钥形式登录的原理是：利用密钥生成器制作一对密钥(一个公钥和一个私钥)。将公钥添加到服务器的某个账户上，然后在客户端利用私钥即可完成认证并登录。这样一来，没有私钥，任何人都无法通过 SSH 暴力破解你的密码来远程登录到系统。此外，如果将公钥复制到其他账户甚至主机，利用私钥也可以登录。</p>
-<p>下面来说说如何在 Linux 服务器上制作密钥对，将公钥添加给账户，设置 SSH，最后通过客户端登录。</p>
-<h3 id="1-制作密钥对"><a href="#1-制作密钥对" class="headerlink" title="1. 制作密钥对"></a>1. 制作密钥对</h3><p>首先在服务器上制作密钥对。首先用密码登录到打算使用密钥登录的账户，然后执行以下命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@host ~]$ ssh-keygen  &lt;&#x3D;&#x3D; 建立密钥对</span><br><span class="line">Generating public&#x2F;private rsa key pair.</span><br><span class="line">Enter file in which to save the key (&#x2F;root&#x2F;.ssh&#x2F;id_rsa): &lt;&#x3D;&#x3D; 按 Enter</span><br><span class="line">Created directory &#39;&#x2F;root&#x2F;.ssh&#39;.</span><br><span class="line">Enter passphrase (empty for no passphrase): &lt;&#x3D;&#x3D; 输入密钥锁码，或直接按 Enter 留空</span><br><span class="line">Enter same passphrase again: &lt;&#x3D;&#x3D; 再输入一遍密钥锁码</span><br><span class="line">Your identification has been saved in &#x2F;root&#x2F;.ssh&#x2F;id_rsa. &lt;&#x3D;&#x3D; 私钥</span><br><span class="line">Your public key has been saved in &#x2F;root&#x2F;.ssh&#x2F;id_rsa.pub. &lt;&#x3D;&#x3D; 公钥</span><br><span class="line">The key fingerprint is:</span><br><span class="line">0f:d3:e7:1a:1c:bd:5c:03:f1:19:f1:22:df:9b:cc:08 root@host</span><br></pre></td></tr></table></figure>
-
-<p>密钥锁码在使用私钥时必须输入，这样就可以保护私钥不被盗用。当然，也可以留空，实现无密码登录。</p>
-<p>现在，在 root 用户的家目录中生成了一个 .ssh 的隐藏目录，内含两个密钥文件。id_rsa 为私钥，id_rsa.pub 为公钥。</p>
-<h3 id="2-在服务器上安装公钥"><a href="#2-在服务器上安装公钥" class="headerlink" title="2. 在服务器上安装公钥"></a>2. 在服务器上安装公钥</h3><p>键入以下命令，在服务器上安装公钥：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@host ~]$ cd .ssh</span><br><span class="line">[root@host .ssh]$ cat id_rsa.pub &gt;&gt; authorized_keys</span><br></pre></td></tr></table></figure>
-
-<p>如此便完成了公钥的安装。为了确保连接成功，请保证以下文件权限正确：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@host .ssh]$ chmod 600 authorized_keys</span><br><span class="line">[root@host .ssh]$ chmod 700 ~&#x2F;.ssh</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-设置-SSH，打开密钥登录功能"><a href="#3-设置-SSH，打开密钥登录功能" class="headerlink" title="3. 设置 SSH，打开密钥登录功能"></a>3. 设置 SSH，打开密钥登录功能</h3><p>编辑 /etc/ssh/sshd_config 文件，进行如下设置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">RSAAuthentication yes</span><br><span class="line">PubkeyAuthentication yes</span><br></pre></td></tr></table></figure>
-
-<p>另外，请留意 root 用户能否通过 SSH 登录：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PermitRootLogin yes</span><br></pre></td></tr></table></figure>
-
-<p>当你完成全部设置，并以密钥方式登录成功后，再禁用密码登录：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PasswordAuthentication no</span><br></pre></td></tr></table></figure>
-
-<p>最后，重启 SSH 服务：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@host .ssh]$ service sshd restart</span><br></pre></td></tr></table></figure>
-
-<h3 id="4-将私钥下载到客户端，然后转换为-PuTTY-能使用的格式"><a href="#4-将私钥下载到客户端，然后转换为-PuTTY-能使用的格式" class="headerlink" title="4. 将私钥下载到客户端，然后转换为 PuTTY 能使用的格式"></a>4. 将私钥下载到客户端，然后转换为 PuTTY 能使用的格式</h3><p>使用 WinSCP、SFTP 等工具将私钥文件 id_rsa 下载到客户端机器上。然后打开 PuTTYGen，单击 Actions 中的 Load 按钮，载入你刚才下载到的私钥文件。如果你刚才设置了密钥锁码，这时则需要输入。</p>
-<p>载入成功后，PuTTYGen 会显示密钥相关的信息。在 Key comment 中键入对密钥的说明信息，然后单击 Save private key 按钮即可将私钥文件存放为 PuTTY 能使用的格式。</p>
-<p>以后，当你使用 PuTTY 登录时，可以在左侧的 Connection -&gt; SSH -&gt; Auth 中的 Private key file for authentication: 处选择你的私钥文件，然后即可登录了，过程中只需输入密钥锁码即可。</p>
-
+<p>​        密钥形式登录的原理是：利用密钥生成器制作一对密钥(一个公钥和一个私钥)。将公钥添加到服务器的某个账户上，然后在客户端利用私钥即可完成认证并登录。这样一来，没有私钥，任何人都无法通过 SSH 暴力破解你的密码来远程登录到系统。此外，如果将公钥复制到其他账户甚至主机，利用私钥也可以登录。
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/%E9%85%8D%E7%BD%AEssh%E5%AF%86%E9%92%A5%E7%99%BB%E5%BD%95.html#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
