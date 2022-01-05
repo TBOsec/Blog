@@ -1,0 +1,13 @@
+POST /logincheck_code.php HTTP/1.1
+Host: xxxx.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:56.0) Gecko/20100101 Firefox/56.0 Waterfox/56.3
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: close
+Upgrade-Insecure-Requests: 1
+Content-Length: 50
+
+CODEUID=7DE3AC00-AF41-FA1D-0C04-C070035E2AB2&UID=1
+//更改为得到的codeuid
+//若请求中有cokiess，记得删除

