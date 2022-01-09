@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2022-01-05T05:41:58.681Z</updated>
+  <updated>2022-01-09T09:15:45.716Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>ssh-keygen命令基本用法</title>
+    <link href="http://yoursite.com/2022/ssh-keygen%E4%BD%BF%E7%94%A8.html"/>
+    <id>http://yoursite.com/2022/ssh-keygen%E4%BD%BF%E7%94%A8.html</id>
+    <published>2022-01-09T09:05:20.000Z</published>
+    <updated>2022-01-09T09:15:45.716Z</updated>
+    
+    <content type="html"><![CDATA[<p>​            SSH 公钥认证是ssh认证的方式之一。通过公钥认证可实现ssh免密码登陆，在用户目录的home目录下，有一个.ssh的目录，和当前用户ssh配置认证相关的文件，几乎都在这个目录下。</p><p><strong>ssh-keygen</strong> 用于生成、管理和转换认证密钥</p><h3 id="常用参数："><a href="#常用参数：" class="headerlink" title="常用参数："></a>常用参数：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-t type:指定要生成的密钥类型，有rsa1(SSH1),dsa(SSH2),ecdsa(SSH2),rsa(SSH2)等类型，较为常用的是rsa类型</span><br><span class="line">-f filename:指定生成的密钥文件名字</span><br><span class="line">-C comment：提供一个新的注释</span><br><span class="line">-b bits：指定要生成的密钥长度 (单位:bit)，对于RSA类型的密钥，最小长度768bits,默认长度为2048bits。DSA密钥必须是1024bits</span><br></pre></td></tr></table></figure><a id="more"></a>使用 ssh-kengen 会在~/.ssh/目录下生成两个文件，不指定文件名和密钥类型的时候，默认生成的两个文件是：<p>*<em>id_rsa、id_rsa.pub *</em></p><h3 id="生成密钥对："><a href="#生成密钥对：" class="headerlink" title="生成密钥对："></a>生成密钥对：</h3><p>生成ssh key的时候，可以通过 -f 选项指定生成文件的文件名,-C选项是公钥文件中的备注:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@vps .ssh]$ ssh-keygen -t rsa -f test -C &quot;test key&quot;</span><br><span class="line">Generating public&#x2F;private rsa key pair.</span><br><span class="line">Enter passphrase (empty for no passphrase):</span><br><span class="line">Enter same passphrase again:</span><br></pre></td></tr></table></figure><p>如果文件名是test，结果是:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@vps .ssh]$ ll test*</span><br><span class="line">-rw------- 1 root root 1675 Sep 15 13:24 test</span><br><span class="line">-rw-r--r-- 1 root root 390 Sep 15 13:24 test.pub</span><br></pre></td></tr></table></figure><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@vps .ssh]$ cat test.pub</span><br><span class="line">ssh-rsa</span><br><span class="line">AAAAB3NzaC1yc2EAAAABIwAAAQEAlgjiMw7AskxbvpQY9rmZPQxQBzh9laxFvbaini2EgmQkNsXBA9WJOXn2YBJauoiVsdUKBWA97avjsobrTxsCYvFr1yQQvTfTlbqlqGNIhQc&#x2F;3HjTl2pIkClpDWvBrRN+jpyESS4MNbfOL1qjT4c&#x2F;QhGvj6U6HrN6kUyn58oyyJpTzOLG74AZELJ2Led57QvTw1yJXZuAMWioR0A3BGd25fdocLX3ebux6ya8AsloOVYfsAqGlggrARe6FXjLfMH4a&#x2F;nxaAdiDYVXU&#x2F;Vr1ybK9P7SfyEDGJi3JtgiPUlA6vPxUC</span><br><span class="line">E+9IJPQaqqeqCGzrJ6G&#x2F;XO7om1v9YLLG&#x2F;H&#x2F;ZN2tQ&#x3D;&#x3D; test key</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;​            SSH 公钥认证是ssh认证的方式之一。通过公钥认证可实现ssh免密码登陆，在用户目录的home目录下，有一个.ssh的目录，和当前用户ssh配置认证相关的文件，几乎都在这个目录下。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;ssh-keygen&lt;/strong&gt; 用于生成、管理和转换认证密钥&lt;/p&gt;
+&lt;h3 id=&quot;常用参数：&quot;&gt;&lt;a href=&quot;#常用参数：&quot; class=&quot;headerlink&quot; title=&quot;常用参数：&quot;&gt;&lt;/a&gt;常用参数：&lt;/h3&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;-t type:指定要生成的密钥类型，有rsa1(SSH1),dsa(SSH2),ecdsa(SSH2),rsa(SSH2)等类型，较为常用的是rsa类型&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;-f filename:指定生成的密钥文件名字&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;-C comment：提供一个新的注释&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;-b bits：指定要生成的密钥长度 (单位:bit)，对于RSA类型的密钥，最小长度768bits,默认长度为2048bits。DSA密钥必须是1024bits&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+    
+      <category term="Linux" scheme="http://yoursite.com/categories/Linux/"/>
+    
+    
+      <category term="Linux" scheme="http://yoursite.com/tags/Linux/"/>
+    
+  </entry>
   
   <entry>
     <title>快速切换Node版本</title>
@@ -494,29 +519,6 @@
  2015版 &amp;lt;= 8.15   20160722
  2013增强版 &amp;lt;=7.25 20141211
  2013版 &amp;lt;= 6.20   20141017&lt;/code&gt;
-    
-    </summary>
-    
-    
-      <category term="通达OA" scheme="http://yoursite.com/categories/%E9%80%9A%E8%BE%BEOA/"/>
-    
-    
-      <category term="漏洞复现" scheme="http://yoursite.com/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>通达OA 任意用户登录漏洞复现</title>
-    <link href="http://yoursite.com/2020/%E9%80%9A%E8%BE%BEOA1.html"/>
-    <id>http://yoursite.com/2020/%E9%80%9A%E8%BE%BEOA1.html</id>
-    <published>2020-05-15T21:36:01.000Z</published>
-    <updated>2020-05-16T06:36:13.357Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="0x01-漏洞信息"><a href="#0x01-漏洞信息" class="headerlink" title="0x01 漏洞信息"></a>0x01 漏洞信息</h3><p>通达OA前台任意用户登录漏洞，影响版本包括通达OA2017、V11.X&lt;V11.5；攻击者利用此漏洞可以接管服务器权限<br><img src="../images/upload/tongd.jpg" alt="OA" style="zoom: 80%;" /></p><a id="more"></a><h3 id="0x02-漏洞利用"><a href="#0x02-漏洞利用" class="headerlink" title="0x02 漏洞利用"></a>0x02 漏洞利用</h3><p>1.获取code_uid<br>post   /general/login_code.ph 获取code_uid</p><p><img src="../images/upload/code_uid.png" alt="example"></p><p><a href="../file/code_uid.txt">request.txt</a></p><p>2.获取sessionID<br>post  /logincheck_code.php</p><p><img src="../images/upload/sessid.jpg" alt="example"></p><p><a href="../file/sessionID.txt">requests.txt</a></p><p>3.实现登录<br>访问<a href="http://xxxx.com/general/index.php" target="_blank" rel="noopener">http://xxxx.com/general/index.php</a> 利用上一步得到的cookies，<br>通过小饼干🍪等工具替换cookie，刷新页面即可成功进入</p><p><img src="../images/upload/admin1.png" alt="example"></p><h3 id="0x03-漏洞POC"><a href="#0x03-漏洞POC" class="headerlink" title="0x03 漏洞POC"></a>0x03 漏洞POC</h3><p><a href="https://github.com/NS-Sp4ce/TongDaOA-FaKe-User" target="_blank" rel="noopener">https://github.com/NS-Sp4ce/TongDaOA-FaKe-User</a></p><p>利用POC测试站点，若存在漏洞，返回cookie；利用cookie便可直接登录</p><p><img src="../images/upload/poc1.png" alt="poc_result"></p><h3 id="0x04-关键词"><a href="#0x04-关键词" class="headerlink" title="0x04 关键词"></a>0x04 关键词</h3><p><a href="https://zoomeye.org" target="_blank" rel="noopener">https://zoomeye.org</a> 中搜索<code>app:&quot;Tongda office anywhere httpd&quot;</code></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;0x01-漏洞信息&quot;&gt;&lt;a href=&quot;#0x01-漏洞信息&quot; class=&quot;headerlink&quot; title=&quot;0x01 漏洞信息&quot;&gt;&lt;/a&gt;0x01 漏洞信息&lt;/h3&gt;&lt;p&gt;通达OA前台任意用户登录漏洞，影响版本包括通达OA2017、V11.X&amp;lt;V11.5；攻击者利用此漏洞可以接管服务器权限&lt;br&gt;&lt;img src=&quot;../images/upload/tongd.jpg&quot; alt=&quot;OA&quot; style=&quot;zoom: 80%;&quot; /&gt;&lt;/p&gt;
     
     </summary>
     
