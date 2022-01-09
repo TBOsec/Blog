@@ -30,7 +30,7 @@
 <meta property="og:description" content="​            SSH 公钥认证是ssh认证的方式之一。通过公钥认证可实现ssh免密码登陆，在用户目录的home目录下，有一个.ssh的目录，和当前用户ssh配置认证相关的文件，几乎都在这个目录下。 ssh-keygen 用于生成、管理和转换认证密钥 常用参数：1234-t type:指定要生成的密钥类型，有rsa1(SSH1),dsa(SSH2),ecdsa(SSH2),rsa(SSH">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-01-09T09:05:20.000Z">
-<meta property="article:modified_time" content="2022-01-09T09:15:45.716Z">
+<meta property="article:modified_time" content="2022-01-09T09:16:17.738Z">
 <meta property="article:author" content="T">
 <meta property="article:tag" content="Linux">
 <meta name="twitter:card" content="summary">
@@ -241,7 +241,7 @@
 <a id="more"></a>使用 ssh-kengen 会在~/.ssh/目录下生成两个文件，不指定文件名和密钥类型的时候，默认生成的两个文件是：
 
 <p>*<em>id_rsa、id_rsa.pub *</em></p>
-<h3 id="生成密钥对："><a href="#生成密钥对：" class="headerlink" title="生成密钥对："></a>生成密钥对：</h3><p>生成ssh key的时候，可以通过 -f 选项指定生成文件的文件名,-C选项是公钥文件中的备注:</p>
+<h3 id="生成密钥对："><a href="#生成密钥对：" class="headerlink" title="生成密钥对："></a>生成密钥对：</h3><p>生成ssh key的时候，可以通过 -f 选项指定生成文件的文件名,-C选项是公钥文件中的备注:s</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@vps .ssh]$ ssh-keygen -t rsa -f test -C &quot;test key&quot;</span><br><span class="line">Generating public&#x2F;private rsa key pair.</span><br><span class="line">Enter passphrase (empty for no passphrase):</span><br><span class="line">Enter same passphrase again:</span><br></pre></td></tr></table></figure>
 
 <p>如果文件名是test，结果是:</p>
