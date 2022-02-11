@@ -13,12 +13,12 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic%7CRoboto+Slab:300,300italic,400,400italic,700,700italic%7CPT+Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"h0sec.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"h0sec.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.10.0","exturl":true,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
   <meta name="description" content="0x01 漏洞信息通达OA前台任意用户登录漏洞，影响版本包括通达OA2017、V11.X&lt;V11.5；攻击者利用此漏洞可以接管服务器权限">
 <meta property="og:type" content="blog">
@@ -85,6 +85,7 @@
 
   <div class="site-nav-right">
     <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
@@ -94,13 +95,40 @@
 <nav class="site-nav">
   <ul class="main-menu menu">
         <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首页</a></li>
-        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a></li>
-        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签<span class="badge">10</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">32</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
   </ul>
 </nav>
 
 
 
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
 
 </div>
         
@@ -159,16 +187,16 @@
 </div>
   <div class="links-of-author site-overview-item animated">
       <span class="links-of-author-item">
-        <a href="mailto:root#h0sec.com" title="E-Mail → mailto:root#h0sec.com" rel="noopener" target="_blank"><i class="envelope fa-fw"></i>E-Mail</a>
+        <span class="exturl" data-url="bWFpbHRvOnJvb3QjaDBzZWMuY29t" title="E-Mail → mailto:root#h0sec.com"><i class="fas fa-envelope fa-fw"></i>E-Mail</span>
       </span>
       <span class="links-of-author-item">
-        <a href="/about/" title="About → &#x2F;about&#x2F;"><i class="address-card fa-fw"></i>About</a>
+        <a href="/about/" title="About → &#x2F;about&#x2F;"><i class="fas fa-address-card fa-fw"></i>About</a>
       </span>
       <span class="links-of-author-item">
-        <a href="/images/qcode.jpg" title="Wechat → &#x2F;images&#x2F;qcode.jpg"><i class="weixin fa-fw"></i>Wechat</a>
+        <a href="/images/qcode.jpg" title="Wechat → &#x2F;images&#x2F;qcode.jpg"><i class="fab fa-weixin fa-fw"></i>Wechat</a>
       </span>
       <span class="links-of-author-item">
-        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="rss fa-fw"></i>RSS</a>
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa-square-rss fa-fw"></i>RSS</a>
       </span>
   </div>
 
@@ -188,6 +216,8 @@
     <i class="fa fa-arrow-up"></i>
     <span>0%</span>
   </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
 
 <noscript>
   <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
@@ -260,12 +290,12 @@
 <p>2.获取sessionID<br>post  &#x2F;logincheck_code.php</p>
 <p><img src="/../images/upload/sessid.jpg" alt="example"></p>
 <p><a href="../file/sessionID.txt">requests.txt</a></p>
-<p>3.实现登录<br>访问<a target="_blank" rel="noopener" href="http://xxxx.com/general/index.php">http://xxxx.com/general/index.php</a> 利用上一步得到的cookies，<br>通过小饼干🍪等工具替换cookie，刷新页面即可成功进入</p>
+<p>3.实现登录<br>访问<span class="exturl" data-url="aHR0cDovL3h4eHguY29tL2dlbmVyYWwvaW5kZXgucGhw">http://xxxx.com/general/index.php<i class="fa fa-external-link-alt"></i></span> 利用上一步得到的cookies，<br>通过小饼干🍪等工具替换cookie，刷新页面即可成功进入</p>
 <p><img src="/../images/upload/admin1.png" alt="example"></p>
-<h3 id="0x03-漏洞POC"><a href="#0x03-漏洞POC" class="headerlink" title="0x03 漏洞POC"></a>0x03 漏洞POC</h3><p><a target="_blank" rel="noopener" href="https://github.com/NS-Sp4ce/TongDaOA-FaKe-User">https://github.com/NS-Sp4ce/TongDaOA-FaKe-User</a></p>
+<h3 id="0x03-漏洞POC"><a href="#0x03-漏洞POC" class="headerlink" title="0x03 漏洞POC"></a>0x03 漏洞POC</h3><p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL05TLVNwNGNlL1RvbmdEYU9BLUZhS2UtVXNlcg==">https://github.com/NS-Sp4ce/TongDaOA-FaKe-User<i class="fa fa-external-link-alt"></i></span></p>
 <p>利用POC测试站点，若存在漏洞，返回cookie；利用cookie便可直接登录</p>
 <p><img src="/../images/upload/poc1.png" alt="poc_result"></p>
-<h3 id="0x04-关键词"><a href="#0x04-关键词" class="headerlink" title="0x04 关键词"></a>0x04 关键词</h3><p><a target="_blank" rel="noopener" href="https://zoomeye.org/">https://zoomeye.org</a> 中搜索<code>app:&quot;Tongda office anywhere httpd&quot;</code></p>
+<h3 id="0x04-关键词"><a href="#0x04-关键词" class="headerlink" title="0x04 关键词"></a>0x04 关键词</h3><p><span class="exturl" data-url="aHR0cHM6Ly96b29tZXllLm9yZy8=">https://zoomeye.org<i class="fa fa-external-link-alt"></i></span> 中搜索<code>app:&quot;Tongda office anywhere httpd&quot;</code></p>
 
     </div>
 
@@ -302,7 +332,7 @@
 </div>
 
           <div class="post-tags">
-              <a href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" rel="tag"># 漏洞复现</a>
+              <a href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" rel="tag"><i class="fa fa-tag"></i> 漏洞复现</a>
           </div>
 
         
@@ -339,7 +369,7 @@
   &copy; 2017 – 
   <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
-    <i class="user"></i>
+    <i class="fa fa-user-secret"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">T</span>
 </div>
@@ -349,9 +379,11 @@
 
   
   <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
 
   
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
 
 
 

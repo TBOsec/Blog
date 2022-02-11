@@ -13,12 +13,12 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic%7CRoboto+Slab:300,300italic,400,400italic,700,700italic%7CPT+Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"h0sec.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"h0sec.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.10.0","exturl":true,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
   <meta name="description" content="一、 简述SSH在维基百科的定义：Secure hell（安全外壳协议，简称SSH）是一种加密的网络传输协议，可在不安全的网络中为网络服务提供安全的传输环境。SSH最常见的用途是远程登录系统，人们通常利用SSH来传输命令行界面和远程执行命令。">
 <meta property="og:type" content="blog">
@@ -81,6 +81,7 @@
 
   <div class="site-nav-right">
     <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
@@ -90,13 +91,40 @@
 <nav class="site-nav">
   <ul class="main-menu menu">
         <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首页</a></li>
-        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a></li>
-        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签<span class="badge">10</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">32</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
   </ul>
 </nav>
 
 
 
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
 
 </div>
         
@@ -155,16 +183,16 @@
 </div>
   <div class="links-of-author site-overview-item animated">
       <span class="links-of-author-item">
-        <a href="mailto:root#h0sec.com" title="E-Mail → mailto:root#h0sec.com" rel="noopener" target="_blank"><i class="envelope fa-fw"></i>E-Mail</a>
+        <span class="exturl" data-url="bWFpbHRvOnJvb3QjaDBzZWMuY29t" title="E-Mail → mailto:root#h0sec.com"><i class="fas fa-envelope fa-fw"></i>E-Mail</span>
       </span>
       <span class="links-of-author-item">
-        <a href="/about/" title="About → &#x2F;about&#x2F;"><i class="address-card fa-fw"></i>About</a>
+        <a href="/about/" title="About → &#x2F;about&#x2F;"><i class="fas fa-address-card fa-fw"></i>About</a>
       </span>
       <span class="links-of-author-item">
-        <a href="/images/qcode.jpg" title="Wechat → &#x2F;images&#x2F;qcode.jpg"><i class="weixin fa-fw"></i>Wechat</a>
+        <a href="/images/qcode.jpg" title="Wechat → &#x2F;images&#x2F;qcode.jpg"><i class="fab fa-weixin fa-fw"></i>Wechat</a>
       </span>
       <span class="links-of-author-item">
-        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="rss fa-fw"></i>RSS</a>
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa-square-rss fa-fw"></i>RSS</a>
       </span>
   </div>
 
@@ -184,6 +212,8 @@
     <i class="fa fa-arrow-up"></i>
     <span>0%</span>
   </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
 
 <noscript>
   <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
@@ -251,7 +281,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h2 id="一、-简述"><a href="#一、-简述" class="headerlink" title="一、 简述"></a><a href="#%E4%B8%80%E3%80%81-%E7%AE%80%E8%BF%B0" title="一、 简述"></a>一、 简述</h2><p>SSH在维基百科的定义：Secure hell（安全外壳协议，简称SSH）是一种加密的网络传输协议，可在不安全的网络中为网络服务提供安全的传输环境。SSH最常见的用途是远程登录系统，人们通常利用SSH来传输命令行界面和远程执行命令。<span id="more"></span><br>More info: <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Secure_Shell">SSH</a></p>
+        <h2 id="一、-简述"><a href="#一、-简述" class="headerlink" title="一、 简述"></a><a href="#%E4%B8%80%E3%80%81-%E7%AE%80%E8%BF%B0" title="一、 简述"></a>一、 简述</h2><p>SSH在维基百科的定义：Secure hell（安全外壳协议，简称SSH）是一种加密的网络传输协议，可在不安全的网络中为网络服务提供安全的传输环境。SSH最常见的用途是远程登录系统，人们通常利用SSH来传输命令行界面和远程执行命令。<span id="more"></span><br>More info: <span class="exturl" data-url="aHR0cHM6Ly96aC53aWtpcGVkaWEub3JnL3dpa2kvU2VjdXJlX1NoZWxs">SSH<i class="fa fa-external-link-alt"></i></span></p>
 <h3 id="端口转发简述："><a href="#端口转发简述：" class="headerlink" title="端口转发简述："></a><a href="#%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91%E7%AE%80%E8%BF%B0%EF%BC%9A" title="端口转发简述："></a>端口转发简述：</h3><p>但大多数人不知道的是SSH还能提供端口转发，并提供相应的加密及解密服务这也被称为“隧道”(tunneling)，而该功能在可以在有防火墙限制时，转发其它TCP流量来通过SSH端口传输，也就实现了“翻墙”。<br>1.加密 SSH Client 端至 SSH Server 端之间的通讯数据。<br>2.突破防火墙的限制完成一些之前无法建立的 TCP 连接。<br><img src="/images/upload/2018-08-251.jpg"><br>如上图所示，TCP端口A和B并不直接通信，而是转发到SSH client及SSH server来进行通信，从而实现了数据加密<br>同时可以绕过防火墙的限制。</p>
 <hr>
 <h2 id="二、-本地转发与远程转发"><a href="#二、-本地转发与远程转发" class="headerlink" title="二、 本地转发与远程转发"></a><a href="#%E4%BA%8C%E3%80%81-%E6%9C%AC%E5%9C%B0%E8%BD%AC%E5%8F%91%E4%B8%8E%E8%BF%9C%E7%A8%8B%E8%BD%AC%E5%8F%91" title="二、 本地转发与远程转发"></a>二、 本地转发与远程转发</h2><h3 id="本地转发示例："><a href="#本地转发示例：" class="headerlink" title="本地转发示例："></a><a href="#%E6%9C%AC%E5%9C%B0%E8%BD%AC%E5%8F%91%E7%A4%BA%E4%BE%8B%EF%BC%9A" title="本地转发示例："></a>本地转发示例：</h3><p>现在假设Server上某个端口的服务不能被远程连接，但它的SSH端口却可以连接，那此时我们就可以通过SSH隧道建立本地转发来连接Server上的端口。<br>本地转发的命令格式：</p>
@@ -365,7 +395,7 @@
 </div>
 
           <div class="post-tags">
-              <a href="/tags/%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91/" rel="tag"># 端口转发</a>
+              <a href="/tags/%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91/" rel="tag"><i class="fa fa-tag"></i> 端口转发</a>
           </div>
 
         
@@ -399,7 +429,7 @@
   &copy; 2017 – 
   <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
-    <i class="user"></i>
+    <i class="fa fa-user-secret"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">T</span>
 </div>
@@ -409,9 +439,11 @@
 
   
   <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
 
   
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
 
 
 

