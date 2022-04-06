@@ -1843,4 +1843,54 @@
         <tag>Linux</tag>
       </tags>
   </entry>
+  <entry>
+    <title>macos SUHelper提权漏洞(CVE-2022-22639)</title>
+    <url>/2022/macos%E6%8F%90%E6%9D%83%E6%BC%8F%E6%B4%9E.html</url>
+    <content><![CDATA[<p><font color=red>该文章可能带有攻击性，仅供安全研究与教学之用，读者将其信息做其他用途，由读者承担全部法律及连带责任，作者本人不承担任何法律及连带责任。</font></p>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><p>• 背景介绍   • 漏洞风险  • 影响版本  • 复现过程  • 漏洞修复</p>
+<h3 id="0x01背景介绍"><a href="#0x01背景介绍" class="headerlink" title="0x01背景介绍"></a>0x01背景介绍</h3><blockquote>
+<p>在macOS中软件更新助手的守护进程suhelperd中存在一个漏洞。suhelperd内部的一个类SUHelper通过进程间通信（IPC）机制提供基本的系统服务。</p>
+</blockquote>
+<p>该进程以root身份运行，并带有特殊授权（如com.apple.rootless.install）签名，该授权授予绕过系统完整性保护（SIP）限制的进程权限。</p>
+<h3 id="0x02漏洞风险"><a href="#0x02漏洞风险" class="headerlink" title="0x02漏洞风险"></a>0x02漏洞风险</h3><p>这种功能的组合为恶意行为者提供利用机会，如果成功利用该漏洞，会允许根特权升级。被命名为CVE-2022-22639。<span id="more"></span></p>
+<h3 id="0x03影响版本"><a href="#0x03影响版本" class="headerlink" title="0x03影响版本"></a>0x03影响版本</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">macos &lt; 13.3（不包括） </span><br><span class="line">iphone_os &lt; 15.4（不包括） </span><br><span class="line">ipados &lt; 15.4（不包括）</span><br></pre></td></tr></table></figure>
+
+<h3 id="0x04复现过程"><a href="#0x04复现过程" class="headerlink" title="0x04复现过程"></a>0x04复现过程</h3><ol>
+<li>查看本地环境</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sw_vers </span><br><span class="line">ProductName: macOS </span><br><span class="line">ProductVersion: 12.1  </span><br><span class="line">BuildVersion: 21C52</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/mask75/imgs@master/2022/04/06/20220406165604.png" alt="图片"></p>
+<ol start="2">
+<li>查看SIP状态</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$  csrutil status</span><br><span class="line">System Integrity Protection status: enabled.</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/z1MHPE7moxcfp2B2bMJvXFvpibcDfDBhKwZUCWEv4xuwNuVwWGNzfud54qhwzEfkW5Ox1oFZ2HgL9ib3siaaFYCSA/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<ol start="3">
+<li>执行如下命令，编译利用代码</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ clang exploit.m -o /tmp/exploit -framework Foundation -fobjc-arc -fobjc-link-runtime /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/PrivateFrameworks/SoftwareUpdate.framework/Versions/A/SoftwareUpdate.tbd</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/z1MHPE7moxcfp2B2bMJvXFvpibcDfDBhKHAqBmhibRdcRvXeW6XkHBmXNY3GOe3LpdEWQceRiagl7fPwUYVn5ibhfg/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<ol start="4">
+<li>解压InstallAssistant.gz文件到 &#x2F;tmp 目录</li>
+</ol>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/z1MHPE7moxcfp2B2bMJvXFvpibcDfDBhKtXZiajPeOvic5PWTnnpueD1VRqa7PcNsmNtn1kUWBBplGWd5VAxBAQcg/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<ol start="5">
+<li>执行exploit &#x2F;tmp&#x2F;.exploit</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ /tmp/.exploit</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/z1MHPE7moxcfp2B2bMJvXFvpibcDfDBhK2MYw8pPAQYIOhgUHjwicf1Q44UB8ToOUica8nHhER5b1zAic6409ZH2DA/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<h3 id="0x05漏洞修复"><a href="#0x05漏洞修复" class="headerlink" title="0x05漏洞修复"></a>0x05漏洞修复</h3><p>更新系统至macOS Monterey 12.3</p>
+<p><strong>利用代码：（公众号回复“mac”获取）</strong></p>
+]]></content>
+      <categories>
+        <category>Penetration</category>
+      </categories>
+      <tags>
+        <tag>Penetration</tag>
+      </tags>
+  </entry>
 </search>

@@ -6,7 +6,7 @@
   <link href="https://h0sec.com/atom.xml" rel="self"/>
   
   <link href="https://h0sec.com/"/>
-  <updated>2022-01-10T05:10:19.493Z</updated>
+  <updated>2022-04-06T09:25:13.817Z</updated>
   <id>https://h0sec.com/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>macos SUHelper提权漏洞(CVE-2022-22639)</title>
+    <link href="https://h0sec.com/2022/macos%E6%8F%90%E6%9D%83%E6%BC%8F%E6%B4%9E.html"/>
+    <id>https://h0sec.com/2022/macos%E6%8F%90%E6%9D%83%E6%BC%8F%E6%B4%9E.html</id>
+    <published>2022-04-06T08:44:53.000Z</published>
+    <updated>2022-04-06T09:25:13.817Z</updated>
+    
+    <content type="html"><![CDATA[<p><font color=red>该文章可能带有攻击性，仅供安全研究与教学之用，读者将其信息做其他用途，由读者承担全部法律及连带责任，作者本人不承担任何法律及连带责任。</font></p><h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><p>• 背景介绍   • 漏洞风险  • 影响版本  • 复现过程  • 漏洞修复</p><h3 id="0x01背景介绍"><a href="#0x01背景介绍" class="headerlink" title="0x01背景介绍"></a>0x01背景介绍</h3><blockquote><p>在macOS中软件更新助手的守护进程suhelperd中存在一个漏洞。suhelperd内部的一个类SUHelper通过进程间通信（IPC）机制提供基本的系统服务。</p></blockquote><p>该进程以root身份运行，并带有特殊授权（如com.apple.rootless.install）签名，该授权授予绕过系统完整性保护（SIP）限制的进程权限。</p><h3 id="0x02漏洞风险"><a href="#0x02漏洞风险" class="headerlink" title="0x02漏洞风险"></a>0x02漏洞风险</h3><p>这种功能的组合为恶意行为者提供利用机会，如果成功利用该漏洞，会允许根特权升级。被命名为CVE-2022-22639。<span id="more"></span></p><h3 id="0x03影响版本"><a href="#0x03影响版本" class="headerlink" title="0x03影响版本"></a>0x03影响版本</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">macos &lt; 13.3（不包括） </span><br><span class="line">iphone_os &lt; 15.4（不包括） </span><br><span class="line">ipados &lt; 15.4（不包括）</span><br></pre></td></tr></table></figure><h3 id="0x04复现过程"><a href="#0x04复现过程" class="headerlink" title="0x04复现过程"></a>0x04复现过程</h3><ol><li>查看本地环境</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sw_vers </span><br><span class="line">ProductName: macOS </span><br><span class="line">ProductVersion: 12.1  </span><br><span class="line">BuildVersion: 21C52</span><br></pre></td></tr></table></figure><p><img src="https://cdn.jsdelivr.net/gh/mask75/imgs@master/2022/04/06/20220406165604.png" alt="图片"></p><ol start="2"><li>查看SIP状态</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$  csrutil status</span><br><span class="line">System Integrity Protection status: enabled.</span><br></pre></td></tr></table></figure><p><img src="https://mmbiz.qpic.cn/mmbiz_png/z1MHPE7moxcfp2B2bMJvXFvpibcDfDBhKwZUCWEv4xuwNuVwWGNzfud54qhwzEfkW5Ox1oFZ2HgL9ib3siaaFYCSA/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p><ol start="3"><li>执行如下命令，编译利用代码</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ clang exploit.m -o /tmp/exploit -framework Foundation -fobjc-arc -fobjc-link-runtime /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/PrivateFrameworks/SoftwareUpdate.framework/Versions/A/SoftwareUpdate.tbd</span><br></pre></td></tr></table></figure><p><img src="https://mmbiz.qpic.cn/mmbiz_png/z1MHPE7moxcfp2B2bMJvXFvpibcDfDBhKHAqBmhibRdcRvXeW6XkHBmXNY3GOe3LpdEWQceRiagl7fPwUYVn5ibhfg/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p><ol start="4"><li>解压InstallAssistant.gz文件到 &#x2F;tmp 目录</li></ol><p><img src="https://mmbiz.qpic.cn/mmbiz_png/z1MHPE7moxcfp2B2bMJvXFvpibcDfDBhKtXZiajPeOvic5PWTnnpueD1VRqa7PcNsmNtn1kUWBBplGWd5VAxBAQcg/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p><ol start="5"><li>执行exploit &#x2F;tmp&#x2F;.exploit</li></ol><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ /tmp/.exploit</span><br></pre></td></tr></table></figure><p><img src="https://mmbiz.qpic.cn/mmbiz_png/z1MHPE7moxcfp2B2bMJvXFvpibcDfDBhK2MYw8pPAQYIOhgUHjwicf1Q44UB8ToOUica8nHhER5b1zAic6409ZH2DA/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p><h3 id="0x05漏洞修复"><a href="#0x05漏洞修复" class="headerlink" title="0x05漏洞修复"></a>0x05漏洞修复</h3><p>更新系统至macOS Monterey 12.3</p><p><strong>利用代码：（公众号回复“mac”获取）</strong></p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;&lt;font color=red&gt;该文章可能带有攻击性，仅供安全研究与教学之用，读者将其信息做其他用途，由读者承担全部法律及连带责任，作者本人不承担任何法律及连带责任。&lt;/font&gt;&lt;/p&gt;
+&lt;h2 id=&quot;目录&quot;&gt;&lt;a href=&quot;#目录&quot; class=&quot;headerlink&quot; title=&quot;目录&quot;&gt;&lt;/a&gt;目录&lt;/h2&gt;&lt;p&gt;• 背景介绍   • 漏洞风险  • 影响版本  • 复现过程  • 漏洞修复&lt;/p&gt;
+&lt;h3 id=&quot;0x01背景介绍&quot;&gt;&lt;a href=&quot;#0x01背景介绍&quot; class=&quot;headerlink&quot; title=&quot;0x01背景介绍&quot;&gt;&lt;/a&gt;0x01背景介绍&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;在macOS中软件更新助手的守护进程suhelperd中存在一个漏洞。suhelperd内部的一个类SUHelper通过进程间通信（IPC）机制提供基本的系统服务。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;该进程以root身份运行，并带有特殊授权（如com.apple.rootless.install）签名，该授权授予绕过系统完整性保护（SIP）限制的进程权限。&lt;/p&gt;
+&lt;h3 id=&quot;0x02漏洞风险&quot;&gt;&lt;a href=&quot;#0x02漏洞风险&quot; class=&quot;headerlink&quot; title=&quot;0x02漏洞风险&quot;&gt;&lt;/a&gt;0x02漏洞风险&lt;/h3&gt;&lt;p&gt;这种功能的组合为恶意行为者提供利用机会，如果成功利用该漏洞，会允许根特权升级。被命名为CVE-2022-22639。</summary>
+    
+    
+    
+    <category term="Penetration" scheme="https://h0sec.com/categories/Penetration/"/>
+    
+    
+    <category term="Penetration" scheme="https://h0sec.com/tags/Penetration/"/>
+    
+  </entry>
   
   <entry>
     <title>Hexo部署到Github文件夹大小写问题</title>
@@ -463,28 +490,6 @@
     
     <category term="Linux" scheme="https://h0sec.com/categories/Linux/"/>
     
-    
-  </entry>
-  
-  <entry>
-    <title>通达OA 后台GetShell</title>
-    <link href="https://h0sec.com/2020/%E9%80%9A%E8%BE%BEOA3.html"/>
-    <id>https://h0sec.com/2020/%E9%80%9A%E8%BE%BEOA3.html</id>
-    <published>2020-05-16T11:12:20.000Z</published>
-    <updated>2020-05-16T12:53:44.582Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="0x01-如何后台"><a href="#0x01-如何后台" class="headerlink" title="0x01 如何后台"></a>0x01 如何后台</h3><p>怎么进入后台随便你，可以利用前段时间的<code>任意用户登录漏洞</code></p><p><img src="/../images/upload/loginadmin.png" alt="login"></p><span id="more"></span><h3 id="0x02-更改配置"><a href="#0x02-更改配置" class="headerlink" title="0x02 更改配置"></a>0x02 更改配置</h3><p>此处利用系统管理-&gt;附件管理📎</p><p><img src="/../images/upload/fujian.png" alt="fujian"></p><p>此站点并未设置存储目录，点击添加目录</p><p><img src="/../images/upload/fujian2.png" alt="fujian"></p><p>目录中要设置网站根目录，根目录可以通过系统管理-&gt;系统信息处获得</p><p><img src="/../images/upload/fujian3.png" alt="gujian3"></p><p><img src="/../images/upload/fujian4.png" alt="fujian4"></p><p>记得勾选<code>将所有新附件存该目录</code>，然后保存</p><p><img src="/../images/upload/fujian5.png" alt="fujian5"></p><h3 id="0x03-上传附件"><a href="#0x03-上传附件" class="headerlink" title="0x03 上传附件"></a>0x03 上传附件</h3><p>通过组织下的聊天框，选中自己后发送任意附件，利用BurpSuite拦截</p><p><img src="/../images/upload/fujian6.png" alt="fujian6"></p><p><img src="/../images/upload/oa31.png" alt="oa31"></p><p><a href="../file/upshell.txt">上传附件 request.txt</a></p><p><img src="/../images/upload/oa3.png" alt="oa3"></p><p><img src="/../images/upload/oa32.png" alt="oa32"></p><p><img src="/../images/upload/oa33.png" alt="oa33"></p><p><img src="/../images/upload/oa34.png" alt="oa34"></p>]]></content>
-    
-    
-    <summary type="html">&lt;h3 id=&quot;0x01-如何后台&quot;&gt;&lt;a href=&quot;#0x01-如何后台&quot; class=&quot;headerlink&quot; title=&quot;0x01 如何后台&quot;&gt;&lt;/a&gt;0x01 如何后台&lt;/h3&gt;&lt;p&gt;怎么进入后台随便你，可以利用前段时间的&lt;code&gt;任意用户登录漏洞&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/../images/upload/loginadmin.png&quot; alt=&quot;login&quot;&gt;&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="通达OA" scheme="https://h0sec.com/categories/%E9%80%9A%E8%BE%BEOA/"/>
-    
-    
-    <category term="漏洞复现" scheme="https://h0sec.com/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
     
   </entry>
   
