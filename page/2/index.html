@@ -89,7 +89,7 @@
         <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首页</a></li>
         <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签<span class="badge">10</span></a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a></li>
-        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">33</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">34</span></a></li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
         </a>
@@ -160,7 +160,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">33</span>
+          <span class="site-state-item-count">34</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -216,6 +216,82 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://h0sec.com/2021/%E6%96%87%E4%BB%B6%E5%90%8D%E4%BC%9A%E5%BD%B1%E5%93%8D%E6%96%87%E4%BB%B6%E7%9A%84MD5%E5%93%88%E5%B8%8C%E5%80%BC%E5%90%97.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="T">
+      <meta itemprop="description" content="网络安全、渗透测试、编程语言、Writeup，随便写写，记录一些东西">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="T的网络日志">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/%E6%96%87%E4%BB%B6%E5%90%8D%E4%BC%9A%E5%BD%B1%E5%93%8D%E6%96%87%E4%BB%B6%E7%9A%84MD5%E5%93%88%E5%B8%8C%E5%80%BC%E5%90%97.html" class="post-title-link" itemprop="url">文件名会影响文件的MD5哈希值吗?</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-07-10 16:00:52" itemprop="dateCreated datePublished" datetime="2021-07-10T16:00:52+08:00">2021-07-10</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <blockquote>
+<p>在使用EXT文件系统的Linux中，由于文件名未存储在文件中，因此不会存储在文件所在的目录项(dentry)中，然后文件的inode映射到名称。在Linux中更改文件名不会对其md5sum产生影响。</p>
+<p>1.md5是基于FILE的二进制内容计算的。<br>2.文件名，最后修改的东西等都是元数据。md5并不真正依赖元数据。</p>
+</blockquote>
+<h4 id="一、答案："><a href="#一、答案：" class="headerlink" title="一、答案："></a>一、答案：</h4><p>不会！！，哈希仅是文件内容的哈希。您可以在<font color=red>md5sum</font>及其MD5实现的源代码中看到此内容。如果您可以访问md5sum，也可以进行测试：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> <span class="string">&quot;just so so&quot;</span> &gt; file1.txt</span><br><span class="line">$ <span class="built_in">cp</span> file1.txt file2.txt</span><br><span class="line">$ md5 file1.txt </span><br><span class="line">MD5 (file1.txt) = 658c6c1a9584852aba5913aef712787e</span><br><span class="line">$ md5 file2.txt</span><br><span class="line">MD5 (file2.txt) = 658c6c1a9584852aba5913aef712787e</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/%E6%96%87%E4%BB%B6%E5%90%8D%E4%BC%9A%E5%BD%B1%E5%93%8D%E6%96%87%E4%BB%B6%E7%9A%84MD5%E5%93%88%E5%B8%8C%E5%80%BC%E5%90%97.html#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -539,90 +615,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/linux%E8%AE%B0%E5%BD%95%E6%9F%A5%E7%9C%8B.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://h0sec.com/2021/gitpage.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="T">
-      <meta itemprop="description" content="网络安全、渗透测试、编程语言、Writeup，随便写写，记录一些东西">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="T的网络日志">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/gitpage.html" class="post-title-link" itemprop="url">如何拥有多个GitHub Pages</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2021-04-08 13:54:46" itemprop="dateCreated datePublished" datetime="2021-04-08T13:54:46+08:00">2021-04-08</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Programming/" itemprop="url" rel="index"><span itemprop="name">Programming</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <blockquote>
-<h2 id="只能为每个-GitHub-帐户创建一个用户或组织站点；而项目站点没有限制"><a href="#只能为每个-GitHub-帐户创建一个用户或组织站点；而项目站点没有限制" class="headerlink" title="只能为每个 GitHub 帐户创建一个用户或组织站点；而项目站点没有限制"></a>只能为每个 GitHub 帐户创建一个用户或组织站点；而项目站点没有限制</h2></blockquote>
-<p>​    也就是名为 <code>&lt;user&gt;.github.io</code>的仓库。<strong>想要创建更多的GitHub Pages页面，可以通过创建项目站点实现。</strong>项目站点的数量没有限制</p>
-<p>​    有三种类型的 GitHub Pages 站点：项目、用户和组织。 项目站点连接到 GitHub 上托管的特定项目。 用户和组织站点连接到特定的 GitHub 帐户。</p>
-<p>​    要发布用户站点，必须创建名为 <code>&lt;user&gt;.github.io</code> 的用户帐户所拥有的仓库。 要发布组织站点，必须创建名为 <code>&lt;organization&gt;.github.io</code> 的组织所拥有的仓库。 除非您使用自定义域，否则用户和组织站点位于 <code>http(s)://&lt;username&gt;.github.io</code> 或 <code>http(s)://&lt;organization&gt;.github.io</code>。
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/gitpage.html#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
