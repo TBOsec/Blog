@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic%7CRoboto+Slab:300,300italic,400,400italic,700,700italic%7CPT+Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"h0sec.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.10.0","exturl":true,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+  <meta name="description" content="0x01 背景介绍 在后斯诺登世界，HTTP消息通常不会以明文发送。相反，TLS协议用于提供通信安全，防止基于HTTP协议的通信被篡改和监视。TLS本身是由几个子协议组成的相当复杂的协议，将其视为TCP连接上的加密和身份验证层，还通过公钥加密进行一些服务器（以及可选的客户端）验证。  移动应用程序与其后端系统之间的HTTPS通信可以使用mitmproxy来拦截，然而，我们可能还想看看哪些桌面应用程">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="wireshark解密https流量">
+<meta property="og:url" content="https://h0sec.com/2022/wireshark%E8%A7%A3%E5%AF%86https.html">
+<meta property="og:site_name" content="T的网络日志">
+<meta property="og:description" content="0x01 背景介绍 在后斯诺登世界，HTTP消息通常不会以明文发送。相反，TLS协议用于提供通信安全，防止基于HTTP协议的通信被篡改和监视。TLS本身是由几个子协议组成的相当复杂的协议，将其视为TCP连接上的加密和身份验证层，还通过公钥加密进行一些服务器（以及可选的客户端）验证。  移动应用程序与其后端系统之间的HTTPS通信可以使用mitmproxy来拦截，然而，我们可能还想看看哪些桌面应用程">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://justsoso-1305613583.cos.ap-shanghai.myqcloud.com/wechat2022/04/07/20220407163344.png">
+<meta property="og:image" content="https://justsoso-1305613583.cos.ap-shanghai.myqcloud.com/wechat2022/04/07/20220407163344.png">
+<meta property="og:image" content="https://justsoso-1305613583.cos.ap-shanghai.myqcloud.com/wechat2022/04/07/20220407163344.png">
+<meta property="og:image" content="https://justsoso-1305613583.cos.ap-shanghai.myqcloud.com/wechat2022/04/07/20220407163345.png">
+<meta property="og:image" content="https://justsoso-1305613583.cos.ap-shanghai.myqcloud.com/wechat2022/04/07/20220407163345.png">
+<meta property="og:image" content="https://justsoso-1305613583.cos.ap-shanghai.myqcloud.com/wechat2022/04/07/20220407163345.png">
+<meta property="article:published_time" content="2022-04-07T08:33:02.000Z">
+<meta property="article:modified_time" content="2022-04-07T08:34:01.405Z">
+<meta property="article:author" content="T">
+<meta property="article:tag" content="网络安全,渗透测试,编程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://justsoso-1305613583.cos.ap-shanghai.myqcloud.com/wechat2022/04/07/20220407163344.png">
+
+
+<link rel="canonical" href="https://h0sec.com/2022/wireshark%E8%A7%A3%E5%AF%86https.html">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://h0sec.com/2022/wireshark%E8%A7%A3%E5%AF%86https.html","path":"2022/wireshark解密https.html","title":"wireshark解密https流量"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>wireshark解密https流量 | T的网络日志</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="T的网络日志" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">T的网络日志</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签<span class="badge">10</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">35</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#0x01-%E8%83%8C%E6%99%AF%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">0x01 背景介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x02-%E7%9B%AE%E5%89%8D%E9%97%AE%E9%A2%98"><span class="nav-number">2.</span> <span class="nav-text">0x02 目前问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x03-%E5%8E%9F%E7%90%86%E7%AE%80%E4%BB%8B"><span class="nav-number">3.</span> <span class="nav-text">0x03 原理简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x04-%E9%85%8D%E7%BD%AE%E7%8E%AF%E5%A2%83"><span class="nav-number">4.</span> <span class="nav-text">0x04 配置环境</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Linux%E9%85%8D%E7%BD%AE%EF%BC%9A"><span class="nav-number">4.1.</span> <span class="nav-text">Linux配置：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MacOS%E9%85%8D%E7%BD%AE%EF%BC%9A"><span class="nav-number">4.2.</span> <span class="nav-text">MacOS配置：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Windows%E9%85%8D%E7%BD%AE%EF%BC%9A"><span class="nav-number">4.3.</span> <span class="nav-text">Windows配置：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A3%80%E9%AA%8C%E9%85%8D%E7%BD%AE%E6%95%88%E6%9E%9C%EF%BC%9A"><span class="nav-number">4.4.</span> <span class="nav-text">检验配置效果：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x05-%E9%85%8D%E7%BD%AEWireshark"><span class="nav-number">5.</span> <span class="nav-text">0x05 配置Wireshark</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%96%B9%E5%BC%8F%E4%B8%80%EF%BC%9A"><span class="nav-number">5.0.1.</span> <span class="nav-text">方式一：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%96%B9%E5%BC%8F%E4%BA%8C%EF%BC%9A"><span class="nav-number">5.0.2.</span> <span class="nav-text">方式二：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x06-%E8%A7%A3%E5%AF%86https%E6%B5%81%E9%87%8F"><span class="nav-number">6.</span> <span class="nav-text">0x06 解密https流量</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="T"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">T</p>
+  <div class="site-description" itemprop="description">网络安全、渗透测试、编程语言、Writeup，随便写写，记录一些东西</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">35</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOnJvb3QjaDBzZWMuY29t" title="E-Mail → mailto:root#h0sec.com"><i class="fas fa-envelope fa-fw"></i>E-Mail</span>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/about/" title="About → &#x2F;about&#x2F;"><i class="fas fa-address-card fa-fw"></i>About</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/images/qcode.jpg" title="Wechat → &#x2F;images&#x2F;qcode.jpg"><i class="fab fa-weixin fa-fw"></i>Wechat</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa-square-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://h0sec.com/2022/wireshark%E8%A7%A3%E5%AF%86https.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="T">
+      <meta itemprop="description" content="网络安全、渗透测试、编程语言、Writeup，随便写写，记录一些东西">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="T的网络日志">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          wireshark解密https流量
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-04-07 16:33:02" itemprop="dateCreated datePublished" datetime="2022-04-07T16:33:02+08:00">2022-04-07</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="0x01-背景介绍"><a href="#0x01-背景介绍" class="headerlink" title="0x01 背景介绍"></a>0x01 背景介绍</h3><blockquote>
+<p>在后斯诺登世界，HTTP消息通常不会以明文发送。相反，TLS协议用于提供通信安全，防止基于HTTP协议的通信被篡改和监视。TLS本身是由几个子协议组成的相当复杂的协议，将其视为TCP连接上的加密和身份验证层，还通过公钥加密进行一些服务器（以及可选的客户端）验证。</p>
+</blockquote>
+<p>移动应用程序与其后端系统之间的HTTPS通信可以使用<code>mitmproxy</code>来拦截，然而，我们可能还想看看哪些桌面应用程序正在通信，更深入地研究Web应用程序的API，这让我想起了<strong>Wireshark</strong>(一个用于数据包嗅探和分析的GUI工具),此工具可以深入了解应用程序在网络上到底在做什么</p>
+<h3 id="0x02-目前问题"><a href="#0x02-目前问题" class="headerlink" title="0x02 目前问题"></a>0x02 目前问题</h3><p>如果我们试图在没有任何准备的情况下嗅探HTTPS，那将啥也不是，因为TLS协议的工作是来<code>防止通过嗅探网络读取通信内容</code>。</p>
+<p><img src="https://justsoso-1305613583.cos.ap-shanghai.myqcloud.com/wechat2022/04/07/20220407163344.png" alt="image-20220407145554676"><span id="more"></span></p>
+<h3 id="0x03-原理简介"><a href="#0x03-原理简介" class="headerlink" title="0x03 原理简介"></a>0x03 原理简介</h3><blockquote>
+<p>但是，如果我们控制其中一个端点（即带有Web浏览器的桌面系统），我们可以将<code>SSLKEYLOGFILE</code>环境变量设置为我们可以访问的文本文件路径。<code>TLS的软件通常会将密钥和其他TLS密钥写入此文件</code>。这适用于curl、Chrome、Firefox和许多使用NSS&#x2F;OpenSSL库的桌面应用程序。如果配置正确，Wireshark将能够读取此文件并解密被拦截的TLS数据包，这是对会话密钥的客户端捕获。</p>
+</blockquote>
+<p>我们到底如何设置环境变量？这取决于操作系统，以及我们是否要涵盖所有已安装的应用程序。</p>
+<h3 id="0x04-配置环境"><a href="#0x04-配置环境" class="headerlink" title="0x04 配置环境"></a>0x04 配置环境</h3><h4 id="Linux配置："><a href="#Linux配置：" class="headerlink" title="Linux配置："></a>Linux配置：</h4><p>在使用Bash的Linux&#x2F;Unix上，我们可以简单地在<del>&#x2F;.bashrc或</del>&#x2F;.bash_profile文件中放置以下行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> SSLKEYLOGFILE=~/.sslkeyfile</span><br></pre></td></tr></table></figure>
+
+<p>然而，这仅适用于直接从shell启动的程序。在Linux上，可以编辑&#x2F;etc&#x2F;environment（或&#x2F;etc&#x2F;profile）并重新启动以全局设置环境变量。</p>
+<h4 id="MacOS配置："><a href="#MacOS配置：" class="headerlink" title="MacOS配置："></a>MacOS配置：</h4><p>在macOS上有点复杂。首先，我们需要检查<code>~/Library/LaunchAgents</code>目录是否存在，如果没有，请在常规用户下创建它。然后，创建一个属性列表文件（例如tlskeylogger.plist），其中包含以下内容：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">plist</span> <span class="keyword">PUBLIC</span> <span class="string">&quot;-//Apple//DTD PLIST 1.0//EN&quot;</span> <span class="string">&quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">plist</span> <span class="attr">version</span>=<span class="string">&quot;1.0&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dict</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">key</span>&gt;</span>Label<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">string</span>&gt;</span>sslkeylogger<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">key</span>&gt;</span>ProgramArguments<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">array</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>sh<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>-c<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span></span><br><span class="line">    launchctl setenv SSLKEYLOGFILE ~/.sslkeyfile</span><br><span class="line">    <span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">array</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">key</span>&gt;</span>RunAtLoad<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dict</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plist</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>为了在下次重新启动时加载它，运行以下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ launchctl load ~/Library/LaunchAgents/tlskeylogger.plist</span><br></pre></td></tr></table></figure>
+
+<p>为了立即完成，运行以下操作：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ launchctl start ~/Library/LaunchAgents/tlskeylogger.plist</span><br></pre></td></tr></table></figure>
+
+<h4 id="Windows配置："><a href="#Windows配置：" class="headerlink" title="Windows配置："></a>Windows配置：</h4><p>在Windows上，可以通过GUI设置<code>SSLKEYLOGFILE</code>环境变量，方法如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">win+R -&gt; 高级(系统属性) -&gt; 环境变量</span><br></pre></td></tr></table></figure>
+
+<p>并为当前用户创建新的环境变量。</p>
+<p><img src="https://justsoso-1305613583.cos.ap-shanghai.myqcloud.com/wechat2022/04/07/20220407163344.png" alt="image-20220407151307354"></p>
+<hr>
+<h4 id="检验配置效果："><a href="#检验配置效果：" class="headerlink" title="检验配置效果："></a>检验配置效果：</h4><p>完成后，我们应该重新启动浏览器和&#x2F;或其他通过HTTPS通信的软件。如果一切正常，文件应该开始填充类似于以下内容的行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># SSL/TLS secrets log file, generated by NSS</span></span><br><span class="line">CLIENT_HANDSHAKE_TRAFFIC_SECRET 886a44332b8b23fa0c5b4976dcca7c394349489f74523ccb31ccf8521cd8119e 4b671b668d9b2f8c825e75192edd5691bee50b3612222e19ae6611e29eeb2902</span><br><span class="line">SERVER_HANDSHAKE_TRAFFIC_SECRET 886a44332b8b23fa0c5b4976dcca7c394349489f74523ccb31ccf8521cd8119e 564a372a88d08a429b90a240d447659c1d3bcb904fe331bbbf25eaea8789efaf</span><br><span class="line">CLIENT_HANDSHAKE_TRAFFIC_SECRET 7ac352923b56563055776cd80048146065315a335c316069c3f7c1eb5667769a 30e08924c3ddb2032270cdd7c1ab2a39a14637e850c34a104edaa66f5327f037</span><br><span class="line">SERVER_HANDSHAKE_TRAFFIC_SECRET 7ac352923b56563055776cd80048146065315a335c316069c3f7c1eb5667769</span><br><span class="line">.....</span><br></pre></td></tr></table></figure>
+
+<h3 id="0x05-配置Wireshark"><a href="#0x05-配置Wireshark" class="headerlink" title="0x05 配置Wireshark"></a>0x05 配置Wireshark</h3><h5 id="方式一："><a href="#方式一：" class="headerlink" title="方式一："></a>方式一：</h5><p>这相当简单。打开Wireshakr转到<code>首选项-&gt;协议-&gt;TLS</code>，并将<code>SSLKEYLOGFILE</code>的值放入“(Pre)-主密钥日志文件名”。还需要该勾选有关重新组装TLS记录和应用程序数据的复选框。</p>
+<p><img src="https://justsoso-1305613583.cos.ap-shanghai.myqcloud.com/wechat2022/04/07/20220407163344.png" alt="image-20220407152031938"></p>
+<h5 id="方式二："><a href="#方式二：" class="headerlink" title="方式二："></a>方式二：</h5><p>另一种方法是抓取数据后，右键单击TLS数据包，然后选择“协议首选项-&gt;传输层安全性-&gt;（Pre-）主秘密日志文件名”并单击该文件名。Wireshark将在顶部打开一个文本字段，输入需要读取和解密的文件的路径。</p>
+<p><img src="https://justsoso-1305613583.cos.ap-shanghai.myqcloud.com/wechat2022/04/07/20220407163345.png" alt="image-20220407152428581"></p>
+<p><img src="https://justsoso-1305613583.cos.ap-shanghai.myqcloud.com/wechat2022/04/07/20220407163345.png" alt="image-20220407152521624"></p>
+<h3 id="0x06-解密https流量"><a href="#0x06-解密https流量" class="headerlink" title="0x06 解密https流量"></a>0x06 解密https流量</h3><p>现在我们可以看到HTTPS消息解密了，包括浏览器、客户端程序以及其他使用tls协议加密传输的程序。</p>
+<p><img src="https://justsoso-1305613583.cos.ap-shanghai.myqcloud.com/wechat2022/04/07/20220407163345.png" alt="image-20220407154424122"></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/images/wechatqcode.png">
+          <span class="icon">
+            <i class="wechat"></i>
+          </span>
+
+          <span class="label">WeChat</span>
+        </a>
+      </div>
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/%E8%85%BE%E8%AE%AF%E4%BA%91COS%E5%9B%BE%E5%BA%8A.html" rel="prev" title="Typora + PicGo-Core + 腾讯云COS 图床配置">
+                  <i class="fa fa-chevron-left"></i> Typora + PicGo-Core + 腾讯云COS 图床配置
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user-secret"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">T</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
